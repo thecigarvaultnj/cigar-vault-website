@@ -29,24 +29,6 @@ navMobile.querySelectorAll('a').forEach(link => {
 
 /* ---- Merch: product data & dynamic options ---- */
 const products = {
-  hoodie: {
-    label: 'Vault Signature Hoodie',
-    price: 65,
-    sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
-    colors: ['Black', 'Charcoal', 'Vault Teal', 'Navy']
-  },
-  tee: {
-    label: 'Vault Classic Tee',
-    price: 35,
-    sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
-    colors: ['Black', 'White', 'Vault Teal', 'Gold']
-  },
-  cap: {
-    label: 'Vault Snapback Cap',
-    price: 40,
-    sizes:  ['One Size'],
-    colors: ['Black', 'Vault Teal', 'Charcoal']
-  },
   'carhartt-ls': {
     label: 'The Cigar Vault Carhartt Long Sleeve',
     price: 89.95,
