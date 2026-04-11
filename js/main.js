@@ -46,6 +46,18 @@ const products = {
     price: 40,
     sizes:  ['One Size'],
     colors: ['Black', 'Vault Teal', 'Charcoal']
+  },
+  'carhartt-ls': {
+    label: 'The Cigar Vault Carhartt Long Sleeve',
+    price: 89.95,
+    sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
+    colors: ['Black']
+  },
+  'carhartt-hoodie': {
+    label: 'The Cigar Vault Carhartt Hoodie',
+    price: 104.95,
+    sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
+    colors: ['Black']
   }
 };
 
