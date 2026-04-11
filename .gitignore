@@ -1,0 +1,7 @@
+﻿/*
+!.gitignore
+!/index.html
+!/README.md
+!/netlify.toml
+!/assets/
+!/assets/**
