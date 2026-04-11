@@ -5,3 +5,7 @@
 !/netlify.toml
 !/assets/
 !/assets/**
+!/css/
+!/css/**
+!/js/
+!/js/**
