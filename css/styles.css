@@ -176,12 +176,17 @@ section { padding: 6rem 0; }
 }
 
 .nav-brand {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  color: var(--gold);
+  display: flex;
+  align-items: center;
 }
+
+.nav-logo {
+  height: 30px;
+  width: auto;
+  display: block;
+  transition: opacity var(--transition);
+}
+.nav-brand:hover .nav-logo { opacity: 0.85; }
 
 .nav-links {
   display: flex;
@@ -793,12 +798,13 @@ footer {
   gap: 1.5rem;
 }
 
-.footer-brand {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.15rem;
-  color: var(--gold);
-  font-weight: 600;
-  letter-spacing: 0.06em;
+.footer-brand { display: flex; align-items: center; }
+
+.footer-logo {
+  height: 48px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(201, 168, 76, 0.15));
 }
 
 .footer-legal {

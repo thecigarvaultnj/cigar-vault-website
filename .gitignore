@@ -9,3 +9,6 @@
 !/css/**
 !/js/
 !/js/**
+
+# Local Netlify folder
+.netlify
