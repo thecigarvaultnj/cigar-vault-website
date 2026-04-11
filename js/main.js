@@ -32,20 +32,17 @@ const products = {
   'carhartt-ls': {
     label: 'The Cigar Vault Carhartt Long Sleeve',
     price: 89.95,
-    sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
-    colors: ['Black']
+    sizes:  ['S', 'M', 'L', 'XL', 'XXL']
   },
   'carhartt-hoodie': {
     label: 'The Cigar Vault Carhartt Hoodie',
     price: 104.95,
-    sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
-    colors: ['Black']
+    sizes:  ['S', 'M', 'L', 'XL', 'XXL']
   }
 };
 
 const productSelect = document.getElementById('product');
 const sizeSelect    = document.getElementById('size');
-const colorSelect   = document.getElementById('color');
 const priceRef      = document.getElementById('price-ref');
 
 function populateSelect(el, options) {
@@ -58,7 +55,6 @@ function syncProductForm() {
   const p = products[productSelect.value];
   if (!p) return;
   populateSelect(sizeSelect, p.sizes);
-  populateSelect(colorSelect, p.colors);
   if (priceRef) priceRef.value = `$${p.price}`;
 
   // Highlight matching card
