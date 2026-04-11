@@ -339,6 +339,18 @@ section { padding: 6rem 0; }
 .hero-corner--bl { bottom: 2.5rem; left: 2.5rem; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
 .hero-corner--br { bottom: 2.5rem; right: 2.5rem; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
 
+/* Hero browse note */
+.hero-browse-note {
+  margin-top: 1rem;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--cream-muted);
+  font-style: italic;
+  opacity: 0.75;
+}
+
 /* ---- Our Story ---- */
 #our-story {
   background: var(--charcoal-mid);
@@ -781,6 +793,26 @@ input[type="radio"] {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--cream-muted);
+}
+
+/* Browse callout in Visit Us */
+.browse-callout {
+  margin-top: 0.5rem;
+  padding: 1.5rem;
+  background: rgba(29, 74, 74, 0.18);
+  border: 1px solid rgba(29, 74, 74, 0.45);
+  border-left: 3px solid var(--teal-light);
+}
+
+.browse-callout-text {
+  font-size: 1rem;
+  color: var(--cream-muted);
+  line-height: 1.75;
+}
+
+.browse-callout-text strong {
+  color: var(--cream);
+  font-style: normal;
 }
 
 /* ---- Footer ---- */
