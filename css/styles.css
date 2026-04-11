@@ -988,6 +988,7 @@ input[type="radio"] {
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse at center, rgba(29, 74, 74, 0.1) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .map-pin { font-size: 3rem; position: relative; z-index: 1; }
