@@ -160,14 +160,14 @@ section { padding: 6rem 0; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  padding: 1.4rem 0;
+  padding: 0.9rem 0;
   background: rgba(28, 26, 23, 0.94);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
   transition: padding var(--transition);
 }
-#navbar.scrolled { padding: 0.8rem 0; }
+#navbar.scrolled { padding: 0.5rem 0; }
 
 .nav-inner {
   display: flex;
@@ -181,12 +181,13 @@ section { padding: 6rem 0; }
 }
 
 .nav-logo {
-  height: 30px;
+  height: 58px;
   width: auto;
+  max-width: 300px;
   display: block;
   transition: opacity var(--transition);
 }
-.nav-brand:hover .nav-logo { opacity: 0.85; }
+.nav-brand:hover .nav-logo { opacity: 0.82; }
 
 .nav-links {
   display: flex;
@@ -340,18 +341,83 @@ section { padding: 6rem 0; }
   flex-wrap: wrap;
 }
 
-/* Decorative corner brackets */
+/* ---- Ornate corner brackets ---- */
 .hero-corner {
   position: absolute;
-  width: 72px;
-  height: 72px;
-  opacity: 0.28;
+  width: 110px;
+  height: 110px;
   z-index: 3;
 }
-.hero-corner--tl { top: 6.5rem; left: 2.5rem; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
-.hero-corner--tr { top: 6.5rem; right: 2.5rem; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
-.hero-corner--bl { bottom: 2.5rem; left: 2.5rem; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
-.hero-corner--br { bottom: 2.5rem; right: 2.5rem; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+/* Inner bracket — inset double-line effect */
+.hero-corner::before {
+  content: '';
+  position: absolute;
+  width: 56px;
+  height: 56px;
+}
+
+/* Diamond ornament at the corner apex */
+.hero-corner::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+/* — Top-left — */
+.hero-corner--tl {
+  top: 4.5rem; left: 2rem;
+  border-top: 2px solid rgba(201, 168, 76, 0.88);
+  border-left: 2px solid rgba(201, 168, 76, 0.88);
+}
+.hero-corner--tl::before {
+  top: 10px; left: 10px;
+  border-top: 1px solid rgba(201, 168, 76, 0.38);
+  border-left: 1px solid rgba(201, 168, 76, 0.38);
+}
+.hero-corner--tl::after { top: -5px; left: -5px; }
+
+/* — Top-right — */
+.hero-corner--tr {
+  top: 4.5rem; right: 2rem;
+  border-top: 2px solid rgba(201, 168, 76, 0.88);
+  border-right: 2px solid rgba(201, 168, 76, 0.88);
+}
+.hero-corner--tr::before {
+  top: 10px; right: 10px;
+  border-top: 1px solid rgba(201, 168, 76, 0.38);
+  border-right: 1px solid rgba(201, 168, 76, 0.38);
+}
+.hero-corner--tr::after { top: -5px; right: -5px; }
+
+/* — Bottom-left — */
+.hero-corner--bl {
+  bottom: 2rem; left: 2rem;
+  border-bottom: 2px solid rgba(201, 168, 76, 0.88);
+  border-left: 2px solid rgba(201, 168, 76, 0.88);
+}
+.hero-corner--bl::before {
+  bottom: 10px; left: 10px;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.38);
+  border-left: 1px solid rgba(201, 168, 76, 0.38);
+}
+.hero-corner--bl::after { bottom: -5px; left: -5px; }
+
+/* — Bottom-right — */
+.hero-corner--br {
+  bottom: 2rem; right: 2rem;
+  border-bottom: 2px solid rgba(201, 168, 76, 0.88);
+  border-right: 2px solid rgba(201, 168, 76, 0.88);
+}
+.hero-corner--br::before {
+  bottom: 10px; right: 10px;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.38);
+  border-right: 1px solid rgba(201, 168, 76, 0.38);
+}
+.hero-corner--br::after { bottom: -5px; right: -5px; }
 
 /* Hero browse note */
 .hero-browse-note {
@@ -948,9 +1014,16 @@ footer {
   .nav-links  { display: none; }
   .nav-toggle { display: flex; }
 
-  .hero-corner { width: 48px; height: 48px; }
-  .hero-corner--tl { top: 5rem; left: 1rem; }
-  .hero-corner--tr { top: 5rem; right: 1rem; }
+  /* Scale nav logo down on mobile so hamburger has room */
+  .nav-logo { height: 38px; max-width: 180px; }
+
+  /* Scale corners down on mobile */
+  .hero-corner { width: 64px; height: 64px; }
+  .hero-corner::before { width: 32px; height: 32px; }
+  .hero-corner--tl { top: 4.5rem; left: 1rem; }
+  .hero-corner--tr { top: 4.5rem; right: 1rem; }
+  .hero-corner--bl { bottom: 1rem; left: 1rem; }
+  .hero-corner--br { bottom: 1rem; right: 1rem; }
 
   .order-form-wrapper { padding: 2rem 1.5rem; }
   .petition-form-wrapper { padding: 2rem 1.5rem; }
