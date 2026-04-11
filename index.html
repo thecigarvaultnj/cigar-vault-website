@@ -60,13 +60,9 @@
   <!-- ===================== HERO ===================== -->
   <section id="hero" aria-label="Hero">
 
-    <!-- Full-bleed logo background -->
-    <img
-      src="assets/AI%20Vault%20Logo.png"
-      alt="The Cigar Vault"
-      class="hero-bg-logo"
-    >
-    <!-- Dark overlay keeps text readable over the logo -->
+    <!-- Full-bleed logo background (div so background-position: center center works reliably) -->
+    <div class="hero-bg-logo" aria-hidden="true"></div>
+    <!-- Dark overlay keeps text readable and suppresses any embedded image text -->
     <div class="hero-overlay" aria-hidden="true"></div>
 
     <div class="hero-corner hero-corner--tl" aria-hidden="true"></div>

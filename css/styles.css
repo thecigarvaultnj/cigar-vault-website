@@ -264,29 +264,28 @@ section { padding: 6rem 0; }
   overflow: hidden;
 }
 
-/* Full-bleed logo image */
-/* Image sits inside the bracket frame — inset matches bracket corner positions exactly */
+/* Hero background — div with background-image ensures center/center works reliably */
 .hero-bg-logo {
   position: absolute;
   top: 4.5rem;
   right: 2rem;
   bottom: 2rem;
   left: 2rem;
-  width: auto;
-  height: auto;
-  object-fit: cover;
-  object-position: center;
+  background-image: url('../assets/AI%20Vault%20Logo.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   z-index: 0;
 }
 
-/* Overlay covers only the image area — dark charcoal shows clean outside the brackets */
+/* Overlay — covers image area only; charcoal shows clean in the border strip outside */
 .hero-overlay {
   position: absolute;
   top: 4.5rem;
   right: 2rem;
   bottom: 2rem;
   left: 2rem;
-  background: rgba(20, 18, 14, 0.52);
+  background: rgba(20, 18, 14, 0.60);
   z-index: 1;
 }
 
