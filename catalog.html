@@ -14,25 +14,36 @@
   <link rel="icon" type="image/png" href="assets/Profile%20Icon.png">
 
   <style>
-    /* ---- Catalog-specific styles ---- */
+    /* ---- Brand teal palette (matches logo) ---- */
+    :root {
+      --tb:       #0e4d42;   /* brand teal */
+      --tb-light: #1a6b5a;   /* lighter teal for borders/accents */
+      --tb-mid:   #0a3830;   /* controls bar / sidebar panel */
+      --tb-dark:  #072820;   /* deepest teal, header gradient end */
+      --tb-glow:  rgba(14,77,66,0.45);
+      --border-t: rgba(26,107,90,0.38);  /* teal-tinted border */
+    }
+
+    /* ---- Catalog header ---- */
     .catalog-header {
       padding: 7rem 0 3rem;
       text-align: center;
-      background: var(--charcoal);
-      border-bottom: 1px solid var(--border);
+      background: linear-gradient(175deg, var(--tb) 0%, var(--tb-dark) 100%);
+      border-bottom: 1px solid var(--border-t);
     }
     .catalog-header h1 { margin-bottom: 0.4rem; }
+    .catalog-header .section-eyebrow { color: var(--gold-light); }
     .catalog-header p {
       font-family: 'Lato', sans-serif;
       font-size: 0.85rem;
       letter-spacing: 0.12em;
-      color: var(--cream-muted);
+      color: rgba(250,246,238,0.65);
     }
 
     /* ---- Controls bar ---- */
     .catalog-controls {
-      background: var(--charcoal-mid);
-      border-bottom: 1px solid var(--border);
+      background: var(--tb-mid);
+      border-bottom: 1px solid var(--border-t);
       padding: 1.25rem 0;
       position: sticky;
       top: 4.5rem;
@@ -61,15 +72,15 @@
       width: 15px;
       height: 15px;
       fill: none;
-      stroke: var(--cream-muted);
+      stroke: rgba(250,246,238,0.5);
       stroke-width: 2;
       pointer-events: none;
     }
     #catalog-search {
       width: 100%;
       padding: 0.55rem 0.75rem 0.55rem 2.2rem;
-      background: var(--charcoal-light);
-      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-t);
       color: var(--cream);
       font-family: 'Lato', sans-serif;
       font-size: 0.82rem;
@@ -77,13 +88,10 @@
       outline: none;
       transition: border-color var(--transition);
     }
-    #catalog-search:focus { border-color: var(--gold); }
-    #catalog-search::placeholder { color: var(--cream-muted); }
+    #catalog-search:focus { border-color: var(--tb-light); }
+    #catalog-search::placeholder { color: rgba(250,246,238,0.4); }
 
-    .type-tabs {
-      display: flex;
-      gap: 0.35rem;
-    }
+    .type-tabs { display: flex; gap: 0.35rem; }
     .type-tab {
       font-family: 'Lato', sans-serif;
       font-size: 0.7rem;
@@ -92,38 +100,42 @@
       text-transform: uppercase;
       padding: 0.5rem 1rem;
       background: transparent;
-      border: 1px solid var(--border);
-      color: var(--cream-muted);
+      border: 1px solid var(--border-t);
+      color: rgba(250,246,238,0.55);
       cursor: pointer;
       transition: all var(--transition);
       white-space: nowrap;
       border-radius: 2px;
     }
-    .type-tab:hover { border-color: var(--gold); color: var(--gold); }
+    .type-tab:hover {
+      border-color: var(--tb-light);
+      color: var(--cream);
+      background: rgba(14,77,66,0.3);
+    }
     .type-tab.active {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--charcoal);
+      background: var(--tb);
+      border-color: var(--tb-light);
+      color: var(--cream);
     }
 
     .ctrl-select {
       font-family: 'Lato', sans-serif;
       font-size: 0.78rem;
       padding: 0.52rem 0.9rem;
-      background: var(--charcoal-light);
-      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-t);
       color: var(--cream);
       cursor: pointer;
       outline: none;
       border-radius: 2px;
       transition: border-color var(--transition);
     }
-    .ctrl-select:focus { border-color: var(--gold); }
+    .ctrl-select:focus { border-color: var(--tb-light); }
 
     .results-count {
       font-family: 'Lato', sans-serif;
       font-size: 0.72rem;
-      color: var(--cream-muted);
+      color: rgba(250,246,238,0.5);
       letter-spacing: 0.06em;
       margin-left: auto;
       white-space: nowrap;
@@ -144,35 +156,40 @@
     .catalog-sidebar {
       position: sticky;
       top: 9.5rem;
+      background: var(--tb-mid);
+      border: 1px solid var(--border-t);
+      border-radius: 3px;
+      padding: 1.1rem 0.75rem 1.25rem;
     }
     .sidebar-title {
       font-family: 'Lato', sans-serif;
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       font-weight: 700;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.32em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.9rem;
+      padding: 0 0.1rem;
     }
     .brand-list {
       list-style: none;
-      max-height: calc(100vh - 13rem);
+      max-height: calc(100vh - 16rem);
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: var(--border) transparent;
+      scrollbar-color: var(--tb-light) transparent;
     }
     .brand-list::-webkit-scrollbar { width: 3px; }
     .brand-list::-webkit-scrollbar-track { background: transparent; }
-    .brand-list::-webkit-scrollbar-thumb { background: var(--border); }
+    .brand-list::-webkit-scrollbar-thumb { background: var(--tb-light); border-radius: 2px; }
     .brand-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      padding: 0.35rem 0.6rem;
+      padding: 0.38rem 0.6rem;
       font-family: 'Lato', sans-serif;
-      font-size: 0.78rem;
-      color: var(--cream-muted);
+      font-size: 0.77rem;
+      color: rgba(250,246,238,0.65);
       background: transparent;
       border: none;
       border-radius: 2px;
@@ -182,16 +199,18 @@
     }
     .brand-item:hover {
       color: var(--cream);
-      background: rgba(255,255,255,0.05);
+      background: rgba(26,107,90,0.25);
     }
     .brand-item.active {
-      color: var(--gold);
-      background: rgba(201,168,76,0.12);
+      color: var(--cream);
+      background: var(--tb);
+      border-left: 2px solid var(--gold);
+      padding-left: calc(0.6rem - 2px);
     }
     .brand-item .brand-count {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       color: inherit;
-      opacity: 0.6;
+      opacity: 0.55;
       flex-shrink: 0;
       margin-left: 0.5rem;
     }
@@ -207,18 +226,18 @@
 
     .cat-card {
       background: var(--charcoal-mid);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-t);
       padding: 1.25rem 1.1rem 1rem;
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
-      transition: all var(--transition);
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
       position: relative;
       cursor: default;
     }
     .cat-card:hover {
-      border-color: rgba(201,168,76,0.45);
-      box-shadow: var(--shadow-gold);
+      border-color: var(--tb-light);
+      box-shadow: 0 6px 28px var(--tb-glow);
       transform: translateY(-3px);
     }
     .cat-brand {
@@ -257,7 +276,7 @@
       letter-spacing: 0.08em;
       color: var(--cream-muted);
     }
-    .cat-stock.low { color: #d97a4a; }
+    .cat-stock.low { color: #e08060; }
     .type-badge {
       font-family: 'Lato', sans-serif;
       font-size: 0.58rem;
@@ -271,17 +290,16 @@
       right: 0.75rem;
     }
     .type-badge.single {
-      background: rgba(29,74,74,0.45);
-      border: 1px solid rgba(29,74,74,0.8);
-      color: #7fbfbf;
+      background: rgba(14,77,66,0.5);
+      border: 1px solid rgba(26,107,90,0.65);
+      color: #7fd4bc;
     }
     .type-badge.box {
-      background: rgba(201,168,76,0.12);
-      border: 1px solid rgba(201,168,76,0.35);
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.32);
       color: var(--gold);
     }
 
-    /* ---- Empty / loading states ---- */
     /* ---- Empty / loading states ---- */
     .no-results,
     .loading-msg {
@@ -293,7 +311,7 @@
       letter-spacing: 0.06em;
       grid-column: 1 / -1;
     }
-    .loading-msg { color: var(--gold); }
+    .loading-msg { color: var(--tb-light); }
 
     /* ---- Pagination ---- */
     .pagination {
@@ -310,23 +328,27 @@
       letter-spacing: 0.08em;
       padding: 0.5rem 0.85rem;
       background: transparent;
-      border: 1px solid var(--border);
-      color: var(--cream-muted);
+      border: 1px solid var(--border-t);
+      color: rgba(250,246,238,0.55);
       cursor: pointer;
       border-radius: 2px;
       transition: all var(--transition);
     }
-    .page-btn:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--tb-light);
+      color: var(--cream);
+      background: rgba(14,77,66,0.25);
+    }
     .page-btn.active {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--charcoal);
+      background: var(--tb);
+      border-color: var(--tb-light);
+      color: var(--cream);
     }
     .page-btn:disabled { opacity: 0.3; cursor: default; }
     .page-ellipsis {
       font-family: 'Lato', sans-serif;
       font-size: 0.72rem;
-      color: var(--cream-muted);
+      color: rgba(250,246,238,0.4);
       padding: 0 0.2rem;
     }
 
