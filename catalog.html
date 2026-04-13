@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Cigar Vault — Full Cigar Catalog. Browse our complete in-store inventory of premium singles and boxes. Pine Brook, NJ.">
+  <title>Cigar Catalog — The Cigar Vault</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/png" href="assets/Profile%20Icon.png">
+
+  <style>
+    /* ---- Catalog-specific styles ---- */
+    .catalog-header {
+      padding: 7rem 0 3rem;
+      text-align: center;
+      background: var(--charcoal);
+      border-bottom: 1px solid var(--border);
+    }
+    .catalog-header h1 { margin-bottom: 0.4rem; }
+    .catalog-header p {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: var(--cream-muted);
+    }
+
+    /* ---- Controls bar ---- */
+    .catalog-controls {
+      background: var(--charcoal-mid);
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 0;
+      position: sticky;
+      top: 4.5rem;
+      z-index: 90;
+    }
+    .controls-inner {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .search-wrap {
+      position: relative;
+      flex: 1 1 220px;
+      min-width: 180px;
+      max-width: 320px;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: var(--cream-muted);
+      stroke-width: 2;
+      pointer-events: none;
+    }
+    #catalog-search {
+      width: 100%;
+      padding: 0.55rem 0.75rem 0.55rem 2.2rem;
+      background: var(--charcoal-light);
+      border: 1px solid var(--border);
+      color: var(--cream);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.82rem;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    #catalog-search:focus { border-color: var(--gold); }
+    #catalog-search::placeholder { color: var(--cream-muted); }
+
+    .type-tabs {
+      display: flex;
+      gap: 0.35rem;
+    }
+    .type-tab {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--cream-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+      border-radius: 2px;
+    }
+    .type-tab:hover { border-color: var(--gold); color: var(--gold); }
+    .type-tab.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--charcoal);
+    }
+
+    .ctrl-select {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.78rem;
+      padding: 0.52rem 0.9rem;
+      background: var(--charcoal-light);
+      border: 1px solid var(--border);
+      color: var(--cream);
+      cursor: pointer;
+      outline: none;
+      border-radius: 2px;
+      transition: border-color var(--transition);
+    }
+    .ctrl-select:focus { border-color: var(--gold); }
+
+    .results-count {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      color: var(--cream-muted);
+      letter-spacing: 0.06em;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    /* ---- Layout: sidebar + grid ---- */
+    .catalog-body {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    /* ---- Sidebar ---- */
+    .catalog-sidebar {
+      position: sticky;
+      top: 9.5rem;
+    }
+    .sidebar-title {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.85rem;
+    }
+    .brand-list {
+      list-style: none;
+      max-height: calc(100vh - 13rem);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .brand-list::-webkit-scrollbar { width: 3px; }
+    .brand-list::-webkit-scrollbar-track { background: transparent; }
+    .brand-list::-webkit-scrollbar-thumb { background: var(--border); }
+    .brand-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.3rem 0.5rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.78rem;
+      color: var(--cream-muted);
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+    .brand-item:hover { color: var(--cream); background: var(--charcoal-light); }
+    .brand-item.active { color: var(--gold); background: rgba(201,168,76,0.08); }
+    .brand-item .brand-count {
+      font-size: 0.68rem;
+      color: inherit;
+      opacity: 0.65;
+      flex-shrink: 0;
+      margin-left: 0.4rem;
+    }
+
+    /* ---- Product grid ---- */
+    .catalog-main {}
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .cat-card {
+      background: var(--charcoal-mid);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      transition: all var(--transition);
+      position: relative;
+      cursor: default;
+    }
+    .cat-card:hover {
+      border-color: rgba(201,168,76,0.45);
+      box-shadow: var(--shadow-gold);
+      transform: translateY(-3px);
+    }
+    .cat-brand {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .cat-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      color: var(--cream);
+      line-height: 1.3;
+      flex: 1;
+    }
+    .cat-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+    .cat-price {
+      font-family: 'Lato', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -0.01em;
+    }
+    .cat-stock {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--cream-muted);
+    }
+    .cat-stock.low { color: #d97a4a; }
+    .type-badge {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.45rem;
+      border-radius: 2px;
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+    }
+    .type-badge.single {
+      background: rgba(29,74,74,0.45);
+      border: 1px solid rgba(29,74,74,0.8);
+      color: #7fbfbf;
+    }
+    .type-badge.box {
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.35);
+      color: var(--gold);
+    }
+
+    /* ---- Empty / loading states ---- */
+    /* ---- Empty / loading states ---- */
+    .no-results,
+    .loading-msg {
+      text-align: center;
+      padding: 5rem 1rem;
+      color: var(--cream-muted);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      grid-column: 1 / -1;
+    }
+    .loading-msg { color: var(--gold); }
+
+    /* ---- Pagination ---- */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.85rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--cream-muted);
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+    .page-btn:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+    .page-btn.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--charcoal);
+    }
+    .page-btn:disabled { opacity: 0.3; cursor: default; }
+    .page-ellipsis {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      color: var(--cream-muted);
+      padding: 0 0.2rem;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 900px) {
+      .catalog-body { grid-template-columns: 1fr; }
+      .catalog-sidebar { position: static; }
+      .brand-list { max-height: 220px; }
+    }
+    @media (max-width: 600px) {
+      .controls-inner { gap: 0.5rem; }
+      .results-count { margin-left: 0; width: 100%; }
+      .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+          <img src="assets/Cigar-Vault-Logo-White-Long.png" alt="The Cigar Vault" class="nav-logo">
+        </a>
+
+        <ul class="nav-links" role="list">
+          <li><a href="index.html#our-story">Our Story</a></li>
+          <li><a href="index.html#merch">Merch</a></li>
+          <li><a href="index.html#petition">Petition</a></li>
+          <li><a href="index.html#visit">Visit Us</a></li>
+          <li><a href="catalog.html" style="color:var(--gold)">Catalog</a></li>
+        </ul>
+
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="nav-mobile">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+        <a href="index.html#our-story">Our Story</a>
+        <a href="index.html#merch">Merch</a>
+        <a href="index.html#petition">Petition</a>
+        <a href="index.html#visit">Visit Us</a>
+        <a href="catalog.html">Catalog</a>
+      </nav>
+    </div>
+  </nav>
+
+  <!-- ===================== CATALOG HEADER ===================== -->
+  <header class="catalog-header">
+    <span class="section-eyebrow">In-Store Inventory</span>
+    <h1>Cigar Catalog</h1>
+    <p>Browse what&rsquo;s in the humidor &mdash; all purchases made in store at Pine Brook, NJ</p>
+  </header>
+
+  <!-- ===================== CONTROLS BAR ===================== -->
+  <div class="catalog-controls" role="search" aria-label="Catalog filters">
+    <div class="controls-inner">
+
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+        <input type="search" id="catalog-search" placeholder="Search by name or brand&hellip;" autocomplete="off" aria-label="Search products">
+      </div>
+
+      <div class="type-tabs" role="group" aria-label="Product type filter">
+        <button class="type-tab active" data-type="all">All</button>
+        <button class="type-tab" data-type="Single">Singles</button>
+        <button class="type-tab" data-type="Box/Bundle">Boxes &amp; Bundles</button>
+      </div>
+
+      <select id="price-filter" class="ctrl-select" aria-label="Filter by price">
+        <option value="all">All Prices</option>
+        <option value="u5">Under $5</option>
+        <option value="5-10">$5 – $10</option>
+        <option value="10-15">$10 – $15</option>
+        <option value="15-25">$15 – $25</option>
+        <option value="25-50">$25 – $50</option>
+        <option value="50-100">$50 – $100</option>
+        <option value="100+">$100+</option>
+      </select>
+
+      <select id="sort-select" class="ctrl-select" aria-label="Sort products">
+        <option value="name-az">Name A–Z</option>
+        <option value="brand-az">Brand A–Z</option>
+        <option value="price-asc">Price Low→High</option>
+        <option value="price-desc">Price High→Low</option>
+        <option value="stock-desc">Stock High→Low</option>
+      </select>
+
+      <span class="results-count" id="results-count" aria-live="polite"></span>
+    </div>
+  </div>
+
+  <!-- ===================== CATALOG BODY ===================== -->
+  <div class="catalog-body">
+
+    <aside class="catalog-sidebar" aria-label="Filter by brand">
+      <div class="sidebar-title">Brands</div>
+      <ul class="brand-list" id="brand-list" role="list"></ul>
+    </aside>
+
+    <main class="catalog-main">
+      <div class="product-grid" id="product-grid" role="list" aria-label="Products"></div>
+      <nav class="pagination" id="pagination" aria-label="Page navigation"></nav>
+    </main>
+
+  </div>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="assets/Cigar-Vault-Full-Dark-Stacked.png" alt="The Cigar Vault" class="footer-logo">
+        </div>
+        <div class="footer-legal">
+          &copy; 2026 Frisky Cigars NJ LLC DBA The Cigar Vault. All rights reserved.<br>
+          You must be 21 or older to purchase tobacco products.
+        </div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="mailto:Thecigarvaultnj@gmail.com">Contact</a>
+          <a href="https://instagram.com/thecigarvaultnj" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="index.html#petition">Petition</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/catalog.js"></script>
+  <script>
+    /* Mobile nav toggle (same as main.js) */
+    const navbar  = document.getElementById('navbar');
+    const navTog  = document.getElementById('nav-toggle');
+    const navMob  = document.getElementById('nav-mobile');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+    navTog.addEventListener('click', () => {
+      const open = navMob.classList.toggle('open');
+      navTog.classList.toggle('open', open);
+      navTog.setAttribute('aria-expanded', open);
+    });
+    navMob.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
+      navMob.classList.remove('open');
+      navTog.classList.remove('open');
+      navTog.setAttribute('aria-expanded', false);
+    }));
+  </script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 ﻿/*
 !.gitignore
 !/index.html
+!/catalog.html
 !/README.md
 !/netlify.toml
 !/assets/
@@ -9,6 +10,8 @@
 !/css/**
 !/js/
 !/js/**
+!/data/
+!/data/**
 
 # Local Netlify folder
 .netlify
