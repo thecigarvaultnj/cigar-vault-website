@@ -168,22 +168,32 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.3rem 0.5rem;
+      width: 100%;
+      padding: 0.35rem 0.6rem;
       font-family: 'Lato', sans-serif;
       font-size: 0.78rem;
       color: var(--cream-muted);
-      cursor: pointer;
+      background: transparent;
+      border: none;
       border-radius: 2px;
-      transition: all var(--transition);
+      cursor: pointer;
+      text-align: left;
+      transition: color var(--transition), background var(--transition);
     }
-    .brand-item:hover { color: var(--cream); background: var(--charcoal-light); }
-    .brand-item.active { color: var(--gold); background: rgba(201,168,76,0.08); }
+    .brand-item:hover {
+      color: var(--cream);
+      background: rgba(255,255,255,0.05);
+    }
+    .brand-item.active {
+      color: var(--gold);
+      background: rgba(201,168,76,0.12);
+    }
     .brand-item .brand-count {
       font-size: 0.68rem;
       color: inherit;
-      opacity: 0.65;
+      opacity: 0.6;
       flex-shrink: 0;
-      margin-left: 0.4rem;
+      margin-left: 0.5rem;
     }
 
     /* ---- Product grid ---- */
@@ -345,6 +355,7 @@
 
         <ul class="nav-links" role="list">
           <li><a href="index.html#our-story">Our Story</a></li>
+          <li><a href="catalog.html" style="color:var(--gold)">Our Selection</a></li>
           <li><a href="index.html#merch">Merch</a></li>
           <li><a href="index.html#petition">Petition</a></li>
           <li><a href="index.html#visit">Visit Us</a></li>
@@ -358,10 +369,11 @@
 
       <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
         <a href="index.html#our-story">Our Story</a>
+        <a href="catalog.html" style="color:var(--gold)">Our Selection</a>
         <a href="index.html#merch">Merch</a>
         <a href="index.html#petition">Petition</a>
         <a href="index.html#visit">Visit Us</a>
-        <a href="catalog.html">Catalog</a>
+        <a href="catalog.html" style="color:var(--gold)">Catalog</a>
       </nav>
     </div>
   </nav>
