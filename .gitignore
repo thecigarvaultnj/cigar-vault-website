@@ -2,6 +2,7 @@
 !.gitignore
 !/index.html
 !/catalog.html
+!/admin.html
 !/README.md
 !/netlify.toml
 !/assets/

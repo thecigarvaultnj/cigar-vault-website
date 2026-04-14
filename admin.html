@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — The Cigar Vault</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/Profile%20Icon.png">
+
+  <style>
+    :root {
+      --tb:        #0e4d42;
+      --tb-light:  #1a6b5a;
+      --tb-mid:    #0a3830;
+      --tb-dark:   #072820;
+      --gold:      #C9A84C;
+      --gold-light:#E0BC6E;
+      --cream:     #FAF6EE;
+      --cream-dim: rgba(250,246,238,0.65);
+      --cream-faint:rgba(250,246,238,0.38);
+      --border-t:  rgba(26,107,90,0.4);
+      --border-g:  rgba(201,168,76,0.3);
+      --charcoal:  #1C1A17;
+      --char-mid:  #242220;
+      --char-light:#2E2C28;
+      --danger:    #c0392b;
+      --tr:        0.2s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; }
+    body {
+      background: var(--charcoal);
+      color: var(--cream);
+      font-family: 'Lato', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================================
+       SCREENS
+    ============================================================ */
+    .screen { display: none; }
+    .screen.active { display: flex; }
+
+    /* ---- Auth screens (centered card) ---- */
+    #screen-setup-pw,
+    #screen-login,
+    #screen-connect {
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, var(--tb-dark) 0%, var(--tb-mid) 100%);
+      padding: 1.5rem;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: rgba(7,40,32,0.9);
+      border: 1px solid var(--border-t);
+      border-radius: 4px;
+      padding: 2.75rem 2.5rem 2.5rem;
+      text-align: center;
+    }
+    .auth-logo {
+      max-width: 180px;
+      margin: 0 auto 1.5rem;
+      display: block;
+      opacity: 0.9;
+    }
+    .auth-eyebrow {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+    .auth-card h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 0.6rem;
+    }
+    .auth-card p {
+      font-size: 0.82rem;
+      color: var(--cream-dim);
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+    }
+    .auth-card p a { color: var(--gold-light); text-decoration: underline; }
+
+    /* ---- Form elements ---- */
+    .field { text-align: left; margin-bottom: 1rem; }
+    .field label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--cream-dim);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+    .field input, .field select {
+      width: 100%;
+      padding: 0.72rem 0.9rem;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--border-t);
+      border-radius: 2px;
+      color: var(--cream);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color var(--tr);
+    }
+    .field input:focus, .field select:focus { border-color: var(--tb-light); }
+    .field input::placeholder { color: var(--cream-faint); }
+    .field .hint {
+      font-size: 0.7rem;
+      color: var(--cream-faint);
+      margin-top: 0.35rem;
+      line-height: 1.5;
+      display: block;
+    }
+
+    /* ---- Buttons ---- */
+    .btn-primary {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--gold);
+      border: none;
+      border-radius: 2px;
+      color: var(--tb-dark);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--tr);
+      margin-top: 0.5rem;
+    }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-primary:disabled { opacity: 0.5; cursor: default; }
+
+    .btn-teal {
+      padding: 0.6rem 1.2rem;
+      background: var(--tb);
+      border: 1px solid var(--tb-light);
+      border-radius: 2px;
+      color: var(--cream);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--tr), border-color var(--tr);
+      white-space: nowrap;
+    }
+    .btn-teal:hover { background: var(--tb-light); }
+
+    .btn-outline {
+      padding: 0.6rem 1.2rem;
+      background: transparent;
+      border: 1px solid var(--border-t);
+      border-radius: 2px;
+      color: var(--cream-dim);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color var(--tr), color var(--tr);
+      white-space: nowrap;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .btn-gold {
+      padding: 0.6rem 1.2rem;
+      background: var(--gold);
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      color: var(--tb-dark);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--tr);
+      white-space: nowrap;
+    }
+    .btn-gold:hover { background: var(--gold-light); }
+
+    .btn-danger {
+      padding: 0.5rem 0.9rem;
+      background: transparent;
+      border: 1px solid rgba(192,57,43,0.45);
+      border-radius: 2px;
+      color: rgba(220,100,88,0.8);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--tr);
+    }
+    .btn-danger:hover { background: rgba(192,57,43,0.12); border-color: var(--danger); color: #e05a4a; }
+
+    .auth-error {
+      font-size: 0.78rem;
+      color: #e07060;
+      margin-top: 0.75rem;
+      min-height: 1.2rem;
+    }
+
+    /* ============================================================
+       DASHBOARD SCREEN
+    ============================================================ */
+    #screen-dashboard {
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ---- Top bar ---- */
+    .dash-header {
+      background: var(--tb-mid);
+      border-bottom: 1px solid var(--border-t);
+      padding: 0 1.5rem;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      gap: 1rem;
+    }
+    .dash-logo {
+      height: 28px;
+      width: auto;
+      opacity: 0.92;
+    }
+    .dash-title {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .dash-header-right { display: flex; align-items: center; gap: 0.75rem; }
+
+    /* ---- Tabs ---- */
+    .dash-tabs {
+      background: var(--tb-dark);
+      border-bottom: 1px solid var(--border-t);
+      padding: 0 1.5rem;
+      display: flex;
+      gap: 0;
+    }
+    .tab-btn {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0.9rem 1.5rem;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--cream-faint);
+      cursor: pointer;
+      transition: color var(--tr), border-color var(--tr);
+    }
+    .tab-btn:hover { color: var(--cream-dim); }
+    .tab-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* ---- Dashboard body ---- */
+    .dash-body {
+      flex: 1;
+      padding: 2rem 1.5rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ---- Panel header ---- */
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--cream);
+    }
+    .panel-count {
+      font-size: 0.75rem;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-top: 0.25rem;
+    }
+    .panel-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+
+    /* ---- Search / filter bar ---- */
+    .filter-bar {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      align-items: center;
+    }
+    .filter-bar input, .filter-bar select {
+      padding: 0.5rem 0.8rem;
+      background: var(--char-light);
+      border: 1px solid var(--border-t);
+      border-radius: 2px;
+      color: var(--cream);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.8rem;
+      outline: none;
+      transition: border-color var(--tr);
+    }
+    .filter-bar input { flex: 1 1 200px; min-width: 160px; }
+    .filter-bar input:focus, .filter-bar select:focus { border-color: var(--tb-light); }
+    .filter-bar input::placeholder { color: var(--cream-faint); }
+
+    /* ---- Data table ---- */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border-t);
+      border-radius: 3px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    thead tr {
+      background: var(--tb-mid);
+      border-bottom: 1px solid var(--border-t);
+    }
+    th {
+      padding: 0.7rem 0.85rem;
+      text-align: left;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    th:hover { color: var(--gold-light); }
+    th .sort-arrow { margin-left: 4px; opacity: 0.5; font-style: normal; }
+    th.sorted .sort-arrow { opacity: 1; color: var(--gold-light); }
+
+    tbody tr { border-bottom: 1px solid rgba(26,107,90,0.15); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(14,77,66,0.12); }
+    td {
+      padding: 0.7rem 0.85rem;
+      color: var(--cream-dim);
+      vertical-align: top;
+      line-height: 1.45;
+    }
+    td.num { color: var(--cream-faint); font-size: 0.72rem; }
+    td.name { color: var(--cream); font-weight: 700; }
+    td.email { font-size: 0.78rem; }
+    td.msg {
+      max-width: 260px;
+      font-size: 0.78rem;
+      color: var(--cream-faint);
+      font-style: italic;
+    }
+    td.date { white-space: nowrap; font-size: 0.78rem; }
+
+    .role-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .role-badge.consumer  { background: rgba(14,77,66,0.4);  border: 1px solid rgba(26,107,90,0.5); color: #7fd4bc; }
+    .role-badge.retailer  { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.35); color: var(--gold); }
+    .role-badge.both      { background: rgba(100,60,150,0.2); border: 1px solid rgba(150,100,200,0.4); color: #c0a0e8; }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--cream-faint);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ---- Loading spinner ---- */
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2px solid var(--border-t);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .status-bar {
+      font-size: 0.78rem;
+      color: var(--cream-dim);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 26px;
+    }
+    .status-bar.error { color: #e07060; }
+
+    /* ---- Settings panel ---- */
+    .settings-section {
+      background: var(--char-mid);
+      border: 1px solid var(--border-t);
+      border-radius: 3px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+    .settings-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: var(--cream);
+    }
+    .settings-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(26,107,90,0.12);
+      flex-wrap: wrap;
+    }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-row label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--cream-dim);
+    }
+    .settings-row span {
+      font-size: 0.75rem;
+      color: var(--cream-faint);
+      display: block;
+      margin-top: 0.2rem;
+    }
+
+    /* ============================================================
+       PRINT STYLES
+    ============================================================ */
+    @media print {
+      .dash-header, .dash-tabs, .filter-bar,
+      .panel-actions, .btn-primary, .btn-teal,
+      .btn-outline, .btn-gold, .btn-danger,
+      #tab-merch, #tab-settings,
+      .settings-section { display: none !important; }
+
+      body { background: white; color: #111; font-family: Georgia, serif; }
+      .dash-body { padding: 0; max-width: 100%; }
+      .tab-panel { display: block !important; }
+      #tab-petition { display: block !important; }
+      #tab-merch, #tab-settings { display: none !important; }
+
+      .print-header {
+        display: block !important;
+        border-bottom: 2px solid #1a3d1a;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .table-wrap { border: 1px solid #ccc; overflow: visible; }
+      thead tr { background: #e8f0e8; }
+      th { color: #1a3d1a; }
+      tbody tr:hover { background: none; }
+      td { color: #333; }
+      .role-badge { border: 1px solid #999; color: #333; background: none !important; }
+      table { font-size: 10pt; }
+      th, td { padding: 5pt 8pt; }
+
+      .panel-title { color: #1a3d1a; font-size: 14pt; }
+      .panel-count { color: #1a3d1a; }
+    }
+
+    .print-header {
+      display: none;
+      margin-bottom: 1.5rem;
+    }
+    .print-header h2 { font-size: 1rem; color: #1a3d1a; }
+    .print-header p { font-size: 0.8rem; color: #555; margin-top: 0.3rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SCREEN: SET UP PASSWORD (first visit only)
+  ============================================================ -->
+  <div id="screen-setup-pw" class="screen active">
+    <div class="auth-card">
+      <img class="auth-logo" src="assets/Cigar-Vault-Logo-White-Long.png" alt="The Cigar Vault">
+      <span class="auth-eyebrow">Admin Access</span>
+      <h1>Create Admin Password</h1>
+      <p>Set a password to protect this admin dashboard. You only do this once.</p>
+      <div class="field">
+        <label>New Password</label>
+        <input type="password" id="setup-pw1" placeholder="Enter a password" autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <input type="password" id="setup-pw2" placeholder="Repeat password" autocomplete="new-password">
+      </div>
+      <button class="btn-primary" id="setup-pw-btn">Set Password &amp; Continue</button>
+      <div class="auth-error" id="setup-pw-err"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: LOGIN
+  ============================================================ -->
+  <div id="screen-login" class="screen">
+    <div class="auth-card">
+      <img class="auth-logo" src="assets/Cigar-Vault-Logo-White-Long.png" alt="The Cigar Vault">
+      <span class="auth-eyebrow">Admin Dashboard</span>
+      <h1>The Cigar Vault</h1>
+      <p>Enter your admin password to continue.</p>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="login-pw" placeholder="Admin password" autocomplete="current-password">
+      </div>
+      <button class="btn-primary" id="login-btn">Unlock Dashboard</button>
+      <div class="auth-error" id="login-err"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: CONNECT NETLIFY (one-time API setup)
+  ============================================================ -->
+  <div id="screen-connect" class="screen">
+    <div class="auth-card" style="max-width:500px">
+      <img class="auth-logo" src="assets/Cigar-Vault-Logo-White-Long.png" alt="The Cigar Vault">
+      <span class="auth-eyebrow">One-Time Setup</span>
+      <h1>Connect to Netlify</h1>
+      <p>
+        To pull form submissions, enter your Netlify Personal Access Token.<br>
+        Get one at <a href="https://app.netlify.com/user/applications" target="_blank" rel="noopener">Netlify → User Settings → Applications → Personal access tokens</a>.
+      </p>
+      <div class="field">
+        <label>Personal Access Token</label>
+        <input type="password" id="pat-input" placeholder="Paste your token here" autocomplete="off">
+        <span class="hint">This is stored locally in your browser only. Never share it.</span>
+      </div>
+      <button class="btn-primary" id="connect-btn">Connect &amp; Load Forms</button>
+      <div class="auth-error" id="connect-err"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SCREEN: DASHBOARD
+  ============================================================ -->
+  <div id="screen-dashboard" class="screen">
+
+    <header class="dash-header">
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <img class="dash-logo" src="assets/Cigar-Vault-Logo-White-Long.png" alt="The Cigar Vault">
+        <span class="dash-title">Admin</span>
+      </div>
+      <div class="dash-header-right">
+        <button class="btn-outline" id="refresh-btn">↻ Refresh</button>
+        <button class="btn-outline" id="logout-btn">Logout</button>
+      </div>
+    </header>
+
+    <nav class="dash-tabs">
+      <button class="tab-btn active" data-tab="petition">📋 Petition Signers</button>
+      <button class="tab-btn" data-tab="merch">🧥 Merch Orders</button>
+      <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
+    </nav>
+
+    <div class="dash-body">
+
+      <!-- ==================== PETITION TAB ==================== -->
+      <div id="tab-petition" class="tab-panel active">
+
+        <!-- Print-only header -->
+        <div class="print-header">
+          <h2>The Cigar Vault — NJ Senate Bill S2569 Petition</h2>
+          <p>101 US-46, Pine Brook, NJ 07058 &nbsp;|&nbsp; Thecigarvaultnj@gmail.com &nbsp;|&nbsp; (201) 232-3737</p>
+          <p id="print-date-line"></p>
+        </div>
+
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Petition Signers</div>
+            <div class="panel-count" id="petition-count">—</div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-teal" id="petition-refresh">↻ Load / Refresh</button>
+            <button class="btn-gold" id="petition-print" title="Print formatted document for legislators">🖨 Print for Legislature</button>
+            <button class="btn-outline" id="petition-csv">⬇ Export CSV</button>
+          </div>
+        </div>
+
+        <div class="status-bar" id="petition-status"></div>
+
+        <div class="filter-bar">
+          <input type="search" id="petition-search" placeholder="Search by name, email, or ZIP…">
+          <select id="petition-role-filter">
+            <option value="">All Roles</option>
+            <option value="Consumer">Consumer</option>
+            <option value="Retailer">Retailer</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table id="petition-table">
+            <thead>
+              <tr>
+                <th data-col="num">#</th>
+                <th data-col="name">Name <span class="sort-arrow">↕</span></th>
+                <th data-col="email">Email <span class="sort-arrow">↕</span></th>
+                <th data-col="nj_zip">ZIP <span class="sort-arrow">↕</span></th>
+                <th data-col="role">Role <span class="sort-arrow">↕</span></th>
+                <th data-col="created_at" class="sorted">Date Signed <span class="sort-arrow">↓</span></th>
+                <th data-col="message">Message</th>
+              </tr>
+            </thead>
+            <tbody id="petition-tbody">
+              <tr><td colspan="7" class="empty-state">Click "Load / Refresh" to fetch signatures.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ==================== MERCH TAB ==================== -->
+      <div id="tab-merch" class="tab-panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Merch Orders</div>
+            <div class="panel-count" id="merch-count">—</div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-teal" id="merch-refresh">↻ Load / Refresh</button>
+            <button class="btn-outline" id="merch-csv">⬇ Export CSV</button>
+          </div>
+        </div>
+
+        <div class="status-bar" id="merch-status"></div>
+
+        <div class="filter-bar">
+          <input type="search" id="merch-search" placeholder="Search by name, email, or product…">
+          <select id="merch-product-filter">
+            <option value="">All Products</option>
+            <option value="carhartt-ls">Carhartt Long Sleeve</option>
+            <option value="carhartt-hoodie">Carhartt Hoodie</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table id="merch-table">
+            <thead>
+              <tr>
+                <th data-col="num">#</th>
+                <th data-col="name">Name <span class="sort-arrow">↕</span></th>
+                <th data-col="product">Product <span class="sort-arrow">↕</span></th>
+                <th data-col="size">Size</th>
+                <th data-col="quantity">Qty</th>
+                <th data-col="email">Email <span class="sort-arrow">↕</span></th>
+                <th data-col="phone">Phone</th>
+                <th data-col="created_at" class="sorted">Date <span class="sort-arrow">↓</span></th>
+                <th data-col="notes">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="merch-tbody">
+              <tr><td colspan="9" class="empty-state">Click "Load / Refresh" to fetch orders.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ==================== SETTINGS TAB ==================== -->
+      <div id="tab-settings" class="tab-panel">
+        <div class="panel-title" style="margin-bottom:1.5rem">Settings</div>
+
+        <div class="settings-section">
+          <h3>Netlify Connection</h3>
+          <div class="settings-row">
+            <div>
+              <label>Personal Access Token</label>
+              <span id="pat-display">Not set</span>
+            </div>
+            <button class="btn-danger" id="clear-pat-btn">Clear Token</button>
+          </div>
+          <div class="settings-row">
+            <div>
+              <label>Site ID</label>
+              <span id="site-id-display">Not set</span>
+            </div>
+            <button class="btn-outline" id="reconnect-btn">Re-connect</button>
+          </div>
+        </div>
+
+        <div class="settings-section" style="margin-top:1rem">
+          <h3>Admin Password</h3>
+          <div class="settings-row">
+            <div>
+              <label>Change Password</label>
+              <span>Update the password used to access this dashboard.</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:0.75rem;">
+            <div class="field" style="flex:1;min-width:160px;margin:0">
+              <label>New Password</label>
+              <input type="password" id="chpw-new" placeholder="New password">
+            </div>
+            <div class="field" style="flex:1;min-width:160px;margin:0">
+              <label>Confirm</label>
+              <input type="password" id="chpw-confirm" placeholder="Repeat password">
+            </div>
+          </div>
+          <div style="margin-top:0.75rem;display:flex;align-items:center;gap:0.75rem">
+            <button class="btn-teal" id="chpw-btn">Update Password</button>
+            <span id="chpw-msg" style="font-size:0.78rem;color:var(--gold)"></span>
+          </div>
+        </div>
+
+        <div class="settings-section" style="margin-top:1rem">
+          <h3>Danger Zone</h3>
+          <div class="settings-row">
+            <div>
+              <label>Reset All Settings</label>
+              <span>Clears stored token, site ID, and password. You'll go through setup again.</span>
+            </div>
+            <button class="btn-danger" id="reset-all-btn">Reset Everything</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /dash-body -->
+  </div><!-- /screen-dashboard -->
+
+<script>
+/* ============================================================
+   THE CIGAR VAULT — admin.js (inline)
+   ============================================================ */
+
+/* ---- Storage keys ---- */
+var KEYS = {
+  pw:      'cv_admin_hash',
+  session: 'cv_admin_session',
+  pat:     'cv_admin_pat',
+  siteId:  'cv_admin_site',
+  petData: 'cv_admin_petition',
+  merData: 'cv_admin_merch'
+};
+
+/* ---- Netlify API base ---- */
+var API = 'https://api.netlify.com/api/v1';
+
+/* ---- In-memory data ---- */
+var petitionData = [];
+var merchData    = [];
+var petitionSort = { col: 'created_at', dir: -1 };
+var merchSort    = { col: 'created_at', dir: -1 };
+
+/* ============================================================
+   CRYPTO HELPERS
+============================================================ */
+async function sha256(str) {
+  var buf = await crypto.subtle.digest('SHA-256',
+    new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+/* ============================================================
+   SCREEN ROUTER
+============================================================ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(function(s) {
+    s.classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+}
+
+async function boot() {
+  var hash    = localStorage.getItem(KEYS.pw);
+  var session = sessionStorage.getItem(KEYS.session);
+  var pat     = localStorage.getItem(KEYS.pat);
+  var siteId  = localStorage.getItem(KEYS.siteId);
+
+  if (!hash) {
+    showScreen('screen-setup-pw');
+  } else if (session) {
+    showScreen('screen-dashboard');
+    updateSettingsDisplay();
+    restoreCachedData();
+  } else {
+    showScreen('screen-login');
+  }
+}
+
+/* ============================================================
+   SETUP PASSWORD SCREEN
+============================================================ */
+document.getElementById('setup-pw-btn').addEventListener('click', async function() {
+  var p1 = document.getElementById('setup-pw1').value;
+  var p2 = document.getElementById('setup-pw2').value;
+  var err = document.getElementById('setup-pw-err');
+
+  if (!p1 || p1.length < 6) { err.textContent = 'Password must be at least 6 characters.'; return; }
+  if (p1 !== p2)             { err.textContent = 'Passwords do not match.'; return; }
+
+  localStorage.setItem(KEYS.pw, await sha256(p1));
+  sessionStorage.setItem(KEYS.session, '1');
+  err.textContent = '';
+
+  var pat = localStorage.getItem(KEYS.pat);
+  if (!pat) {
+    showScreen('screen-connect');
+  } else {
+    showScreen('screen-dashboard');
+    updateSettingsDisplay();
+  }
+});
+
+document.getElementById('setup-pw1').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') document.getElementById('setup-pw2').focus();
+});
+document.getElementById('setup-pw2').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') document.getElementById('setup-pw-btn').click();
+});
+
+/* ============================================================
+   LOGIN SCREEN
+============================================================ */
+document.getElementById('login-btn').addEventListener('click', async function() {
+  var pw  = document.getElementById('login-pw').value;
+  var err = document.getElementById('login-err');
+
+  if (!pw) { err.textContent = 'Please enter your password.'; return; }
+
+  var hash   = await sha256(pw);
+  var stored = localStorage.getItem(KEYS.pw);
+
+  if (hash !== stored) {
+    err.textContent = 'Incorrect password.';
+    document.getElementById('login-pw').value = '';
+    return;
+  }
+
+  sessionStorage.setItem(KEYS.session, '1');
+  err.textContent = '';
+
+  var pat = localStorage.getItem(KEYS.pat);
+  if (!pat) {
+    showScreen('screen-connect');
+  } else {
+    showScreen('screen-dashboard');
+    updateSettingsDisplay();
+    restoreCachedData();
+  }
+});
+
+document.getElementById('login-pw').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') document.getElementById('login-btn').click();
+});
+
+/* ============================================================
+   CONNECT NETLIFY SCREEN
+============================================================ */
+document.getElementById('connect-btn').addEventListener('click', async function() {
+  var pat = document.getElementById('pat-input').value.trim();
+  var err = document.getElementById('connect-err');
+  var btn = document.getElementById('connect-btn');
+
+  if (!pat) { err.textContent = 'Please paste your Personal Access Token.'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Verifying…';
+  err.textContent = '';
+
+  try {
+    /* Verify token by fetching sites */
+    var res = await fetch(API + '/sites?per_page=100', {
+      headers: { 'Authorization': 'Bearer ' + pat }
+    });
+
+    if (!res.ok) throw new Error('Token rejected (HTTP ' + res.status + ')');
+
+    var sites = await res.json();
+
+    /* Find The Cigar Vault site */
+    var site = sites.find(function(s) {
+      return s.name && s.name.toLowerCase().includes('cigar-vault');
+    }) || sites.find(function(s) {
+      return s.url && s.url.includes('cigar-vault');
+    });
+
+    if (!site) {
+      /* If only one site, use it */
+      if (sites.length === 1) {
+        site = sites[0];
+      } else {
+        var names = sites.map(function(s) { return s.name; }).join(', ');
+        err.textContent = 'Could not auto-detect site. Found: ' + names + '. Please check your token.';
+        btn.disabled = false;
+        btn.textContent = 'Connect & Load Forms';
+        return;
+      }
+    }
+
+    localStorage.setItem(KEYS.pat,    pat);
+    localStorage.setItem(KEYS.siteId, site.id);
+
+    showScreen('screen-dashboard');
+    updateSettingsDisplay();
+
+  } catch (ex) {
+    err.textContent = ex.message || 'Connection failed. Check your token and try again.';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Connect & Load Forms';
+});
+
+document.getElementById('pat-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') document.getElementById('connect-btn').click();
+});
+
+/* ============================================================
+   DASHBOARD — TABS
+============================================================ */
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============================================================
+   NETLIFY API HELPERS
+============================================================ */
+async function netlifyGet(path) {
+  var pat = localStorage.getItem(KEYS.pat);
+  var res = await fetch(API + path, {
+    headers: { 'Authorization': 'Bearer ' + pat }
+  });
+  if (!res.ok) throw new Error('API error ' + res.status);
+  return res.json();
+}
+
+/* Fetch ALL pages of form submissions */
+async function fetchAllSubmissions(formId) {
+  var all = [];
+  var page = 1;
+  var perPage = 100;
+
+  while (true) {
+    var items = await netlifyGet('/forms/' + formId + '/submissions?per_page=' + perPage + '&page=' + page);
+    all = all.concat(items);
+    if (items.length < perPage) break;
+    page++;
+  }
+  return all;
+}
+
+/* Get form ID by name */
+async function getFormId(formName) {
+  var siteId = localStorage.getItem(KEYS.siteId);
+  var forms  = await netlifyGet('/sites/' + siteId + '/forms');
+  var found  = forms.find(function(f) { return f.name === formName; });
+  if (!found) throw new Error('Form "' + formName + '" not found. Have any submissions been made yet?');
+  return found.id;
+}
+
+/* ============================================================
+   PETITION TAB
+============================================================ */
+async function loadPetition() {
+  var statusEl = document.getElementById('petition-status');
+  var countEl  = document.getElementById('petition-count');
+
+  statusEl.innerHTML = '<span class="spinner"></span> Loading signatures…';
+  statusEl.className = 'status-bar';
+
+  try {
+    var formId = await getFormId('nj-petition');
+    var subs   = await fetchAllSubmissions(formId);
+
+    petitionData = subs.map(function(s) {
+      return {
+        id:         s.id,
+        created_at: s.created_at,
+        first_name: s.data.first_name  || '',
+        last_name:  s.data.last_name   || '',
+        email:      s.data.email       || '',
+        nj_zip:     s.data.nj_zip      || '',
+        role:       s.data.role        || '',
+        message:    s.data.message     || ''
+      };
+    });
+
+    /* Cache for this session */
+    sessionStorage.setItem(KEYS.petData, JSON.stringify(petitionData));
+
+    countEl.textContent = petitionData.length + ' signature' + (petitionData.length !== 1 ? 's' : '');
+    statusEl.textContent = 'Last refreshed: ' + new Date().toLocaleTimeString();
+
+    renderPetition();
+
+  } catch (ex) {
+    statusEl.textContent = '✗ ' + (ex.message || 'Failed to load.');
+    statusEl.className = 'status-bar error';
+  }
+}
+
+function renderPetition() {
+  var search = (document.getElementById('petition-search').value || '').toLowerCase();
+  var role   = document.getElementById('petition-role-filter').value;
+
+  var rows = petitionData.filter(function(r) {
+    var name = (r.first_name + ' ' + r.last_name).toLowerCase();
+    if (search && !name.includes(search) &&
+        !r.email.toLowerCase().includes(search) &&
+        !r.nj_zip.includes(search)) return false;
+    if (role && r.role !== role) return false;
+    return true;
+  });
+
+  /* Sort */
+  var col = petitionSort.col;
+  var dir = petitionSort.dir;
+  rows.sort(function(a, b) {
+    var va = a[col] || '';
+    var vb = b[col] || '';
+    if (col === 'created_at') return dir * (new Date(va) - new Date(vb));
+    if (col === 'name') {
+      va = (a.last_name + a.first_name).toLowerCase();
+      vb = (b.last_name + b.first_name).toLowerCase();
+    }
+    return dir * va.toString().localeCompare(vb.toString());
+  });
+
+  /* Update filtered count if filtering */
+  if (search || role) {
+    document.getElementById('petition-count').textContent =
+      rows.length + ' of ' + petitionData.length + ' signature' + (petitionData.length !== 1 ? 's' : '');
+  } else {
+    document.getElementById('petition-count').textContent =
+      petitionData.length + ' signature' + (petitionData.length !== 1 ? 's' : '');
+  }
+
+  var tbody = document.getElementById('petition-tbody');
+
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No results found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = rows.map(function(r, i) {
+    var name = escHtml(r.first_name + ' ' + r.last_name);
+    var roleClass = r.role ? r.role.toLowerCase() : '';
+    var date = r.created_at ? new Date(r.created_at).toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    }) : '—';
+
+    return '<tr>' +
+      '<td class="num">'  + (i + 1) + '</td>' +
+      '<td class="name">' + name + '</td>' +
+      '<td class="email">' + escHtml(r.email) + '</td>' +
+      '<td>'  + escHtml(r.nj_zip) + '</td>' +
+      '<td><span class="role-badge ' + roleClass + '">' + escHtml(r.role || '—') + '</span></td>' +
+      '<td class="date">' + date + '</td>' +
+      '<td class="msg">'  + escHtml(r.message || '') + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+/* Sort on header click */
+document.getElementById('petition-table').querySelector('thead').addEventListener('click', function(e) {
+  var th = e.target.closest('th[data-col]');
+  if (!th || th.dataset.col === 'num') return;
+  var col = th.dataset.col;
+
+  if (petitionSort.col === col) {
+    petitionSort.dir *= -1;
+  } else {
+    petitionSort.col = col;
+    petitionSort.dir = col === 'created_at' ? -1 : 1;
+  }
+
+  document.querySelectorAll('#petition-table th').forEach(function(h) {
+    h.classList.remove('sorted');
+    var arrow = h.querySelector('.sort-arrow');
+    if (arrow) arrow.textContent = '↕';
+  });
+  th.classList.add('sorted');
+  var arrow = th.querySelector('.sort-arrow');
+  if (arrow) arrow.textContent = petitionSort.dir === 1 ? '↑' : '↓';
+
+  renderPetition();
+});
+
+document.getElementById('petition-search').addEventListener('input', renderPetition);
+document.getElementById('petition-role-filter').addEventListener('change', renderPetition);
+document.getElementById('petition-refresh').addEventListener('click', loadPetition);
+
+/* Print */
+document.getElementById('petition-print').addEventListener('click', function() {
+  document.getElementById('print-date-line').textContent =
+    'Printed: ' + new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) +
+    ' · Total Signatures: ' + petitionData.length;
+  window.print();
+});
+
+/* CSV export */
+document.getElementById('petition-csv').addEventListener('click', function() {
+  var rows = [['#', 'First Name', 'Last Name', 'Email', 'NJ ZIP', 'Role', 'Date Signed', 'Message']];
+
+  petitionData.forEach(function(r, i) {
+    rows.push([
+      i + 1,
+      r.first_name,
+      r.last_name,
+      r.email,
+      r.nj_zip,
+      r.role,
+      r.created_at ? new Date(r.created_at).toLocaleDateString('en-US') : '',
+      r.message
+    ]);
+  });
+
+  downloadCSV('cigar-vault-petition-' + today() + '.csv', rows);
+});
+
+/* ============================================================
+   MERCH TAB
+============================================================ */
+async function loadMerch() {
+  var statusEl = document.getElementById('merch-status');
+  var countEl  = document.getElementById('merch-count');
+
+  statusEl.innerHTML = '<span class="spinner"></span> Loading orders…';
+  statusEl.className = 'status-bar';
+
+  try {
+    var formId = await getFormId('merch-order');
+    var subs   = await fetchAllSubmissions(formId);
+
+    var PRODUCT_LABELS = {
+      'carhartt-ls':     'Carhartt Long Sleeve',
+      'carhartt-hoodie': 'Carhartt Hoodie'
+    };
+
+    merchData = subs.map(function(s) {
+      var productKey = s.data.product || '';
+      return {
+        id:              s.id,
+        created_at:      s.created_at,
+        name:            s.data.name  || '',
+        product:         productKey,
+        product_label:   PRODUCT_LABELS[productKey] || productKey,
+        size:            s.data.size     || '',
+        quantity:        s.data.quantity || '1',
+        email:           s.data.email    || '',
+        phone:           s.data.phone    || '',
+        price_reference: s.data.price_reference || '',
+        notes:           s.data.notes    || ''
+      };
+    });
+
+    sessionStorage.setItem(KEYS.merData, JSON.stringify(merchData));
+
+    countEl.textContent = merchData.length + ' order' + (merchData.length !== 1 ? 's' : '');
+    statusEl.textContent = 'Last refreshed: ' + new Date().toLocaleTimeString();
+
+    renderMerch();
+
+  } catch (ex) {
+    statusEl.textContent = '✗ ' + (ex.message || 'Failed to load.');
+    statusEl.className = 'status-bar error';
+  }
+}
+
+function renderMerch() {
+  var search  = (document.getElementById('merch-search').value || '').toLowerCase();
+  var product = document.getElementById('merch-product-filter').value;
+
+  var rows = merchData.filter(function(r) {
+    if (search && !r.name.toLowerCase().includes(search) &&
+        !r.email.toLowerCase().includes(search) &&
+        !r.product_label.toLowerCase().includes(search)) return false;
+    if (product && r.product !== product) return false;
+    return true;
+  });
+
+  var col = merchSort.col;
+  var dir = merchSort.dir;
+  rows.sort(function(a, b) {
+    var va = a[col] || '';
+    var vb = b[col] || '';
+    if (col === 'created_at') return dir * (new Date(va) - new Date(vb));
+    return dir * va.toString().localeCompare(vb.toString());
+  });
+
+  document.getElementById('merch-count').textContent =
+    (search || product)
+      ? rows.length + ' of ' + merchData.length + ' order' + (merchData.length !== 1 ? 's' : '')
+      : merchData.length + ' order' + (merchData.length !== 1 ? 's' : '');
+
+  var tbody = document.getElementById('merch-tbody');
+
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="9" class="empty-state">No results found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = rows.map(function(r, i) {
+    var date = r.created_at ? new Date(r.created_at).toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    }) : '—';
+
+    return '<tr>' +
+      '<td class="num">'  + (i + 1) + '</td>' +
+      '<td class="name">' + escHtml(r.name) + '</td>' +
+      '<td>'  + escHtml(r.product_label) + '</td>' +
+      '<td>'  + escHtml(r.size) + '</td>' +
+      '<td>'  + escHtml(r.quantity) + '</td>' +
+      '<td class="email">' + escHtml(r.email) + '</td>' +
+      '<td>'  + escHtml(r.phone) + '</td>' +
+      '<td class="date">' + date + '</td>' +
+      '<td class="msg">'  + escHtml(r.notes) + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+document.getElementById('merch-table').querySelector('thead').addEventListener('click', function(e) {
+  var th = e.target.closest('th[data-col]');
+  if (!th || th.dataset.col === 'num') return;
+  var col = th.dataset.col;
+
+  if (merchSort.col === col) {
+    merchSort.dir *= -1;
+  } else {
+    merchSort.col = col;
+    merchSort.dir = col === 'created_at' ? -1 : 1;
+  }
+
+  document.querySelectorAll('#merch-table th').forEach(function(h) {
+    h.classList.remove('sorted');
+    var arrow = h.querySelector('.sort-arrow');
+    if (arrow) arrow.textContent = '↕';
+  });
+  th.classList.add('sorted');
+  var arrow = th.querySelector('.sort-arrow');
+  if (arrow) arrow.textContent = merchSort.dir === 1 ? '↑' : '↓';
+
+  renderMerch();
+});
+
+document.getElementById('merch-search').addEventListener('input', renderMerch);
+document.getElementById('merch-product-filter').addEventListener('change', renderMerch);
+document.getElementById('merch-refresh').addEventListener('click', loadMerch);
+
+document.getElementById('merch-csv').addEventListener('click', function() {
+  var rows = [['#', 'Name', 'Product', 'Size', 'Qty', 'Email', 'Phone', 'Price', 'Date', 'Notes']];
+
+  merchData.forEach(function(r, i) {
+    rows.push([
+      i + 1,
+      r.name,
+      r.product_label,
+      r.size,
+      r.quantity,
+      r.email,
+      r.phone,
+      r.price_reference,
+      r.created_at ? new Date(r.created_at).toLocaleDateString('en-US') : '',
+      r.notes
+    ]);
+  });
+
+  downloadCSV('cigar-vault-merch-orders-' + today() + '.csv', rows);
+});
+
+/* ============================================================
+   GLOBAL REFRESH BUTTON
+============================================================ */
+document.getElementById('refresh-btn').addEventListener('click', function() {
+  var activeTab = document.querySelector('.tab-btn.active');
+  if (!activeTab) return;
+  var tab = activeTab.dataset.tab;
+  if (tab === 'petition') loadPetition();
+  else if (tab === 'merch') loadMerch();
+});
+
+/* ============================================================
+   SETTINGS TAB
+============================================================ */
+function updateSettingsDisplay() {
+  var pat    = localStorage.getItem(KEYS.pat) || '';
+  var siteId = localStorage.getItem(KEYS.siteId) || '';
+
+  document.getElementById('pat-display').textContent =
+    pat ? '••••••••' + pat.slice(-6) : 'Not set';
+  document.getElementById('site-id-display').textContent =
+    siteId || 'Not set';
+}
+
+document.getElementById('clear-pat-btn').addEventListener('click', function() {
+  if (!confirm('Clear your Netlify token? You will need to re-enter it.')) return;
+  localStorage.removeItem(KEYS.pat);
+  localStorage.removeItem(KEYS.siteId);
+  updateSettingsDisplay();
+});
+
+document.getElementById('reconnect-btn').addEventListener('click', function() {
+  showScreen('screen-connect');
+});
+
+document.getElementById('chpw-btn').addEventListener('click', async function() {
+  var n  = document.getElementById('chpw-new').value;
+  var c  = document.getElementById('chpw-confirm').value;
+  var msg = document.getElementById('chpw-msg');
+
+  if (!n || n.length < 6) { msg.style.color = '#e07060'; msg.textContent = 'Min 6 characters.'; return; }
+  if (n !== c)             { msg.style.color = '#e07060'; msg.textContent = 'Passwords do not match.'; return; }
+
+  localStorage.setItem(KEYS.pw, await sha256(n));
+  document.getElementById('chpw-new').value = '';
+  document.getElementById('chpw-confirm').value = '';
+  msg.style.color = 'var(--gold)';
+  msg.textContent = 'Password updated.';
+  setTimeout(function() { msg.textContent = ''; }, 3000);
+});
+
+document.getElementById('reset-all-btn').addEventListener('click', function() {
+  if (!confirm('This will clear all settings and you will need to go through setup again. Are you sure?')) return;
+  [KEYS.pw, KEYS.pat, KEYS.siteId].forEach(function(k) { localStorage.removeItem(k); });
+  sessionStorage.clear();
+  location.reload();
+});
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+document.getElementById('logout-btn').addEventListener('click', function() {
+  sessionStorage.removeItem(KEYS.session);
+  showScreen('screen-login');
+  document.getElementById('login-pw').value = '';
+  document.getElementById('login-err').textContent = '';
+});
+
+/* ============================================================
+   RESTORE CACHED SESSION DATA
+============================================================ */
+function restoreCachedData() {
+  try {
+    var pd = sessionStorage.getItem(KEYS.petData);
+    if (pd) {
+      petitionData = JSON.parse(pd);
+      document.getElementById('petition-count').textContent =
+        petitionData.length + ' signature' + (petitionData.length !== 1 ? 's' : '');
+      document.getElementById('petition-status').textContent = 'Loaded from session cache.';
+      renderPetition();
+    }
+    var md = sessionStorage.getItem(KEYS.merData);
+    if (md) {
+      merchData = JSON.parse(md);
+      document.getElementById('merch-count').textContent =
+        merchData.length + ' order' + (merchData.length !== 1 ? 's' : '');
+      document.getElementById('merch-status').textContent = 'Loaded from session cache.';
+      renderMerch();
+    }
+  } catch (e) { /* ignore */ }
+}
+
+/* ============================================================
+   UTILITIES
+============================================================ */
+function escHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function today() {
+  var d = new Date();
+  return d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
+}
+
+function downloadCSV(filename, rows) {
+  var csv = rows.map(function(row) {
+    return row.map(function(cell) {
+      var s = String(cell == null ? '' : cell).replace(/"/g, '""');
+      return /[",\n\r]/.test(s) ? '"' + s + '"' : s;
+    }).join(',');
+  }).join('\r\n');
+
+  var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href  = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ---- Boot ---- */
+boot();
+</script>
+</body>
+</html>
