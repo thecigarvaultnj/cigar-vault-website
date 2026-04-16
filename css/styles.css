@@ -1296,10 +1296,10 @@ footer {
 
 /* Featured full-width storefront image */
 .gallery-featured {
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.25rem;
   border: 1px solid var(--border);
   overflow: hidden;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition: border-color 300ms ease, box-shadow 300ms ease;
 }
 .gallery-featured img {
   width: 100%;
@@ -1310,35 +1310,35 @@ footer {
   transition: transform 0.5s ease;
 }
 .gallery-featured:hover {
-  border-color: rgba(201, 168, 76, 0.55);
-  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.28), 0 8px 40px rgba(201, 168, 76, 0.18);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.3), 0 8px 40px rgba(201, 168, 76, 0.18);
 }
 .gallery-featured:hover img { transform: scale(1.025); }
 
-/* 4-photo grid */
+/* 2×2 interior grid */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
 }
 .gallery-item {
-  margin: 0;
+  display: block;
   border: 1px solid var(--border);
   overflow: hidden;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition: border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+  text-decoration: none;
 }
 .gallery-item img {
   width: 100%;
-  height: 260px;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
 }
 .gallery-item:hover {
-  border-color: rgba(201, 168, 76, 0.55);
-  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.28), 0 8px 32px rgba(201, 168, 76, 0.18);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.3), 0 8px 32px rgba(201, 168, 76, 0.18);
+  transform: scale(1.02);
 }
-.gallery-item:hover img { transform: scale(1.04); }
 
 /* ---- Visit page storefront photo ---- */
 .visit-storefront {
@@ -1354,16 +1354,27 @@ footer {
   display: block;
 }
 
-/* ---- Gallery responsive ---- */
+/* ---- Lucide icons on explore cards ---- */
+.page-card i,
+.page-card svg {
+  width: 40px;
+  height: 40px;
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  margin-bottom: 16px;
+  display: block;
+}
+
+/* ---- Gallery + visit responsive ---- */
 @media (max-width: 960px) {
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .gallery-featured img { height: 380px; }
-  .gallery-item img { height: 220px; }
   .visit-storefront img { height: 300px; }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .gallery-grid { grid-template-columns: 1fr; }
   .gallery-featured img { height: 280px; }
-  .gallery-item img { height: 240px; }
   .visit-storefront img { height: 240px; }
+}
+@media (max-width: 480px) {
+  .gallery-featured img { height: 240px; }
 }

@@ -20,6 +20,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link rel="icon" type="image/png" href="assets/Profile%20Icon.png">
 </head>
 <body>
@@ -114,20 +116,19 @@
         <div class="gold-rule" aria-hidden="true"><span>&#10022;</span></div>
       </header>
 
-      <!-- Featured storefront — full width -->
+      <!-- Featured storefront — full width, eager load -->
       <figure class="gallery-featured reveal">
         <img
           src="assets/photos/storefront.jpg"
           alt="The Cigar Vault storefront in Pine Brook, NJ"
-          loading="lazy"
           width="1536"
           height="2048"
         >
       </figure>
 
-      <!-- 4-photo grid -->
+      <!-- 2×2 interior grid with lightbox -->
       <div class="gallery-grid">
-        <figure class="gallery-item reveal">
+        <a class="gallery-item reveal" href="assets/photos/interior-counter.jpg" data-gallery="vault-gallery" aria-label="View: The service counter at The Cigar Vault">
           <img
             src="assets/photos/interior-counter.jpg"
             alt="The service counter inside The Cigar Vault, Pine Brook NJ"
@@ -135,8 +136,8 @@
             width="2048"
             height="1536"
           >
-        </figure>
-        <figure class="gallery-item reveal">
+        </a>
+        <a class="gallery-item reveal" href="assets/photos/interior-aisle.jpg" data-gallery="vault-gallery" aria-label="View: Cigar display aisle at The Cigar Vault">
           <img
             src="assets/photos/interior-aisle.jpg"
             alt="Cigar display aisle inside The Cigar Vault"
@@ -144,8 +145,8 @@
             width="2048"
             height="1536"
           >
-        </figure>
-        <figure class="gallery-item reveal">
+        </a>
+        <a class="gallery-item reveal" href="assets/photos/humidor-wide.jpg" data-gallery="vault-gallery" aria-label="View: Premium cigar humidor at The Cigar Vault">
           <img
             src="assets/photos/humidor-wide.jpg"
             alt="Premium cigar humidor selection at The Cigar Vault"
@@ -153,8 +154,8 @@
             width="2048"
             height="1536"
           >
-        </figure>
-        <figure class="gallery-item reveal">
+        </a>
+        <a class="gallery-item reveal" href="assets/photos/back-display.jpg" data-gallery="vault-gallery" aria-label="View: Back wall cigar display at The Cigar Vault">
           <img
             src="assets/photos/back-display.jpg"
             alt="Back wall cigar display at The Cigar Vault, Pine Brook NJ"
@@ -162,7 +163,7 @@
             width="2048"
             height="1536"
           >
-        </figure>
+        </a>
       </div>
 
     </div>
@@ -182,35 +183,35 @@
       <div class="page-cards" role="list">
 
         <a href="story.html" class="page-card reveal" role="listitem" aria-label="Read Our Story">
-          <div class="page-card-icon" aria-hidden="true">&#128218;</div>
+          <i data-lucide="book-open" aria-hidden="true"></i>
           <div class="page-card-title">Our Story</div>
           <p class="page-card-desc">A family legacy in tobacco &mdash; from a gas-station humidor to The Cigar Vault.</p>
           <span class="page-card-cta">Read the story &rarr;</span>
         </a>
 
         <a href="catalog.html" class="page-card reveal" role="listitem" aria-label="Browse Our Selection">
-          <div class="page-card-icon" aria-hidden="true">&#128687;</div>
+          <i data-lucide="cigarette" aria-hidden="true"></i>
           <div class="page-card-title">Our Selection</div>
           <p class="page-card-desc">Browse the full humidor &mdash; singles and boxes from the world&rsquo;s top brands.</p>
           <span class="page-card-cta">View catalog &rarr;</span>
         </a>
 
         <a href="merch.html" class="page-card reveal" role="listitem" aria-label="Shop Vault Merch">
-          <div class="page-card-icon" aria-hidden="true">&#128084;</div>
+          <i data-lucide="shirt" aria-hidden="true"></i>
           <div class="page-card-title">Merch Store</div>
           <p class="page-card-desc">Rep the Vault. Carhartt long sleeve and hoodie, branded for the culture.</p>
           <span class="page-card-cta">Shop merch &rarr;</span>
         </a>
 
         <a href="petition.html" class="page-card reveal" role="listitem" aria-label="Sign the NJ Cigar Tax Petition">
-          <div class="page-card-icon" aria-hidden="true">&#9995;</div>
+          <i data-lucide="file-signature" aria-hidden="true"></i>
           <div class="page-card-title">Petition</div>
           <p class="page-card-desc">Help cap NJ&rsquo;s 30% cigar tax. Sign the S2569 petition &mdash; it only takes a minute.</p>
           <span class="page-card-cta">Sign now &rarr;</span>
         </a>
 
         <a href="visit.html" class="page-card reveal" role="listitem" aria-label="Visit Us in Pine Brook NJ">
-          <div class="page-card-icon" aria-hidden="true">&#128205;</div>
+          <i data-lucide="map-pin" aria-hidden="true"></i>
           <div class="page-card-title">Visit Us</div>
           <p class="page-card-desc">Pine Brook, NJ &mdash; open Mon&ndash;Sat 12&ndash;7PM. Come introduce yourself.</p>
           <span class="page-card-cta">Get directions &rarr;</span>
@@ -244,5 +245,10 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+  <script>
+    GLightbox({ selector: '.gallery-item', touchNavigation: true, loop: true, zoomable: true });
+    lucide.createIcons();
+  </script>
 </body>
 </html>
