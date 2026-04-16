@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shop The Cigar Vault merch — Carhartt long sleeve and hoodie branded for the culture. Order online and pick up in Pine Brook, NJ.">
+  <meta property="og:title" content="Merch Store | The Cigar Vault">
+  <meta property="og:description" content="Wear the Vault. Carhartt long sleeve and hoodie, exclusively branded for The Cigar Vault community.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.thecigarvaultnj.com/merch.html">
+  <meta property="og:image" content="/assets/AI%20Vault%20Logo.png">
+  <meta property="og:site_name" content="The Cigar Vault">
+  <link rel="canonical" href="https://www.thecigarvaultnj.com/merch.html">
+  <title>Merch Store | The Cigar Vault — Pine Brook, NJ</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/png" href="assets/Profile%20Icon.png">
+</head>
+<body>
+
+  <!-- Age verification gate -->
+  <script src="js/age-verify.js"></script>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+          <img src="assets/Cigar-Vault-Logo-White-Long.png" alt="The Cigar Vault" class="nav-logo">
+        </a>
+
+        <ul class="nav-links" role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="story.html">Our Story</a></li>
+          <li><a href="catalog.html">Our Selection</a></li>
+          <li><a href="merch.html" class="active">Merch</a></li>
+          <li><a href="petition.html">Petition</a></li>
+          <li><a href="visit.html">Visit Us</a></li>
+        </ul>
+
+        <button
+          class="nav-toggle"
+          id="nav-toggle"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+          aria-controls="nav-mobile"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+        <a href="index.html">Home</a>
+        <a href="story.html">Our Story</a>
+        <a href="catalog.html">Our Selection</a>
+        <a href="merch.html" class="active">Merch</a>
+        <a href="petition.html">Petition</a>
+        <a href="visit.html">Visit Us</a>
+      </nav>
+    </div>
+  </nav>
+
+
+  <!-- ===================== MERCH ===================== -->
+  <section id="merch" class="page-section--first" aria-label="Merch Store">
+    <div class="container">
+
+      <header class="section-header reveal">
+        <span class="section-eyebrow">Vault Merch</span>
+        <h1>Wear the Vault</h1>
+        <div class="gold-rule" aria-hidden="true"><span>&#10022;</span></div>
+        <p>Select a piece below and submit your order request. We'll confirm details and availability by email.</p>
+      </header>
+
+      <!-- Product Cards -->
+      <div class="products-grid" role="list" aria-label="Products">
+
+        <article class="product-card reveal" data-product="carhartt-ls" role="listitem" tabindex="0" aria-label="Select The Cigar Vault Carhartt Long Sleeve">
+          <div class="product-img-wrapper">
+            <img src="assets/The%20Cigar%20Vault%20Carhartt%20Long%20Sleeve.png" alt="The Cigar Vault Carhartt Long Sleeve" class="product-img">
+          </div>
+          <div class="product-name">The Cigar Vault Carhartt Long Sleeve</div>
+          <div class="product-price">$89.95</div>
+          <div class="product-sizes">S &nbsp;/&nbsp; M &nbsp;/&nbsp; L &nbsp;/&nbsp; XL &nbsp;/&nbsp; XXL</div>
+          <span class="select-hint">Click to select &rarr;</span>
+        </article>
+
+        <article class="product-card reveal" data-product="carhartt-hoodie" role="listitem" tabindex="0" aria-label="Select The Cigar Vault Carhartt Hoodie">
+          <div class="product-img-wrapper">
+            <img src="assets/The%20Cigar%20Vault%20Carhartt%20Hoody.png" alt="The Cigar Vault Carhartt Hoodie" class="product-img">
+          </div>
+          <div class="product-name">The Cigar Vault Carhartt Hoodie</div>
+          <div class="product-price">$104.95</div>
+          <div class="product-sizes">S &nbsp;/&nbsp; M &nbsp;/&nbsp; L &nbsp;/&nbsp; XL &nbsp;/&nbsp; XXL</div>
+          <span class="select-hint">Click to select &rarr;</span>
+        </article>
+
+      </div><!-- /products-grid -->
+
+
+      <!-- Order Form — handled by Netlify Forms -->
+      <div class="order-form-wrapper reveal" id="order-form">
+        <h3>Place an Order</h3>
+        <p class="form-subtitle">Fill out the form below and we'll get back to you within one business day.</p>
+
+        <form
+          id="merch-form"
+          name="merch-order"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+        >
+          <!-- Netlify hidden fields -->
+          <input type="hidden" name="form-name" value="merch-order">
+          <p style="display:none"><label>Do not fill: <input name="bot-field"></label></p>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="product">Product</label>
+              <select id="product" name="product" required>
+                <option value="carhartt-ls">The Cigar Vault Carhartt Long Sleeve — $89.95</option>
+                <option value="carhartt-hoodie">The Cigar Vault Carhartt Hoodie — $104.95</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="qty">Quantity</label>
+              <input type="number" id="qty" name="quantity" min="1" max="10" value="1" required>
+            </div>
+
+            <div class="form-group">
+              <label for="size">Size</label>
+              <select id="size" name="size" required>
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
+                <option>XL</option>
+                <option>XXL</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="m-name">Your Name</label>
+              <input type="text" id="m-name" name="name" placeholder="First Last" required>
+            </div>
+
+            <div class="form-group">
+              <label for="m-email">Email Address</label>
+              <input type="email" id="m-email" name="email" placeholder="you@email.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="m-phone">Phone (Optional)</label>
+              <input type="tel" id="m-phone" name="phone" placeholder="(201) 555-0100">
+            </div>
+
+            <div class="form-group">
+              <label for="m-notes">Notes (Optional)</label>
+              <input type="text" id="m-notes" name="notes" placeholder="Any special requests?">
+            </div>
+
+            <!-- Hidden price reference for order context -->
+            <input type="hidden" id="price-ref" name="price_reference" value="">
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn btn-primary">Submit Order Request</button>
+          </div>
+          <div id="merch-msg" class="form-message" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ===================== CROSS-LINKS ===================== -->
+  <div class="page-links-section" aria-label="Explore more">
+    <div class="container">
+      <div class="page-links-inner">
+        <span class="page-links-label">Also explore</span>
+        <ul class="page-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="story.html">Our Story</a></li>
+          <li><a href="catalog.html">Our Selection</a></li>
+          <li><a href="petition.html">Petition</a></li>
+          <li><a href="visit.html">Visit Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="assets/Cigar-Vault-Full-Dark-Stacked.png" alt="The Cigar Vault" class="footer-logo">
+        </div>
+
+        <div class="footer-legal">
+          &copy; 2026 Frisky Cigars NJ LLC DBA The Cigar Vault. All rights reserved.<br>
+          You must be 21 or older to purchase tobacco products.
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="index.html">Home</a>
+          <a href="mailto:Thecigarvaultnj@gmail.com">Contact</a>
+          <a href="https://instagram.com/thecigarvaultnj" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="petition.html">Petition</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

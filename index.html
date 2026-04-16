@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Cigar Vault — Pine Brook, NJ. A premium tobacconist where every visit is an experience. Shop merch and sign the NJ cigar tax petition.">
+  <meta name="description" content="The Cigar Vault — Pine Brook, NJ's premier tobacconist. Premium cigars, real conversation, and a community built on passion. Browse our selection, shop merch, and sign the NJ cigar tax petition.">
   <meta property="og:title" content="The Cigar Vault — Pine Brook, NJ">
   <meta property="og:description" content="The Vault is Open. Premium cigars, real conversation, and community in Pine Brook, NJ.">
   <meta property="og:type" content="website">
-  <title>The Cigar Vault — Pine Brook, NJ</title>
+  <meta property="og:url" content="https://www.thecigarvaultnj.com/">
+  <meta property="og:image" content="/assets/AI%20Vault%20Logo.png">
+  <meta property="og:site_name" content="The Cigar Vault">
+  <link rel="canonical" href="https://www.thecigarvaultnj.com/">
+  <title>The Cigar Vault — Pine Brook, NJ | Premium Cigars</title>
 
-  <!-- Google Fonts: Playfair Display + Cormorant Garamond + Lato -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
@@ -26,16 +29,17 @@
   <nav id="navbar" role="navigation" aria-label="Main navigation">
     <div class="container">
       <div class="nav-inner">
-        <a href="#hero" class="nav-brand">
+        <a href="index.html" class="nav-brand">
           <img src="assets/Cigar-Vault-Logo-White-Long.png" alt="The Cigar Vault" class="nav-logo">
         </a>
 
         <ul class="nav-links" role="list">
-          <li><a href="#our-story">Our Story</a></li>
-          <li><a href="catalog.html" style="color:var(--gold)">Our Selection</a></li>
-          <li><a href="#merch">Merch</a></li>
-          <li><a href="#petition">Petition</a></li>
-          <li><a href="#visit">Visit Us</a></li>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="story.html">Our Story</a></li>
+          <li><a href="catalog.html">Our Selection</a></li>
+          <li><a href="merch.html">Merch</a></li>
+          <li><a href="petition.html">Petition</a></li>
+          <li><a href="visit.html">Visit Us</a></li>
         </ul>
 
         <button
@@ -52,11 +56,12 @@
       </div>
 
       <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
-        <a href="#our-story">Our Story</a>
-        <a href="catalog.html" style="color:var(--gold)">Our Selection</a>
-        <a href="#merch">Merch</a>
-        <a href="#petition">Petition</a>
-        <a href="#visit">Visit Us</a>
+        <a href="index.html" class="active">Home</a>
+        <a href="story.html">Our Story</a>
+        <a href="catalog.html">Our Selection</a>
+        <a href="merch.html">Merch</a>
+        <a href="petition.html">Petition</a>
+        <a href="visit.html">Visit Us</a>
       </nav>
     </div>
   </nav>
@@ -65,9 +70,7 @@
   <!-- ===================== HERO ===================== -->
   <section id="hero" aria-label="Hero">
 
-    <!-- Full-bleed logo background (div so background-position: center center works reliably) -->
     <div class="hero-bg-logo" aria-hidden="true"></div>
-    <!-- Dark overlay keeps text readable and suppresses any embedded image text -->
     <div class="hero-overlay" aria-hidden="true"></div>
 
     <div class="hero-corner hero-corner--tl" aria-hidden="true"></div>
@@ -81,400 +84,70 @@
 
       <div class="hero-ctas">
         <a href="catalog.html" class="btn btn-primary">Browse Our Selection</a>
-        <a href="#merch"    class="btn btn-outline">Shop Merch</a>
-        <a href="#petition" class="btn btn-outline">Sign Petition</a>
+        <a href="merch.html"    class="btn btn-outline">Shop Merch</a>
+        <a href="petition.html" class="btn btn-outline">Sign Petition</a>
       </div>
       <p class="hero-browse-note">Browse our selection online &mdash; visit us in store to purchase.</p>
     </div>
   </section>
 
 
-  <!-- ===================== OUR STORY ===================== -->
-  <section id="our-story" aria-label="Our Story">
+  <!-- ===================== INTRO ===================== -->
+  <section id="intro" aria-label="Introduction">
     <div class="container">
-      <div class="story-inner">
-
-        <div class="story-header reveal">
-          <span class="section-eyebrow">Our Story</span>
-          <div class="gold-rule" aria-hidden="true"><span>✦</span></div>
-        </div>
-
-        <!-- Vintage photo -->
-        <div class="story-photo-wrapper reveal">
-          <img
-            src="assets/IMG_9956.JPEG"
-            alt="A baby held by his father in front of tobacco shelves — the beginning of a family legacy in the tobacco business."
-            class="story-photo"
-          >
-          <div class="story-photo-vignette" aria-hidden="true"></div>
-        </div>
-
-        <!-- Two-column: story text left, owner portrait right -->
-        <div class="story-split">
-
-          <div class="story-body reveal">
-            <p class="story-lead">Some things are written before you&rsquo;re old enough to read.</p>
-
-            <p>That photo above is me as a baby, held by my father &mdash; surrounded by tobacco shelves in our family&rsquo;s store. I didn&rsquo;t choose this industry. It chose me before I could walk.</p>
-
-            <p>My father spent decades running gas stations across northern New Jersey. In 2019, he and my uncle added a small humidor to one of the locations in Maywood &mdash; just to see. Within a year that one humidor turned into seventeen. The demand was real, and so was the passion.</p>
-
-            <p>That success led them to something bigger. They opened a wholesale and retail operation right here in Pine Brook &mdash; first under the name Cigar Outlet, with a retail showroom up front and a full wholesale operation in the back. I started working here from day one, learning the craft, learning the business, learning what makes a great cigar and what makes a great experience.</p>
-
-            <p>Then in September 2025, my father and uncle decided to move on. The store went up for sale. I watched offer after offer come in &mdash; lowball after lowball &mdash; and something in me said no. This place deserved better.</p>
-
-            <p>So I bought it. It wasn&rsquo;t cheap. But I call it the price of freedom.</p>
-
-            <p>That&rsquo;s how The Cigar Vault was born. A family story that started in a gas station, built through years of hard work, and now carried forward by someone who grew up in it &mdash; and who shows up every single day because this isn&rsquo;t just a business. It&rsquo;s personal.</p>
-
-            <p class="story-intro-line">My name is Selim, and The Cigar Vault is my life&rsquo;s work. Come in and introduce yourself &mdash; I&rsquo;ll be the one behind the counter.</p>
-
-            <p class="story-closing">Personal. Passionate. Premium.</p>
-          </div>
-
-          <div class="story-portrait-col reveal">
-            <div class="story-portrait-wrapper">
-              <img
-                src="assets/IMG_6389.JPEG"
-                alt="Selim, owner of The Cigar Vault, standing in the store."
-                class="story-portrait"
-              >
-            </div>
-            <p class="story-portrait-caption">Selim &mdash; Owner, The Cigar Vault</p>
-          </div>
-
-        </div>
-
+      <div class="intro-inner reveal">
+        <p class="intro-text">The Cigar Vault is Pine Brook&rsquo;s premier tobacconist &mdash; a place where premium cigars meet real conversation and community. Every visit is an experience. Every cigar has a story.</p>
       </div>
     </div>
   </section>
 
 
-  <!-- ===================== MERCH ===================== -->
-  <section id="merch" aria-label="Merch Store">
+  <!-- ===================== EXPLORE ===================== -->
+  <section id="explore" aria-label="Explore The Vault">
     <div class="container">
 
       <header class="section-header reveal">
-        <span class="section-eyebrow">Vault Merch</span>
-        <h2>Wear the Vault</h2>
-        <div class="gold-rule" aria-hidden="true"><span>✦</span></div>
-        <p>Select a piece below and submit your order request. We'll confirm details and availability by email.</p>
+        <span class="section-eyebrow">Everything in One Place</span>
+        <h2>Explore The Vault</h2>
+        <div class="gold-rule" aria-hidden="true"><span>&#10022;</span></div>
       </header>
 
-      <!-- Product Cards -->
-      <div class="products-grid" role="list" aria-label="Products">
+      <div class="page-cards" role="list">
 
-        <article class="product-card reveal" data-product="carhartt-ls" role="listitem" tabindex="0" aria-label="Select The Cigar Vault Carhartt Long Sleeve">
-          <div class="product-img-wrapper">
-            <img src="assets/The%20Cigar%20Vault%20Carhartt%20Long%20Sleeve.png" alt="The Cigar Vault Carhartt Long Sleeve" class="product-img">
-          </div>
-          <div class="product-name">The Cigar Vault Carhartt Long Sleeve</div>
-          <div class="product-price">$89.95</div>
-          <div class="product-sizes">S &nbsp;/&nbsp; M &nbsp;/&nbsp; L &nbsp;/&nbsp; XL &nbsp;/&nbsp; XXL</div>
-          <span class="select-hint">Click to select →</span>
-        </article>
+        <a href="story.html" class="page-card reveal" role="listitem" aria-label="Read Our Story">
+          <div class="page-card-icon" aria-hidden="true">&#128218;</div>
+          <div class="page-card-title">Our Story</div>
+          <p class="page-card-desc">A family legacy in tobacco &mdash; from a gas-station humidor to The Cigar Vault.</p>
+          <span class="page-card-cta">Read the story &rarr;</span>
+        </a>
 
-        <article class="product-card reveal" data-product="carhartt-hoodie" role="listitem" tabindex="0" aria-label="Select The Cigar Vault Carhartt Hoodie">
-          <div class="product-img-wrapper">
-            <img src="assets/The%20Cigar%20Vault%20Carhartt%20Hoody.png" alt="The Cigar Vault Carhartt Hoodie" class="product-img">
-          </div>
-          <div class="product-name">The Cigar Vault Carhartt Hoodie</div>
-          <div class="product-price">$104.95</div>
-          <div class="product-sizes">S &nbsp;/&nbsp; M &nbsp;/&nbsp; L &nbsp;/&nbsp; XL &nbsp;/&nbsp; XXL</div>
-          <span class="select-hint">Click to select →</span>
-        </article>
+        <a href="catalog.html" class="page-card reveal" role="listitem" aria-label="Browse Our Selection">
+          <div class="page-card-icon" aria-hidden="true">&#128687;</div>
+          <div class="page-card-title">Our Selection</div>
+          <p class="page-card-desc">Browse the full humidor &mdash; singles and boxes from the world&rsquo;s top brands.</p>
+          <span class="page-card-cta">View catalog &rarr;</span>
+        </a>
 
-      </div><!-- /products-grid -->
+        <a href="merch.html" class="page-card reveal" role="listitem" aria-label="Shop Vault Merch">
+          <div class="page-card-icon" aria-hidden="true">&#128084;</div>
+          <div class="page-card-title">Merch Store</div>
+          <p class="page-card-desc">Rep the Vault. Carhartt long sleeve and hoodie, branded for the culture.</p>
+          <span class="page-card-cta">Shop merch &rarr;</span>
+        </a>
 
+        <a href="petition.html" class="page-card reveal" role="listitem" aria-label="Sign the NJ Cigar Tax Petition">
+          <div class="page-card-icon" aria-hidden="true">&#9995;</div>
+          <div class="page-card-title">Petition</div>
+          <p class="page-card-desc">Help cap NJ&rsquo;s 30% cigar tax. Sign the S2569 petition &mdash; it only takes a minute.</p>
+          <span class="page-card-cta">Sign now &rarr;</span>
+        </a>
 
-      <!-- Order Form — handled by Netlify Forms -->
-      <div class="order-form-wrapper reveal" id="order-form">
-        <h3>Place an Order</h3>
-        <p class="form-subtitle">Fill out the form below and we'll get back to you within one business day.</p>
-
-        <form
-          id="merch-form"
-          name="merch-order"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-        >
-          <!-- Netlify hidden fields -->
-          <input type="hidden" name="form-name" value="merch-order">
-          <p style="display:none"><label>Do not fill: <input name="bot-field"></label></p>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="product">Product</label>
-              <select id="product" name="product" required>
-                <option value="carhartt-ls">The Cigar Vault Carhartt Long Sleeve — $89.95</option>
-                <option value="carhartt-hoodie">The Cigar Vault Carhartt Hoodie — $104.95</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="qty">Quantity</label>
-              <input type="number" id="qty" name="quantity" min="1" max="10" value="1" required>
-            </div>
-
-            <div class="form-group">
-              <label for="size">Size</label>
-              <select id="size" name="size" required>
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
-                <option>XXL</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="m-name">Your Name</label>
-              <input type="text" id="m-name" name="name" placeholder="First Last" required>
-            </div>
-
-            <div class="form-group">
-              <label for="m-email">Email Address</label>
-              <input type="email" id="m-email" name="email" placeholder="you@email.com" required>
-            </div>
-
-            <div class="form-group">
-              <label for="m-phone">Phone (Optional)</label>
-              <input type="tel" id="m-phone" name="phone" placeholder="(201) 555-0100">
-            </div>
-
-            <div class="form-group">
-              <label for="m-notes">Notes (Optional)</label>
-              <input type="text" id="m-notes" name="notes" placeholder="Any special requests?">
-            </div>
-
-            <!-- Hidden price reference for order context -->
-            <input type="hidden" id="price-ref" name="price_reference" value="">
-          </div>
-
-          <div class="form-submit">
-            <button type="submit" class="btn btn-primary">Submit Order Request</button>
-          </div>
-          <div id="merch-msg" class="form-message" role="status" aria-live="polite"></div>
-        </form>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ===================== NJ TAX PETITION ===================== -->
-  <section id="petition" aria-label="NJ Cigar Tax Petition">
-    <div class="container">
-      <div class="petition-layout">
-
-        <!-- Context -->
-        <div class="petition-context reveal">
-          <span class="section-eyebrow">Take Action</span>
-          <h2>Help Fix NJ's Cigar Tax</h2>
-          <div class="gold-rule" style="margin-left:0; justify-content:flex-start;" aria-hidden="true"><span>✦</span></div>
-
-          <p>
-            New Jersey currently taxes premium cigars at <strong>30% of the wholesale price</strong>&nbsp;—
-            one of the highest rates in the nation. This punishes independent retailers and drives
-            loyal customers across state lines to shop elsewhere.
-          </p>
-
-          <div class="petition-stat">
-            <span class="stat-number">30%</span>
-            <span class="stat-label">Current NJ Wholesale Tax on Cigars</span>
-          </div>
-
-          <p>
-            <strong><a href="https://legiscan.com/NJ/text/S2569/id/2922157" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px;">NJ Senate Bill S2569</a></strong> would cap the cigar tax at
-            <strong>$0.50 per cigar</strong>&nbsp;— a fair, predictable rate that protects consumers,
-            keeps local tobacconists in business, and brings New Jersey in line with
-            states that respect the premium cigar community.
-          </p>
-
-          <p>
-            <strong>Eleven states</strong> across the country are currently pushing for this
-            exact reform. <strong>Louisiana has already passed it.</strong>
-            It's time New Jersey followed.
-          </p>
-
-          <div class="petition-stat">
-            <span class="stat-number">11</span>
-            <span class="stat-label">States Currently Pursuing Cigar Tax Reform</span>
-          </div>
-
-          <p style="margin-top:1.5rem; font-style:italic; color:var(--cream-muted); font-size:1rem;">
-            Your signature sends a message to Trenton: New Jersey cigar lovers are here,
-            we are organized, and we vote.
-          </p>
-        </div>
-
-        <!-- Petition Form — handled by Netlify Forms -->
-        <div class="petition-form-wrapper reveal">
-          <h3>Sign the Petition</h3>
-          <p class="form-subtitle">Let Trenton know where NJ cigar lovers stand.</p>
-
-          <form
-            id="petition-form"
-            name="nj-petition"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
-          >
-            <input type="hidden" name="form-name" value="nj-petition">
-            <p style="display:none"><label>Do not fill: <input name="bot-field"></label></p>
-
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="p-first">First Name</label>
-                <input type="text" id="p-first" name="first_name" required>
-              </div>
-
-              <div class="form-group">
-                <label for="p-last">Last Name</label>
-                <input type="text" id="p-last" name="last_name" required>
-              </div>
-
-              <div class="form-group">
-                <label for="p-email">Email Address</label>
-                <input type="email" id="p-email" name="email" required>
-              </div>
-
-              <div class="form-group">
-                <label for="p-zip">NJ ZIP Code</label>
-                <input
-                  type="text"
-                  id="p-zip"
-                  name="nj_zip"
-                  pattern="[0-9]{5}"
-                  maxlength="5"
-                  placeholder="07058"
-                  required
-                >
-              </div>
-
-              <div class="form-group full">
-                <label>I am a:</label>
-                <div class="radio-group">
-                  <label class="radio-option">
-                    <input type="radio" name="role" value="Consumer" checked> Consumer
-                  </label>
-                  <label class="radio-option">
-                    <input type="radio" name="role" value="Retailer"> Retailer
-                  </label>
-                  <label class="radio-option">
-                    <input type="radio" name="role" value="Both"> Both
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group full">
-                <label for="p-msg">Message (Optional)</label>
-                <textarea
-                  id="p-msg"
-                  name="message"
-                  placeholder="Tell us why this matters to you, or share a message for legislators&#8230;"
-                ></textarea>
-              </div>
-            </div>
-
-            <div class="form-submit">
-              <button type="submit" class="btn btn-teal">Sign the Petition</button>
-            </div>
-            <div id="petition-msg" class="form-message" role="status" aria-live="polite"></div>
-          </form>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ===================== VISIT US ===================== -->
-  <section id="visit" aria-label="Visit Us">
-    <div class="container">
-      <div class="visit-layout">
-
-        <div class="visit-info reveal">
-          <span class="section-eyebrow">Find Us</span>
-          <h2>Visit The Vault</h2>
-          <div class="gold-rule" style="margin-left:0; justify-content:flex-start;" aria-hidden="true"><span>✦</span></div>
-
-          <div class="info-block">
-            <div class="info-label">Location</div>
-            <p>Pine Brook, New Jersey 07058</p>
-          </div>
-
-          <div class="info-block">
-            <div class="info-label">Hours</div>
-            <table class="hours-table" aria-label="Store hours">
-              <tbody>
-                <tr><td>Monday</td>    <td>12PM – 7PM</td></tr>
-                <tr><td>Tuesday</td>   <td>12PM – 7PM</td></tr>
-                <tr><td>Wednesday</td> <td>12PM – 7PM</td></tr>
-                <tr><td>Thursday</td>  <td>12PM – 7PM</td></tr>
-                <tr><td>Friday</td>    <td>12PM – 7PM</td></tr>
-                <tr><td>Saturday</td>  <td>12PM – 7PM</td></tr>
-                <tr><td>Sunday</td>    <td>Closed</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="info-block">
-            <div class="info-label">Follow Along</div>
-            <a
-              href="https://instagram.com/thecigarvaultnj"
-              class="instagram-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="The Cigar Vault on Instagram"
-            >
-              <!-- Instagram icon -->
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-              @thecigarvaultnj
-            </a>
-          </div>
-
-          <div class="info-block">
-            <div class="info-label">Email</div>
-            <a href="mailto:Thecigarvaultnj@gmail.com" style="color:var(--cream-muted); font-size:1rem;">
-              Thecigarvaultnj@gmail.com
-            </a>
-          </div>
-
-          <div class="browse-callout">
-            <div class="info-label">Our Selection</div>
-            <p class="browse-callout-text">
-              Browse our full cigar inventory online before you visit &mdash; see what's in the humidor and plan your visit.
-              <strong>All purchases are made in store.</strong>
-            </p>
-            <a
-              href="https://thecigarvaultnj.cloveronline.com"
-              class="btn btn-teal"
-              target="_blank"
-              rel="noopener noreferrer"
-              style="margin-top:1rem;"
-            >Browse Our Cigars &rarr;</a>
-          </div>
-        </div>
-
-        <div class="reveal">
-          <div class="map-card">
-            <div class="map-pin" aria-hidden="true">📍</div>
-            <div class="map-card-location">
-              <strong>The Cigar Vault</strong>
-              <span>Pine Brook, NJ 07058</span>
-            </div>
-            <a
-              href="https://www.google.com/maps/search/?api=1&amp;query=The+Cigar+Vault+101+US-46+Pine+Brook+NJ+07058"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn btn-primary"
-            >Get Directions</a>
-          </div>
-        </div>
+        <a href="visit.html" class="page-card reveal" role="listitem" aria-label="Visit Us in Pine Brook NJ">
+          <div class="page-card-icon" aria-hidden="true">&#128205;</div>
+          <div class="page-card-title">Visit Us</div>
+          <p class="page-card-desc">Pine Brook, NJ &mdash; open Mon&ndash;Sat 12&ndash;7PM. Come introduce yourself.</p>
+          <span class="page-card-cta">Get directions &rarr;</span>
+        </a>
 
       </div>
     </div>
@@ -497,7 +170,7 @@
         <nav class="footer-nav" aria-label="Footer navigation">
           <a href="mailto:Thecigarvaultnj@gmail.com">Contact</a>
           <a href="https://instagram.com/thecigarvaultnj" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="#petition">Petition</a>
+          <a href="petition.html">Petition</a>
         </nav>
       </div>
     </div>

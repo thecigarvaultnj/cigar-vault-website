@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign the NJ cigar tax petition. Senate Bill S2569 would cap New Jersey's 30% cigar tax at $0.50 per cigar. Add your voice — your signature goes to Trenton.">
+  <meta property="og:title" content="Sign the NJ Cigar Tax Petition | The Cigar Vault">
+  <meta property="og:description" content="NJ taxes premium cigars at 30% — one of the highest rates in the nation. S2569 would cap it at $0.50 per cigar. Sign the petition and let Trenton know where NJ stands.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.thecigarvaultnj.com/petition.html">
+  <meta property="og:image" content="/assets/AI%20Vault%20Logo.png">
+  <meta property="og:site_name" content="The Cigar Vault">
+  <link rel="canonical" href="https://www.thecigarvaultnj.com/petition.html">
+  <title>Sign the NJ Cigar Tax Petition | The Cigar Vault — Pine Brook, NJ</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/png" href="assets/Profile%20Icon.png">
+</head>
+<body>
+
+  <!-- Age verification gate -->
+  <script src="js/age-verify.js"></script>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+          <img src="assets/Cigar-Vault-Logo-White-Long.png" alt="The Cigar Vault" class="nav-logo">
+        </a>
+
+        <ul class="nav-links" role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="story.html">Our Story</a></li>
+          <li><a href="catalog.html">Our Selection</a></li>
+          <li><a href="merch.html">Merch</a></li>
+          <li><a href="petition.html" class="active">Petition</a></li>
+          <li><a href="visit.html">Visit Us</a></li>
+        </ul>
+
+        <button
+          class="nav-toggle"
+          id="nav-toggle"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+          aria-controls="nav-mobile"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+        <a href="index.html">Home</a>
+        <a href="story.html">Our Story</a>
+        <a href="catalog.html">Our Selection</a>
+        <a href="merch.html">Merch</a>
+        <a href="petition.html" class="active">Petition</a>
+        <a href="visit.html">Visit Us</a>
+      </nav>
+    </div>
+  </nav>
+
+
+  <!-- ===================== NJ TAX PETITION ===================== -->
+  <section id="petition" class="page-section--first" aria-label="NJ Cigar Tax Petition">
+    <div class="container">
+      <div class="petition-layout">
+
+        <!-- Context -->
+        <div class="petition-context reveal">
+          <span class="section-eyebrow">Take Action</span>
+          <h1>Help Fix NJ's Cigar Tax</h1>
+          <div class="gold-rule" style="margin-left:0; justify-content:flex-start;" aria-hidden="true"><span>&#10022;</span></div>
+
+          <p>
+            New Jersey currently taxes premium cigars at <strong>30% of the wholesale price</strong>&nbsp;&mdash;
+            one of the highest rates in the nation. This punishes independent retailers and drives
+            loyal customers across state lines to shop elsewhere.
+          </p>
+
+          <div class="petition-stat">
+            <span class="stat-number">30%</span>
+            <span class="stat-label">Current NJ Wholesale Tax on Cigars</span>
+          </div>
+
+          <p>
+            <strong><a href="https://legiscan.com/NJ/text/S2569/id/2922157" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px;">NJ Senate Bill S2569</a></strong> would cap the cigar tax at
+            <strong>$0.50 per cigar</strong>&nbsp;&mdash; a fair, predictable rate that protects consumers,
+            keeps local tobacconists in business, and brings New Jersey in line with
+            states that respect the premium cigar community.
+          </p>
+
+          <p>
+            <strong>Eleven states</strong> across the country are currently pushing for this
+            exact reform. <strong>Louisiana has already passed it.</strong>
+            It&rsquo;s time New Jersey followed.
+          </p>
+
+          <div class="petition-stat">
+            <span class="stat-number">11</span>
+            <span class="stat-label">States Currently Pursuing Cigar Tax Reform</span>
+          </div>
+
+          <p style="margin-top:1.5rem; font-style:italic; color:var(--cream-muted); font-size:1rem;">
+            Your signature sends a message to Trenton: New Jersey cigar lovers are here,
+            we are organized, and we vote.
+          </p>
+        </div>
+
+        <!-- Petition Form — handled by Netlify Forms -->
+        <div class="petition-form-wrapper reveal">
+          <h3>Sign the Petition</h3>
+          <p class="form-subtitle">Let Trenton know where NJ cigar lovers stand.</p>
+
+          <form
+            id="petition-form"
+            name="nj-petition"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+          >
+            <input type="hidden" name="form-name" value="nj-petition">
+            <p style="display:none"><label>Do not fill: <input name="bot-field"></label></p>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="p-first">First Name</label>
+                <input type="text" id="p-first" name="first_name" required>
+              </div>
+
+              <div class="form-group">
+                <label for="p-last">Last Name</label>
+                <input type="text" id="p-last" name="last_name" required>
+              </div>
+
+              <div class="form-group">
+                <label for="p-email">Email Address</label>
+                <input type="email" id="p-email" name="email" required>
+              </div>
+
+              <div class="form-group">
+                <label for="p-zip">NJ ZIP Code</label>
+                <input
+                  type="text"
+                  id="p-zip"
+                  name="nj_zip"
+                  pattern="[0-9]{5}"
+                  maxlength="5"
+                  placeholder="07058"
+                  required
+                >
+              </div>
+
+              <div class="form-group full">
+                <label>I am a:</label>
+                <div class="radio-group">
+                  <label class="radio-option">
+                    <input type="radio" name="role" value="Consumer" checked> Consumer
+                  </label>
+                  <label class="radio-option">
+                    <input type="radio" name="role" value="Retailer"> Retailer
+                  </label>
+                  <label class="radio-option">
+                    <input type="radio" name="role" value="Both"> Both
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group full">
+                <label for="p-msg">Message (Optional)</label>
+                <textarea
+                  id="p-msg"
+                  name="message"
+                  placeholder="Tell us why this matters to you, or share a message for legislators&#8230;"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn btn-teal">Sign the Petition</button>
+            </div>
+            <div id="petition-msg" class="form-message" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== CROSS-LINKS ===================== -->
+  <div class="page-links-section" aria-label="Explore more">
+    <div class="container">
+      <div class="page-links-inner">
+        <span class="page-links-label">Also explore</span>
+        <ul class="page-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="merch.html">Merch Store</a></li>
+          <li><a href="catalog.html">Our Selection</a></li>
+          <li><a href="visit.html">Visit Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="assets/Cigar-Vault-Full-Dark-Stacked.png" alt="The Cigar Vault" class="footer-logo">
+        </div>
+
+        <div class="footer-legal">
+          &copy; 2026 Frisky Cigars NJ LLC DBA The Cigar Vault. All rights reserved.<br>
+          You must be 21 or older to purchase tobacco products.
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="index.html">Home</a>
+          <a href="mailto:Thecigarvaultnj@gmail.com">Contact</a>
+          <a href="https://instagram.com/thecigarvaultnj" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="petition.html">Petition</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
