@@ -116,54 +116,28 @@
         <div class="gold-rule" aria-hidden="true"><span>&#10022;</span></div>
       </header>
 
-      <!-- Featured storefront — full width, eager load -->
-      <figure class="gallery-featured reveal">
-        <img
-          src="assets/photos/storefront.jpg"
-          alt="The Cigar Vault storefront in Pine Brook, NJ"
-          width="1536"
-          height="2048"
-        >
-      </figure>
+      <div class="hero-gallery reveal">
 
-      <!-- 2×2 interior grid with lightbox -->
-      <div class="gallery-grid">
-        <a class="gallery-item reveal" href="assets/photos/interior-counter.jpg" data-gallery="vault-gallery" aria-label="View: The service counter at The Cigar Vault">
+        <!-- Visible hero: storefront — clicking opens the full carousel -->
+        <a class="gallery-item gallery-hero" href="assets/photos/storefront.jpg" data-gallery="store" aria-label="Open photo gallery — The Cigar Vault in Pine Brook, NJ">
           <img
-            src="assets/photos/interior-counter.jpg"
-            alt="The service counter inside The Cigar Vault, Pine Brook NJ"
-            loading="lazy"
-            width="2048"
-            height="1536"
+            src="assets/photos/storefront.jpg"
+            alt="The Cigar Vault storefront in Pine Brook, NJ"
+            width="1536"
+            height="2048"
           >
+          <div class="gallery-overlay" aria-hidden="true">
+            <i data-lucide="expand"></i>
+            <span>VIEW GALLERY</span>
+          </div>
         </a>
-        <a class="gallery-item reveal" href="assets/photos/interior-aisle.jpg" data-gallery="vault-gallery" aria-label="View: Cigar display aisle at The Cigar Vault">
-          <img
-            src="assets/photos/interior-aisle.jpg"
-            alt="Cigar display aisle inside The Cigar Vault"
-            loading="lazy"
-            width="2048"
-            height="1536"
-          >
-        </a>
-        <a class="gallery-item reveal" href="assets/photos/humidor-wide.jpg" data-gallery="vault-gallery" aria-label="View: Premium cigar humidor at The Cigar Vault">
-          <img
-            src="assets/photos/humidor-wide.jpg"
-            alt="Premium cigar humidor selection at The Cigar Vault"
-            loading="lazy"
-            width="2048"
-            height="1536"
-          >
-        </a>
-        <a class="gallery-item reveal" href="assets/photos/back-display.jpg" data-gallery="vault-gallery" aria-label="View: Back wall cigar display at The Cigar Vault">
-          <img
-            src="assets/photos/back-display.jpg"
-            alt="Back wall cigar display at The Cigar Vault, Pine Brook NJ"
-            loading="lazy"
-            width="2048"
-            height="1536"
-          >
-        </a>
+
+        <!-- Hidden anchors — present in DOM so GLightbox cycles all 5 photos -->
+        <a class="gallery-item" href="assets/photos/interior-counter.jpg" data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
+        <a class="gallery-item" href="assets/photos/interior-aisle.jpg"   data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
+        <a class="gallery-item" href="assets/photos/humidor-wide.jpg"     data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
+        <a class="gallery-item" href="assets/photos/back-display.jpg"     data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
+
       </div>
 
     </div>
@@ -247,7 +221,7 @@
   <script src="js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
   <script>
-    GLightbox({ selector: '.gallery-item', touchNavigation: true, loop: true, zoomable: true });
+    GLightbox({ selector: '[data-gallery="store"]', touchNavigation: true, loop: true, zoomable: true });
     lucide.createIcons();
   </script>
 </body>
