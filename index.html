@@ -17,11 +17,10 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link rel="icon" type="image/png" href="assets/Profile%20Icon.png">
   <script type="application/ld+json">
   {
@@ -61,7 +60,7 @@
   }
   </script>
 </head>
-<body>
+<body class="home-page">
 
   <!-- Age verification gate — must be first in body so it renders before any content -->
   <script src="js/age-verify.js"></script>
@@ -78,6 +77,7 @@
           <li><a href="index.html" class="active">Home</a></li>
           <li><a href="story.html">Our Story</a></li>
           <li><a href="catalog.html">Our Selection</a></li>
+          <li><a href="open-vault.html">Open Vault</a></li>
           <li><a href="merch.html">Merch</a></li>
           <li><a href="petition.html">Petition</a></li>
           <li><a href="visit.html">Visit Us</a></li>
@@ -100,6 +100,7 @@
         <a href="index.html" class="active">Home</a>
         <a href="story.html">Our Story</a>
         <a href="catalog.html">Our Selection</a>
+        <a href="open-vault.html">Open Vault</a>
         <a href="merch.html">Merch</a>
         <a href="petition.html">Petition</a>
         <a href="visit.html">Visit Us</a>
@@ -108,127 +109,156 @@
   </nav>
 
 
-  <!-- ===================== HERO ===================== -->
-  <section id="hero" aria-label="Hero">
+  <!-- ===================== HERO (CINEMATIC) ===================== -->
+  <section class="home-hero" aria-label="The Cigar Vault — Pine Brook, NJ">
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      playsinline
+      preload="metadata"
+      poster="assets/photos/vault-open-hero.jpg"
+      aria-hidden="true">
+      <source src="assets/photos/vault-opening.mp4" type="video/mp4">
+      <img src="assets/photos/vault-open-hero.jpg" alt="The Cigar Vault — open humidor revealing cigars on warm wooden shelves">
+    </video>
+    <div class="home-hero-overlay" aria-hidden="true"></div>
+    <div class="home-hero-stage" aria-hidden="true"></div>
 
-    <div class="hero-bg-logo" aria-hidden="true"></div>
-    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="home-hero-content">
+      <span class="home-hero-eyebrow">Pine Brook &middot; New Jersey</span>
+      <h1 class="home-hero-wordmark">The Cigar <em>Vault</em></h1>
+      <div class="home-hero-rule" aria-hidden="true"></div>
+      <p class="home-hero-tagline">A boutique humidor, run by hand, kept the way cigars deserve.</p>
+    </div>
 
-    <div class="hero-corner hero-corner--tl" aria-hidden="true"></div>
-    <div class="hero-corner hero-corner--tr" aria-hidden="true"></div>
-    <div class="hero-corner hero-corner--bl" aria-hidden="true"></div>
-    <div class="hero-corner hero-corner--br" aria-hidden="true"></div>
+    <a href="#md-callout" class="home-hero-scroll" aria-label="Scroll to content">
+      <span aria-hidden="true">&#x2193;</span>
+    </a>
+  </section>
 
-    <div class="hero-content">
-      <h1 class="hero-tagline">The Vault is Open</h1>
-      <p class="hero-location">Pine Brook &nbsp;·&nbsp; New Jersey</p>
 
-      <div class="hero-ctas">
-        <a href="catalog.html" class="btn btn-primary">Browse Our Selection</a>
-        <a href="merch.html"    class="btn btn-outline">Shop Merch</a>
-        <a href="petition.html" class="btn btn-outline">Sign Petition</a>
-      </div>
-      <p class="hero-browse-note">Browse our selection online &mdash; visit us in store to purchase.</p>
+  <!-- MEMORIAL DAY HOME CALLOUT — REMOVE AFTER MAY 25, 2026 -->
+  <a href="open-vault.html" class="md-home-callout" id="md-callout">
+    <span class="md-home-callout-text">The Memorial Day Open Vault is now reserving</span>
+    <span class="md-home-callout-sep" aria-hidden="true">&middot;</span>
+    <span class="md-home-callout-dates">May 22&ndash;25</span>
+    <span class="md-home-callout-arrow" aria-hidden="true">&rarr;</span>
+  </a>
+  <!-- /MEMORIAL DAY HOME CALLOUT -->
+
+
+  <!-- ===================== EDITORIAL: THE SELECTION ===================== -->
+  <section class="ed-section" aria-label="The Selection">
+    <div class="ed-inner reveal">
+      <span class="ed-eyebrow">The Selection</span>
+      <h2 class="ed-heading">Names worth knowing the factory of</h2>
+      <div class="ed-rule" aria-hidden="true"></div>
+      <p class="ed-body">Padron, Liga Privada, Arturo Fuente, Ashton, Montecristo, My Father, Drew Estate. Brands smoked by people who care <em>which factory rolled them</em>. Browse the full catalog.</p>
+      <a href="catalog.html" class="ed-link">Explore the catalog &rarr;</a>
     </div>
   </section>
 
 
-  <!-- ===================== INTRO ===================== -->
-  <section id="intro" aria-label="Introduction">
-    <div class="container">
-      <div class="intro-inner reveal">
-        <p class="intro-text">Pine Brook&rsquo;s home for premium cigars &mdash; built on real conversation, honest recommendations, and the kind of service you can&rsquo;t get online. Walk in. Take your time. Find your cigar.</p>
-      </div>
+  <!-- ===================== EDITORIAL: THE STORY ===================== -->
+  <section class="ed-section ed-section--alt" aria-label="The Story">
+    <div class="ed-inner reveal">
+      <span class="ed-eyebrow">The Story</span>
+      <h2 class="ed-heading">From a 1,200-cigar humidor to a Pine Brook fixture</h2>
+      <div class="ed-rule" aria-hidden="true"></div>
+      <p class="ed-body">How a 1,200-cigar humidor became a Pine Brook fixture. <em>The acquisition, the rebuild, the philosophy.</em></p>
+      <a href="story.html" class="ed-link">Read the story &rarr;</a>
     </div>
   </section>
 
 
-  <!-- ===================== GALLERY ===================== -->
-  <section id="gallery" aria-label="Step Into The Vault">
-    <div class="container">
-
-      <header class="section-header reveal">
-        <span class="section-eyebrow">The Vault in Person</span>
-        <h2>Step Into The Vault</h2>
-        <div class="gold-rule" aria-hidden="true"><span>&#10022;</span></div>
-      </header>
-
-      <div class="hero-gallery reveal">
-
-        <!-- Visible hero: storefront — clicking opens the full carousel -->
-        <a class="gallery-item gallery-hero" href="assets/photos/storefront.jpg" data-gallery="store" aria-label="Open photo gallery — The Cigar Vault in Pine Brook, NJ">
-          <img
-            src="assets/photos/storefront.jpg"
-            alt="The Cigar Vault storefront in Pine Brook, NJ"
-            width="1536"
-            height="2048"
-          >
-          <div class="gallery-overlay" aria-hidden="true">
-            <i data-lucide="expand"></i>
-            <span>VIEW GALLERY</span>
-          </div>
-        </a>
-
-        <!-- Hidden anchors — present in DOM so GLightbox cycles all 5 photos -->
-        <a class="gallery-item" href="assets/photos/interior-counter.jpg" data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
-        <a class="gallery-item" href="assets/photos/interior-aisle.jpg"   data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
-        <a class="gallery-item" href="assets/photos/humidor-wide.jpg"     data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
-        <a class="gallery-item" href="assets/photos/back-display.jpg"     data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
-
-      </div>
-
+  <!-- ===================== EDITORIAL: VISIT US ===================== -->
+  <section class="ed-section" aria-label="Visit Us">
+    <div class="ed-inner reveal">
+      <span class="ed-eyebrow">Visit Us</span>
+      <h2 class="ed-heading">101 US Highway 46, Unit 131</h2>
+      <div class="ed-rule" aria-hidden="true"></div>
+      <p class="ed-body">Open daily 12 to 7. Plenty of parking. <em>Pull up a chair.</em></p>
+      <a href="visit.html" class="ed-link">Plan your visit &rarr;</a>
     </div>
   </section>
 
 
-  <!-- ===================== EXPLORE ===================== -->
-  <section id="explore" aria-label="Explore The Vault">
-    <div class="container">
+  <!-- ===================== STEP INTO THE VAULT (GALLERY) ===================== -->
+  <section class="ed-section ed-section--alt ed-section--gallery" aria-label="Step Into The Vault">
+    <div class="ed-inner reveal">
+      <span class="ed-eyebrow">Step Inside</span>
+      <h2 class="ed-heading">The Vault in person</h2>
+      <div class="ed-rule" aria-hidden="true"></div>
+    </div>
+    <div class="hero-gallery reveal">
+      <a class="gallery-hero" href="assets/photos/storefront.jpg" data-gallery="store" aria-label="Open photo gallery &mdash; The Cigar Vault in Pine Brook, NJ">
+        <img
+          src="assets/photos/storefront.jpg"
+          alt="The Cigar Vault storefront in Pine Brook, NJ"
+          width="1536"
+          height="2048"
+          loading="lazy"
+        >
+        <div class="gallery-overlay" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h6v6"></path>
+            <path d="M9 21H3v-6"></path>
+            <path d="M21 3l-7 7"></path>
+            <path d="M3 21l7-7"></path>
+          </svg>
+          <span>View Gallery</span>
+        </div>
+      </a>
+      <!-- Hidden anchors so GLightbox cycles through all 5 photos -->
+      <a class="gallery-item-hidden" href="assets/photos/interior-counter.jpg" data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
+      <a class="gallery-item-hidden" href="assets/photos/interior-aisle.jpg"   data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
+      <a class="gallery-item-hidden" href="assets/photos/humidor-wide.jpg"     data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
+      <a class="gallery-item-hidden" href="assets/photos/back-display.jpg"     data-gallery="store" style="display:none" aria-hidden="true" tabindex="-1"></a>
+    </div>
+  </section>
 
-      <header class="section-header reveal">
-        <span class="section-eyebrow">Everything in One Place</span>
-        <h2>Explore The Vault</h2>
-        <div class="gold-rule" aria-hidden="true"><span>&#10022;</span></div>
-      </header>
 
-      <div class="page-cards" role="list">
+  <!-- ===================== VOICES (REVIEWS) ===================== -->
+  <section class="ed-section ed-section--reviews" aria-label="Customer Reviews">
+    <div class="ed-inner reveal">
+      <span class="ed-eyebrow">What People Say</span>
+      <h2 class="ed-heading">Voices from the humidor</h2>
+      <div class="ed-rule" aria-hidden="true"></div>
+    </div>
+    <div class="ed-reviews">
+      <figure class="ed-review reveal">
+        <div class="ed-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote class="ed-review-text">It&rsquo;s as if I found the Holy Grail of cigar shops. Selim, the tobacconist who runs and owns the shop, is a gentleman. He&rsquo;s extremely knowledgeable about his stock and accommodating to all your cigar needs. I feel like I stepped into Nirvana each time I walk into his cigar haven.</blockquote>
+        <figcaption class="ed-review-author">Blaine Rothauser</figcaption>
+      </figure>
 
-        <a href="story.html" class="page-card reveal" role="listitem" aria-label="Read Our Story">
-          <i data-lucide="book-open" aria-hidden="true"></i>
-          <div class="page-card-title">Our Story</div>
-          <p class="page-card-desc">A family legacy in tobacco &mdash; from a gas-station humidor to The Cigar Vault.</p>
-          <span class="page-card-cta">Read the story &rarr;</span>
-        </a>
+      <figure class="ed-review reveal">
+        <div class="ed-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote class="ed-review-text">Came here looking for a great gift for my partner and left completely blown away. As someone who knows little to nothing about cigars, they took the time to ask about my partner&rsquo;s preferences and guided me to the perfect selection without any pressure.</blockquote>
+        <figcaption class="ed-review-author">Breanna Savi&ntilde;on</figcaption>
+      </figure>
 
-        <a href="catalog.html" class="page-card reveal" role="listitem" aria-label="Browse Our Selection">
-          <i data-lucide="cigarette" aria-hidden="true"></i>
-          <div class="page-card-title">Our Selection</div>
-          <p class="page-card-desc">Browse the full humidor &mdash; singles and boxes from the world&rsquo;s top brands.</p>
-          <span class="page-card-cta">View catalog &rarr;</span>
-        </a>
+      <figure class="ed-review reveal">
+        <div class="ed-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote class="ed-review-text">A true gem of a cigar shop. The owner is extremely knowledgeable and helpful. Got some of the best quality and prices around.</blockquote>
+        <figcaption class="ed-review-author">Edwin Rodriguez</figcaption>
+      </figure>
 
-        <a href="merch.html" class="page-card reveal" role="listitem" aria-label="Shop Vault Merch">
-          <i data-lucide="shirt" aria-hidden="true"></i>
-          <div class="page-card-title">Merch Store</div>
-          <p class="page-card-desc">Rep the Vault. Carhartt long sleeve and hoodie, branded for the culture.</p>
-          <span class="page-card-cta">Shop merch &rarr;</span>
-        </a>
+      <figure class="ed-review reveal">
+        <div class="ed-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote class="ed-review-text">Stopped in this afternoon and had such a great experience. Selim, the owner, was kind, knowledgeable, and genuinely cared about helping me find the right gift for my dad. When good people run a business, it shows.</blockquote>
+        <figcaption class="ed-review-author">Genovese Dance</figcaption>
+      </figure>
 
-        <a href="petition.html" class="page-card reveal" role="listitem" aria-label="Sign the NJ Cigar Tax Petition">
-          <i data-lucide="file-signature" aria-hidden="true"></i>
-          <div class="page-card-title">Petition</div>
-          <p class="page-card-desc">Help cap NJ&rsquo;s 30% cigar tax. Sign the S2569 petition &mdash; it only takes a minute.</p>
-          <span class="page-card-cta">Sign now &rarr;</span>
-        </a>
-
-        <a href="visit.html" class="page-card reveal" role="listitem" aria-label="Visit Us in Pine Brook NJ">
-          <i data-lucide="map-pin" aria-hidden="true"></i>
-          <div class="page-card-title">Visit Us</div>
-          <p class="page-card-desc">Pine Brook, NJ &mdash; open Mon&ndash;Sat 12&ndash;7PM. Come introduce yourself.</p>
-          <span class="page-card-cta">Get directions &rarr;</span>
-        </a>
-
-      </div>
+      <figure class="ed-review reveal">
+        <div class="ed-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote class="ed-review-text">Extremely knowledgeable and enthusiastic. I have never been helped by someone who wants me to have as excellent an experience as Selim. 10/10 &mdash; will go again.</blockquote>
+        <figcaption class="ed-review-author">Evan Shaker</figcaption>
+      </figure>
+    </div>
+    <div class="ed-reviews-footer reveal">
+      <a href="https://www.google.com/maps/place/The+Cigar+Vault/@40.8637799,-74.3181956,17z/data=!4m8!3m7!1s0x89c307422bc97b41:0xead1589a5f0bb66f!8m2!3d40.8637799!4d-74.3181956!9m1!1b1!16s%2Fg%2F11lmhksqd3?entry=ttu" target="_blank" rel="noopener noreferrer" class="ed-link">See all reviews on Google &rarr;</a>
     </div>
   </section>
 
@@ -259,7 +289,6 @@
   <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
   <script>
     GLightbox({ selector: '[data-gallery="store"]', touchNavigation: true, loop: true, zoomable: true });
-    lucide.createIcons();
   </script>
 </body>
 </html>

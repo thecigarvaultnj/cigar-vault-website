@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sign the NJ cigar tax petition. Senate Bill S2569 would cap New Jersey's 30% cigar tax at $0.50 per cigar. Add your voice — your signature goes to Trenton.">
+  <meta name="description" content="Sign the NJ cigar tax petition. Senate Bill S3554 would cap New Jersey's 30% cigar tax at $0.50 per cigar. Add your voice — your signature goes to Trenton.">
   <meta property="og:title" content="Sign the NJ Cigar Tax Petition | The Cigar Vault">
-  <meta property="og:description" content="NJ taxes premium cigars at 30% — one of the highest rates in the nation. S2569 would cap it at $0.50 per cigar. Sign the petition and let Trenton know where NJ stands.">
+  <meta property="og:description" content="NJ taxes premium cigars at 30% — one of the highest rates in the nation. S3554 would cap it at $0.50 per cigar. Sign the petition and let Trenton know where NJ stands.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.thecigarvaultnj.com/petition.html">
   <meta property="og:image" content="/assets/AI%20Vault%20Logo.png">
@@ -37,6 +37,7 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="story.html">Our Story</a></li>
           <li><a href="catalog.html">Our Selection</a></li>
+          <li><a href="open-vault.html">Open Vault</a></li>
           <li><a href="merch.html">Merch</a></li>
           <li><a href="petition.html" class="active">Petition</a></li>
           <li><a href="visit.html">Visit Us</a></li>
@@ -59,6 +60,7 @@
         <a href="index.html">Home</a>
         <a href="story.html">Our Story</a>
         <a href="catalog.html">Our Selection</a>
+        <a href="open-vault.html">Open Vault</a>
         <a href="merch.html">Merch</a>
         <a href="petition.html" class="active">Petition</a>
         <a href="visit.html">Visit Us</a>
@@ -78,6 +80,12 @@
           <h1>Help Fix NJ's Cigar Tax</h1>
           <div class="gold-rule" style="margin-left:0; justify-content:flex-start;" aria-hidden="true"><span>&#10022;</span></div>
 
+          <!-- Signature counter — driven by JS variable below -->
+          <p class="petition-counter">
+            <span class="counter-number" id="sigCount">0</span>
+            <span class="counter-label">signatures and counting</span>
+          </p>
+
           <p>
             New Jersey currently taxes premium cigars at <strong>30% of the wholesale price</strong>&nbsp;&mdash;
             one of the highest rates in the nation. This punishes independent retailers and drives
@@ -90,10 +98,18 @@
           </div>
 
           <p>
-            <strong><a href="https://legiscan.com/NJ/text/S2569/id/2922157" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px;">NJ Senate Bill S2569</a></strong> would cap the cigar tax at
-            <strong>$0.50 per cigar</strong>&nbsp;&mdash; a fair, predictable rate that protects consumers,
-            keeps local tobacconists in business, and brings New Jersey in line with
-            states that respect the premium cigar community.
+            <strong><a href="https://legiscan.com/NJ/bill/S3554/2026" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px;">NJ Senate Bill S3554</a></strong>&nbsp;&mdash;
+            introduced February&nbsp;19,&nbsp;2026 by Senator&nbsp;Anthony&nbsp;M.&nbsp;Bucco (District&nbsp;25)&nbsp;&mdash;
+            would cap the cigar tax at <strong>$0.50 per cigar</strong>. A fair, predictable rate that protects
+            consumers, keeps local tobacconists in business, and brings New Jersey in line with
+            states that respect the premium cigar community. The companion bill in the Assembly is
+            <a href="https://www.njleg.state.nj.us/bill-search/2026/A1046" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px;">A1046</a>.
+          </p>
+
+          <p>
+            This reform has been introduced in New Jersey in every legislative cycle since 2020
+            &mdash; <em>S3270, S1775, S2569, and now S3554</em> &mdash; and it has
+            never gotten a committee vote. <strong>That has to change.</strong>
           </p>
 
           <p>
@@ -113,7 +129,7 @@
           </p>
         </div>
 
-        <!-- Petition Form — handled by Netlify Forms -->
+        <!-- Petition Form -->
         <div class="petition-form-wrapper reveal">
           <h3>Sign the Petition</h3>
           <p class="form-subtitle">Let Trenton know where NJ cigar lovers stand.</p>
@@ -126,8 +142,7 @@
             netlify-honeypot="bot-field"
           >
             <input type="hidden" name="form-name" value="nj-petition">
-            <p style="display:none"><label>Do not fill: <input name="bot-field"></label></p>
-
+            <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
             <div class="form-grid">
               <div class="form-group">
                 <label for="p-first">First Name</label>
@@ -149,12 +164,17 @@
                 <input
                   type="text"
                   id="p-zip"
-                  name="nj_zip"
+                  name="zip_code"
                   pattern="[0-9]{5}"
                   maxlength="5"
                   placeholder="07058"
                   required
                 >
+              </div>
+
+              <div class="form-group full">
+                <label for="p-town">Town / City</label>
+                <input type="text" id="p-town" name="town" placeholder="Pine Brook" required>
               </div>
 
               <div class="form-group full">
@@ -179,6 +199,13 @@
                   name="message"
                   placeholder="Tell us why this matters to you, or share a message for legislators&#8230;"
                 ></textarea>
+              </div>
+
+              <div class="form-group full">
+                <label class="checkbox-option">
+                  <input type="checkbox" name="display_publicly" value="yes">
+                  <span>Display my name publicly as a signer of this petition</span>
+                </label>
               </div>
             </div>
 
@@ -234,5 +261,38 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script>
+    // Live signature counter — fetches from Netlify Function
+    // Falls back to a cached number if the API call fails, so counter never shows 0
+
+    const FALLBACK_COUNT = 4; // Update this occasionally as a safety net in case API is down
+
+    async function loadSignatureCount() {
+      const counterEl = document.getElementById('sigCount');
+      if (!counterEl) return;
+
+      try {
+        const response = await fetch('/.netlify/functions/signature-count');
+        if (!response.ok) throw new Error('Function returned ' + response.status);
+
+        const data = await response.json();
+
+        if (typeof data.count === 'number' && data.count >= 0) {
+          counterEl.textContent = data.count.toLocaleString();
+        } else {
+          throw new Error('Invalid count returned');
+        }
+      } catch (err) {
+        console.warn('Signature count fetch failed, using fallback:', err);
+        counterEl.textContent = FALLBACK_COUNT.toLocaleString();
+      }
+    }
+
+    // Load on page load
+    loadSignatureCount();
+
+    // Refresh every 60 seconds in case someone leaves the page open
+    setInterval(loadSignatureCount, 60000);
+  </script>
 </body>
 </html>
