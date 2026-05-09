@@ -2647,7 +2647,10 @@ body.home-page #navbar .nav-links a.active { color: var(--gold); }
   letter-spacing: -0.015em;
   line-height: 1;
   color: var(--cream);
-  margin: 0 0 1.75rem;
+  margin: 0 auto 1.75rem;
+  width: clamp(280px, 48vw, 560px);
+  height: auto;
+  display: block;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 .home-hero-wordmark em {
@@ -2673,6 +2676,13 @@ body.home-page #navbar .nav-links a.active { color: var(--gold); }
   max-width: 540px;
   margin: 0 auto;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.home-hero-ctas {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2.25rem;
+  flex-wrap: wrap;
 }
 .home-hero-scroll {
   position: absolute;
