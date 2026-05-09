@@ -169,6 +169,28 @@ section { padding: 6rem 0; }
 }
 #navbar.scrolled { padding: 0.5rem 0; }
 
+.nav-utility {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Lato', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cream-muted);
+}
+.nav-utility-sep { color: var(--gold); opacity: 0.55; }
+.nav-utility-phone {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.nav-utility-phone:hover { color: var(--gold-light); }
+
 .nav-inner {
   display: flex;
   align-items: center;
@@ -2831,21 +2853,43 @@ body.home-page #navbar .nav-links a.active { color: var(--gold); }
 
 /* Reviews section — Voices from the humidor */
 .ed-section--reviews .ed-inner { margin-bottom: 3.5rem; }
+.ed-reviews-aggregate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  max-width: 540px;
+  margin: 0 auto 3rem;
+  padding: 0 1.5rem;
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.ed-reviews-aggregate:hover { color: var(--gold); }
+.ed-reviews-aggregate-star,
+.ed-reviews-aggregate-rating { color: var(--gold); font-size: 0.95rem; }
+.ed-reviews-aggregate-rating { font-weight: 600; letter-spacing: 0.08em; }
+.ed-reviews-aggregate-sep { color: var(--gold); opacity: 0.55; }
+
 .ed-reviews {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 3.5rem 2.5rem;
   max-width: 1100px;
   margin: 0 auto 3rem;
   padding: 0 1.5rem;
 }
 .ed-review {
-  grid-column: span 2;
+  flex: 1 1 280px;
+  max-width: 320px;
   text-align: center;
   margin: 0;
 }
-.ed-review:nth-child(4) { grid-column: 2 / span 2; }
-.ed-review:nth-child(5) { grid-column: 4 / span 2; }
 .ed-review-stars {
   color: var(--gold);
   font-size: 0.9rem;
@@ -2928,13 +2972,11 @@ body.home-page #navbar .nav-links a.active { color: var(--gold); }
     gap: 0.55rem;
   }
   .ed-gallery { grid-template-columns: 1fr; gap: 0.75rem; }
-  .ed-reviews {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-  .ed-review,
-  .ed-review:nth-child(4),
-  .ed-review:nth-child(5) {
-    grid-column: 1 / -1;
-  }
+  .ed-reviews { gap: 2.5rem; }
+  .ed-review { max-width: none; flex-basis: 100%; }
+
+  .nav-utility { justify-content: center; gap: 0.45rem; }
+  .nav-utility-loc,
+  .nav-utility-hours,
+  .nav-utility-sep { display: none; }
 }
