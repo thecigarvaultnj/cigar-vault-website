@@ -123,10 +123,12 @@ async function handleSubmit(form, msgEl) {
   msgEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-const merchForm    = document.getElementById('merch-form');
-const merchMsg     = document.getElementById('merch-msg');
-const petitionForm = document.getElementById('petition-form');
-const petitionMsg  = document.getElementById('petition-msg');
+const merchForm      = document.getElementById('merch-form');
+const merchMsg       = document.getElementById('merch-msg');
+const petitionForm   = document.getElementById('petition-form');
+const petitionMsg    = document.getElementById('petition-msg');
+const keykeepersForm = document.getElementById('keykeepers-form');
+const keykeepersMsg  = document.getElementById('keykeepers-msg');
 
 if (merchForm && merchMsg) {
   merchForm.addEventListener('submit', e => {
@@ -139,6 +141,13 @@ if (petitionForm && petitionMsg) {
   petitionForm.addEventListener('submit', e => {
     e.preventDefault();
     handleSubmit(petitionForm, petitionMsg);
+  });
+}
+
+if (keykeepersForm && keykeepersMsg) {
+  keykeepersForm.addEventListener('submit', e => {
+    e.preventDefault();
+    handleSubmit(keykeepersForm, keykeepersMsg);
   });
 }
 

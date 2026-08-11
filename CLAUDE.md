@@ -20,6 +20,6 @@ If asked to deploy, the full sequence is:
 - Live site: https://thecigarvaultnj.com
 - Owner: Selim, retail cigar shop in Pine Brook, NJ
 - Local folder: C:\Selim's Folder\cigar-vault-website
-- Multi-page site (index, story, merch, petition, visit, catalog, open-vault, admin)
+- Multi-page site (index, story, merch, petition, visit, catalog, keykeepers, admin)
 - Brand palette: deep gold (#C9A84C), vault teal (#1D4A4A), cream (#FAF6EE), charcoal (#1A1A1A)
 - Typography: Playfair Display, Cormorant Garamond, Cinzel

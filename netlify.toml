@@ -7,6 +7,13 @@
 
 # No build command — plain static HTML site
 
+# Open Vault retired — permanently redirect its old URL to Key Keepers
+[[redirects]]
+  from = "/open-vault.html"
+  to = "/keykeepers.html"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]

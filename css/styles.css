@@ -1711,6 +1711,44 @@ footer {
 
 
 /* ============================================================
+   KEY KEEPERS PAGE — body.page-keykeepers
+   Reuses the .petition-layout / .petition-context / form shells;
+   styles below are scoped to the Key Keepers page only.
+   ============================================================ */
+.page-keykeepers #keykeepers {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(29, 74, 74, 0.25) 0%, transparent 60%),
+    var(--teal-mid);
+  border-top: 1px solid rgba(42, 96, 96, 0.35);
+  border-bottom: 1px solid rgba(42, 96, 96, 0.35);
+}
+
+.page-keykeepers .kk-lede {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--gold-light);
+  margin-bottom: 1.75rem;
+}
+
+.page-keykeepers .kk-fineprint {
+  font-size: 0.95rem;
+  color: rgba(250, 246, 238, 0.7);
+  margin-top: 1.5rem;
+}
+
+.page-keykeepers .kk-agegate {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: var(--cream-muted);
+  margin-top: 1rem;
+}
+
+
+/* ============================================================
    OPEN VAULT PAGE — body.page-open-vault
    All styles below are scoped to the Open Vault page only.
    ============================================================ */

@@ -20,6 +20,12 @@
   </url>
 
   <url>
+    <loc>https://www.thecigarvaultnj.com/keykeepers.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://www.thecigarvaultnj.com/merch.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
