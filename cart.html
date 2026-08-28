@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Returns & Refunds for The Cigar Vault, Pine Brook NJ — cigar sales are final except for damaged or incorrect orders reported within 7 days. Accessories returnable within 14 days.">
-  <meta property="og:title" content="Returns & Refunds | The Cigar Vault">
-  <meta property="og:description" content="How The Cigar Vault handles damaged, defective, or incorrect orders, accessory returns, and refunds.">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Your cart at The Cigar Vault, Pine Brook NJ. Review your cigars, adjust quantities, and head to checkout.">
+  <meta property="og:title" content="Your Cart | The Cigar Vault">
+  <meta property="og:description" content="Review your cigars and head to checkout.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.thecigarvaultnj.com/returns.html">
-  <meta property="og:image" content="https://www.thecigarvaultnj.com/assets/photos/storefront.jpg">
+  <meta property="og:url" content="https://www.thecigarvaultnj.com/cart.html">
   <meta property="og:site_name" content="The Cigar Vault">
-  <link rel="canonical" href="https://www.thecigarvaultnj.com/returns.html">
-  <title>Returns &amp; Refunds | The Cigar Vault — Pine Brook, NJ</title>
+  <link rel="canonical" href="https://www.thecigarvaultnj.com/cart.html">
+  <title>Your Cart | The Cigar Vault — Pine Brook, NJ</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -78,83 +78,38 @@
   </nav>
 
 
-  <!-- ===================== RETURNS & REFUNDS ===================== -->
-  <section class="page-section--first" aria-label="Returns and Refunds">
+  <!-- ===================== CART ===================== -->
+  <section class="page-section--first" aria-label="Your Cart">
     <div class="container">
-      <div class="legal-wrap">
+      <div class="cart-wrap">
 
         <header class="reveal">
-          <span class="section-eyebrow">Legal</span>
-          <h1>Returns &amp; Refunds</h1>
+          <span class="section-eyebrow">Your Cart</span>
+          <h1>Cart</h1>
           <div class="gold-rule" style="margin-left:0; justify-content:flex-start;" aria-hidden="true"><span>&#10022;</span></div>
-          <p class="legal-updated">Last updated August 2026</p>
         </header>
 
-        <p class="legal-lead reveal">
-          Cigars are perishable, so most sales are final &mdash; but we stand behind what we send. Here&rsquo;s
-          how returns, damage, and refunds work.
-        </p>
+        <p id="cart-notice" class="cv-notice" role="status" hidden></p>
 
-        <div class="legal-section reveal">
-          <h2>Cigar Sales Are Final</h2>
-          <p>
-            Because tobacco is perishable and we can&rsquo;t resell a product once it has left our humidor and
-            traveled to you, all cigar sales are final except in the cases below.
-          </p>
+        <div id="cart-empty" class="cart-empty" hidden>
+          <p>Your cart is empty.</p>
+          <a href="/catalog" class="btn btn-primary">Browse the Catalog</a>
         </div>
 
-        <div class="legal-section reveal">
-          <h2>Damaged, Defective, or Wrong Orders</h2>
-          <p>
-            If your order shows up damaged, defective, or not what you ordered, tell us within 7 days of
-            delivery and include photographs of the product and the packaging. We&rsquo;ll review it, and if we
-            approve the claim we&rsquo;ll either send a replacement or issue a full refund &mdash; our choice,
-            based on what&rsquo;s in stock. The photos help us make it right quickly and fix whatever went wrong
-            on our end or with the carrier.
-          </p>
-        </div>
+        <div class="cart-layout">
+          <div id="cart-items" class="cart-items" aria-live="polite"></div>
 
-        <div class="legal-section reveal">
-          <h2>Accessories and Merch</h2>
-          <p>
-            Unopened accessories and merch can be returned within 14 days of delivery, in their original,
-            unused condition. The buyer pays return shipping. Contact us for authorization before you send
-            anything back &mdash; returns sent without authorization can&rsquo;t be processed.
-          </p>
-        </div>
-
-        <div class="legal-section reveal">
-          <h2>What We Can&rsquo;t Take Back</h2>
-          <p>
-            We can&rsquo;t accept returns on opened cigar boxes or on partially smoked cigars. Once a box is
-            opened or a cigar is lit, it&rsquo;s yours.
-          </p>
-        </div>
-
-        <div class="legal-section reveal">
-          <h2>Refunds</h2>
-          <p>
-            Approved refunds go back to your original payment method within 5 to 10 business days of
-            approval. Shipping charges aren&rsquo;t refundable unless the mistake was ours.
-          </p>
-        </div>
-
-        <div class="legal-section reveal">
-          <h2>Subscriptions</h2>
-          <p>
-            Refunds and cancellations for the Key Keepers club are handled under our
-            <a href="/terms">Terms &amp; Conditions</a> &mdash; see the Subscriptions section there.
-          </p>
-        </div>
-
-        <div class="legal-section reveal">
-          <h2>Before You Dispute a Charge</h2>
-          <p>
-            If something&rsquo;s wrong, please contact us before you file a dispute with your card company.
-            Almost everything is faster to fix directly, and we want the chance to make it right. Email
-            <a href="mailto:Thecigarvaultnj@gmail.com">Thecigarvaultnj@gmail.com</a> or call
-            <a href="tel:+19733337475">(973) 333-7475</a>.
-          </p>
+          <aside id="cart-summary" class="cart-summary" hidden>
+            <h2 class="cart-summary-title">Summary</h2>
+            <div class="cv-sum-row cv-sum-total">
+              <span>Subtotal</span>
+              <span id="cart-subtotal">$0.00</span>
+            </div>
+            <p id="cart-min-msg" class="cv-min-msg" hidden></p>
+            <p class="cv-sum-note">Shipping and tax are calculated at checkout.</p>
+            <a id="cart-proceed" href="/checkout" class="btn btn-primary btn-block">Proceed to Checkout</a>
+            <a href="/catalog" class="cart-continue">&larr; Continue shopping</a>
+          </aside>
         </div>
 
       </div>

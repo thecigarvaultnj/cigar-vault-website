@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Checkout at The Cigar Vault, Pine Brook NJ. Continental US shipping, adult signature required.">
+  <meta property="og:title" content="Checkout | The Cigar Vault">
+  <meta property="og:description" content="Complete your order at The Cigar Vault.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.thecigarvaultnj.com/checkout.html">
+  <meta property="og:site_name" content="The Cigar Vault">
+  <link rel="canonical" href="https://www.thecigarvaultnj.com/checkout.html">
+  <title>Checkout | The Cigar Vault — Pine Brook, NJ</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/png" href="assets/Profile%20Icon.png">
+</head>
+<body>
+
+  <!-- Age verification gate -->
+  <script src="js/age-verify.js"></script>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+          <img src="assets/Cigar-Vault-Logo-White-Long.png" alt="The Cigar Vault" class="nav-logo">
+        </a>
+
+        <ul class="nav-links" role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="story.html">Our Story</a></li>
+          <li><a href="catalog.html">Our Selection</a></li>
+          <li><a href="keykeepers.html">Key Keepers</a></li>
+          <li><a href="merch.html">Merch</a></li>
+          <li><a href="petition.html">Petition</a></li>
+          <li><a href="visit.html">Visit Us</a></li>
+        </ul>
+
+        <a href="/cart" class="nav-cart" id="nav-cart" aria-label="View cart">
+          <svg class="nav-cart-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="20" r="1.3"></circle>
+            <circle cx="18" cy="20" r="1.3"></circle>
+            <path d="M2.5 4h2.4l2.1 11.3a1.5 1.5 0 0 0 1.5 1.2h8.3a1.5 1.5 0 0 0 1.5-1.2L20 7.5H6.3"></path>
+          </svg>
+          <span class="nav-cart-count" id="nav-cart-count" hidden>0</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          id="nav-toggle"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+          aria-controls="nav-mobile"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+        <a href="index.html">Home</a>
+        <a href="story.html">Our Story</a>
+        <a href="catalog.html">Our Selection</a>
+        <a href="keykeepers.html">Key Keepers</a>
+        <a href="merch.html">Merch</a>
+        <a href="petition.html">Petition</a>
+        <a href="visit.html">Visit Us</a>
+      </nav>
+    </div>
+  </nav>
+
+
+  <!-- ===================== CHECKOUT ===================== -->
+  <section class="page-section--first" aria-label="Checkout">
+    <div class="container">
+      <div class="checkout-wrap">
+
+        <header class="reveal">
+          <span class="section-eyebrow">Checkout</span>
+          <h1>Checkout</h1>
+          <div class="gold-rule" style="margin-left:0; justify-content:flex-start;" aria-hidden="true"><span>&#10022;</span></div>
+        </header>
+
+        <p id="checkout-notice" class="cv-notice" role="status" hidden></p>
+
+        <form id="checkout-form" class="checkout-form" novalidate>
+
+          <!-- 1 — Contact -->
+          <fieldset class="cx-section">
+            <legend><span class="cx-step">1</span> Contact</legend>
+            <div class="form-grid">
+              <div class="form-group full">
+                <label for="cx-email">Email</label>
+                <input type="email" id="cx-email" name="email" autocomplete="email" required>
+              </div>
+              <div class="form-group full">
+                <label for="cx-phone">Phone</label>
+                <input type="tel" id="cx-phone" name="phone" autocomplete="tel" required>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- 2 — Shipping address -->
+          <fieldset class="cx-section">
+            <legend><span class="cx-step">2</span> Shipping Address</legend>
+            <div class="form-grid">
+              <div class="form-group full">
+                <label for="cx-name">Full Name</label>
+                <input type="text" id="cx-name" name="name" autocomplete="name" required>
+              </div>
+              <div class="form-group full">
+                <label for="cx-street">Street Address</label>
+                <input type="text" id="cx-street" name="street" autocomplete="address-line1" required>
+              </div>
+              <div class="form-group full">
+                <label for="cx-unit">Apartment / Unit <span class="cx-optional">(optional)</span></label>
+                <input type="text" id="cx-unit" name="unit" autocomplete="address-line2">
+              </div>
+              <div class="form-group">
+                <label for="cx-city">City</label>
+                <input type="text" id="cx-city" name="city" autocomplete="address-level2" required>
+              </div>
+              <div class="form-group">
+                <label for="cx-state">State</label>
+                <select id="cx-state" name="state" required>
+                  <option value="">Select&hellip;</option>
+                  <option value="AL">Alabama</option>
+                  <option value="AZ">Arizona</option>
+                  <option value="AR">Arkansas</option>
+                  <option value="CA">California</option>
+                  <option value="CO">Colorado</option>
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="DC">District of Columbia</option>
+                  <option value="FL">Florida</option>
+                  <option value="GA">Georgia</option>
+                  <option value="ID">Idaho</option>
+                  <option value="IL">Illinois</option>
+                  <option value="IN">Indiana</option>
+                  <option value="IA">Iowa</option>
+                  <option value="KS">Kansas</option>
+                  <option value="KY">Kentucky</option>
+                  <option value="LA">Louisiana</option>
+                  <option value="ME">Maine</option>
+                  <option value="MD">Maryland</option>
+                  <option value="MA">Massachusetts</option>
+                  <option value="MI">Michigan</option>
+                  <option value="MN">Minnesota</option>
+                  <option value="MS">Mississippi</option>
+                  <option value="MO">Missouri</option>
+                  <option value="MT">Montana</option>
+                  <option value="NE">Nebraska</option>
+                  <option value="NV">Nevada</option>
+                  <option value="NH">New Hampshire</option>
+                  <option value="NJ">New Jersey</option>
+                  <option value="NM">New Mexico</option>
+                  <option value="NY">New York</option>
+                  <option value="NC">North Carolina</option>
+                  <option value="ND">North Dakota</option>
+                  <option value="OH">Ohio</option>
+                  <option value="OK">Oklahoma</option>
+                  <option value="OR">Oregon</option>
+                  <option value="PA">Pennsylvania</option>
+                  <option value="RI">Rhode Island</option>
+                  <option value="SC">South Carolina</option>
+                  <option value="SD">South Dakota</option>
+                  <option value="TN">Tennessee</option>
+                  <option value="TX">Texas</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WA">Washington</option>
+                  <option value="WV">West Virginia</option>
+                  <option value="WI">Wisconsin</option>
+                  <option value="WY">Wyoming</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="cx-zip">ZIP Code</label>
+                <input type="text" id="cx-zip" name="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code" required>
+              </div>
+            </div>
+            <p class="cx-ship-note">
+              We ship to the continental US only and cannot ship to Utah or Hawaii.
+              <a href="/shipping">See our Shipping Policy</a>.
+            </p>
+          </fieldset>
+
+          <!-- 3 — Adult signature -->
+          <fieldset class="cx-section">
+            <legend><span class="cx-step">3</span> Adult Signature</legend>
+            <label class="checkbox-option cx-sig">
+              <input type="checkbox" id="cx-sig" name="signature" required>
+              <span>I understand that delivery requires an adult 21 or older with a valid government-issued
+              photo ID to sign for the package, and that it cannot be left unattended.</span>
+            </label>
+          </fieldset>
+
+          <!-- Review Order — validates all fields at once -->
+          <div class="cx-review">
+            <button type="submit" id="cx-review-btn" class="btn btn-primary btn-block">Review Order</button>
+            <p id="cx-review-msg" class="cx-review-msg" role="status" aria-live="polite" hidden></p>
+          </div>
+
+          <!-- 4 — Order summary -->
+          <fieldset class="cx-section">
+            <legend><span class="cx-step">4</span> Order Summary</legend>
+            <div id="checkout-items" class="checkout-items"></div>
+            <div class="cv-sum">
+              <div class="cv-sum-row"><span>Subtotal</span><span id="cx-subtotal">$0.00</span></div>
+              <div class="cv-sum-row"><span>Shipping</span><span id="cx-shipping">$0.00</span></div>
+              <div class="cv-sum-row"><span>Tax</span><span id="cx-tax">$0.00</span></div>
+              <div class="cv-sum-row cv-sum-total"><span>Total</span><span id="cx-total">$0.00</span></div>
+              <p id="cx-min-block" class="cv-min-msg" hidden></p>
+            </div>
+          </fieldset>
+
+          <!-- 5 — Payment -->
+          <fieldset class="cx-section">
+            <legend><span class="cx-step">5</span> Payment</legend>
+            <p id="cx-pay-note" class="cx-pay-note" role="status" aria-live="polite" hidden></p>
+            <div id="cx-payment" class="cx-payment">
+              <div class="cx-payment-cards" aria-label="Accepted payment cards">
+                <img src="/assets/cards/visa.svg" alt="Visa" class="footer-card" width="48" height="30">
+                <img src="/assets/cards/mastercard.svg" alt="Mastercard" class="footer-card" width="48" height="30">
+                <img src="/assets/cards/amex.svg" alt="American Express" class="footer-card" width="48" height="30">
+                <img src="/assets/cards/discover.svg" alt="Discover" class="footer-card" width="48" height="30">
+              </div>
+              <p class="cx-payment-line">
+                <strong>Secure card payment.</strong> Our checkout is being activated &mdash; call
+                <a href="tel:+19733337475">(973) 333-7475</a> to place an order in the meantime.
+              </p>
+            </div>
+            <p class="cx-payment-legal">
+              Frisky Cigars NJ LLC DBA The Cigar Vault. Your card statement will show THE CIGAR VAULT.
+            </p>
+          </fieldset>
+
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="assets/Cigar-Vault-Full-Dark-Stacked.png" alt="The Cigar Vault" class="footer-logo">
+        </div>
+
+        <div class="footer-legal">
+          &copy; 2026 Frisky Cigars NJ LLC DBA The Cigar Vault. All rights reserved.<br>
+          You must be 21 or older to purchase tobacco products.
+        </div>
+      </div>
+
+      <nav class="footer-policy" aria-label="Footer links">
+        <a href="/cart">Cart</a>
+        <a href="/terms">Terms &amp; Conditions</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/shipping">Shipping Policy</a>
+        <a href="/returns">Returns &amp; Refunds</a>
+        <a href="/visit">Contact</a>
+      </nav>
+
+      <div class="footer-cards" aria-label="Accepted payment cards">
+        <img src="/assets/cards/visa.svg" alt="Visa" class="footer-card" width="48" height="30">
+        <img src="/assets/cards/mastercard.svg" alt="Mastercard" class="footer-card" width="48" height="30">
+        <img src="/assets/cards/amex.svg" alt="American Express" class="footer-card" width="48" height="30">
+        <img src="/assets/cards/discover.svg" alt="Discover" class="footer-card" width="48" height="30">
+      </div>
+
+      <address class="footer-contact">
+        The Cigar Vault &middot; 101 US Highway 46, Unit 131, Pine Brook, NJ 07058 &middot;
+        <a href="tel:+19733337475">(973) 333-7475</a> &middot;
+        <a href="mailto:Thecigarvaultnj@gmail.com">Thecigarvaultnj@gmail.com</a> &middot;
+        <a href="https://instagram.com/thecigarvaultnj" target="_blank" rel="noopener noreferrer">@thecigarvaultnj</a>
+      </address>
+
+      <div class="footer-disclaimer">
+        <p class="footer-warning">WARNING: Cigar smoking can cause cancers of the mouth and throat, even if you do not inhale. Cigar smoking can cause lung cancer and heart disease. Cigars are not a safe alternative to cigarettes. Tobacco smoke increases the risk of lung cancer and heart disease, even in nonsmokers.</p>
+        <p>You must be 21 years of age or older to purchase tobacco products from The Cigar Vault. We do not sell to minors. Products sold on this site have not been evaluated by the U.S. Food and Drug Administration and are not intended to diagnose, treat, cure, or prevent any disease. We do not ship outside the United States.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

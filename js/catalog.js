@@ -67,7 +67,7 @@ function renderGrid(items) {
   const start = (state.page - 1) * ITEMS_PER_PAGE;
   const page  = items.slice(start, start + ITEMS_PER_PAGE);
 
-  grid.innerHTML = page.map(([name, brand, price, stock, type]) => {
+  grid.innerHTML = page.map(([name, brand, price, stock, type, id]) => {
     const low       = stock <= 3;
     const typeClass = type === 'Single' ? 'single' : 'box';
     const typeLabel = type === 'Single' ? 'Single' : 'Box / Bundle';
@@ -75,12 +75,22 @@ function renderGrid(items) {
       ? `<span class="cat-stock low">Only ${stock} left</span>`
       : `<span class="cat-stock">${stock} in stock</span>`;
 
-    return `<article class="cat-card reveal">
+    // Null price -> hide the add-to-cart control entirely.
+    const priceText = (price == null) ? '' : `<p class="cat-price">$${price.toFixed(2)}</p>`;
+    let addControl = '';
+    if (price != null) {
+      addControl = stock <= 0
+        ? `<button class="cat-add" type="button" disabled>Out of Stock</button>`
+        : `<button class="cat-add" type="button" data-add-id="${escAttr(id)}">Add to Cart</button>`;
+    }
+
+    return `<article class="cat-card reveal" data-id="${escAttr(id)}">
   <span class="type-badge ${typeClass}">${typeLabel}</span>
   <p class="cat-brand">${escHtml(brand)}</p>
   <h3 class="cat-name">${escHtml(name)}</h3>
-  <p class="cat-price">$${price.toFixed(2)}</p>
+  ${priceText}
   ${stockText}
+  ${addControl}
 </article>`;
   }).join('');
 
@@ -180,6 +190,10 @@ async function init() {
     const res = await fetch('data/catalog.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     allProducts = await res.json();
+
+    // Load-time guard: every row needs a stable id (index 5) for the cart.
+    const missingId = allProducts.filter(r => !r[5]).length;
+    if (missingId) console.warn(`[catalog] ${missingId} product row(s) missing an id. Assign a brand+name slug — see CLAUDE.md.`);
   } catch (err) {
     grid.innerHTML = '<p class="no-results">Failed to load catalog. Please refresh the page.</p>';
     console.error('Catalog load error:', err);
@@ -257,6 +271,24 @@ function wireEvents() {
         render();
         document.querySelector('.catalog-controls')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
+    });
+  }
+
+  /* Add to cart (event delegation — survives grid re-renders) */
+  const gridEl = document.getElementById('product-grid');
+  if (gridEl) {
+    gridEl.addEventListener('click', e => {
+      const btn = e.target.closest('.cat-add');
+      if (!btn || btn.disabled) return;
+      const id = btn.dataset.addId;
+      if (!id || !window.CVCart) return;
+      window.CVCart.add(id, 1);
+      if (btn.dataset.busy) return;
+      btn.dataset.busy = '1';
+      const prev = btn.textContent;
+      btn.textContent = 'Added ✓';
+      btn.classList.add('added');
+      setTimeout(() => { btn.textContent = prev; btn.classList.remove('added'); delete btn.dataset.busy; }, 1100);
     });
   }
 }
