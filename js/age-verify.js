@@ -1,14 +1,19 @@
 /* ============================================================
    THE CIGAR VAULT — age-verify.js
-   Full-screen age gate. Checks sessionStorage so it only fires
-   once per browser session. Works on every page of the site.
+   Full-screen age gate. Remembers confirmation in localStorage
+   for 30 days. Works on every page of the site.
    ============================================================ */
 
 (function () {
   'use strict';
 
-  /* Already verified this session — do nothing */
-  if (sessionStorage.getItem('cv-age-ok')) return;
+  /* Verified within the last 30 days — do nothing */
+  var AGE_OK_KEY = 'cv-age-ok';
+  var AGE_TTL_MS = 30 * 24 * 60 * 60 * 1000; /* 30 days */
+  try {
+    var savedAt = localStorage.getItem(AGE_OK_KEY);
+    if (savedAt && (Date.now() - parseInt(savedAt, 10)) < AGE_TTL_MS) return;
+  } catch (e) { /* storage blocked — fall through and show the gate */ }
 
   /* ---- Inject styles ---- */
   var style = document.createElement('style');
@@ -149,9 +154,30 @@
       });
     });
 
+    /* Trap keyboard focus inside the gate while it is open */
+    gate.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab' && e.keyCode !== 9) return;
+      var focusable = gate.querySelectorAll('button');
+      if (!focusable.length) { e.preventDefault(); return; }
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first || !gate.contains(document.activeElement)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (document.activeElement === last || !gate.contains(document.activeElement)) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    /* Move focus into the dialog */
+    document.getElementById('cv-enter').focus();
+
     /* Button handlers */
     document.getElementById('cv-enter').addEventListener('click', function () {
-      sessionStorage.setItem('cv-age-ok', '1');
+      try { localStorage.setItem(AGE_OK_KEY, String(Date.now())); } catch (e) { /* ignore */ }
       gate.style.transition = 'opacity 0.3s ease';
       gate.style.opacity = '0';
       setTimeout(function () {
@@ -160,9 +186,26 @@
       }, 320);
     });
 
-    document.getElementById('cv-exit').addEventListener('click', function () {
-      window.location.replace('https://www.google.com');
-    });
+    document.getElementById('cv-exit').addEventListener('click', showDenied);
+  }
+
+  /* Under-21: swap the dialog content in place. Overlay stays up, scroll stays
+     locked, no redirect. */
+  function showDenied() {
+    var box = document.getElementById('cv-box');
+    if (!box) return;
+    box.innerHTML =
+      '<img id="cv-logo" src="assets/Cigar-Vault-Logo-White-Long.png" alt="The Cigar Vault">' +
+      '<hr id="cv-rule" aria-hidden="true">' +
+      '<span id="cv-eyebrow">Access Restricted</span>' +
+      '<h1 id="cv-heading">You must be 21 or older</h1>' +
+      '<p id="cv-body">We&rsquo;re sorry, but you can&rsquo;t access this site. ' +
+        'The Cigar Vault only sells tobacco products to adults 21 years of age or older.</p>' +
+      '<p id="cv-legal">If you reached this message by mistake, close and reopen the site to try again.</p>';
+    /* Keep focus inside the overlay and announce the new heading */
+    var heading = document.getElementById('cv-heading');
+    heading.setAttribute('tabindex', '-1');
+    heading.focus();
   }
 
   /* Run immediately if body is ready, otherwise wait for DOMContentLoaded */
