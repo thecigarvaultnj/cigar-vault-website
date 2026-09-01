@@ -1833,6 +1833,19 @@ select[aria-invalid="true"] { border-color: #9b3424; }
   transform: translateY(0);
 }
 
+/* ---- Accessibility: honor reduced motion + visible keyboard focus ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }  /* show, don't slide */
+  .cat-card:hover { transform: none !important; }                /* no hover lift */
+}
+.cat-add:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+
 /* ---- Active nav state (multi-page site) ---- */
 .nav-links a.active {
   color: var(--gold);
