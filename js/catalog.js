@@ -67,7 +67,7 @@ function renderGrid(items) {
   const start = (state.page - 1) * ITEMS_PER_PAGE;
   const page  = items.slice(start, start + ITEMS_PER_PAGE);
 
-  grid.innerHTML = page.map(([name, brand, price, stock, type, id]) => {
+  grid.innerHTML = page.map(([name, brand, price, stock, type, id, image, shippable, excludeOnline, onlineOverride]) => {
     const low       = stock <= 3;
     const typeClass = type === 'Single' ? 'single' : 'box';
     const typeLabel = type === 'Single' ? 'Single' : 'Box / Bundle';
@@ -75,13 +75,17 @@ function renderGrid(items) {
       ? `<span class="cat-stock low">Only ${stock} left</span>`
       : `<span class="cat-stock">${stock} in stock</span>`;
 
-    // Null price -> hide the add-to-cart control entirely.
+    // Null price -> hide the buy control entirely. Otherwise purchasability is
+    // DERIVED at render time; non-buyable items still appear, with an in-store note.
     const priceText = (price == null) ? '' : `<p class="cat-price">$${price.toFixed(2)}</p>`;
-    let addControl = '';
+    let control = '';
     if (price != null) {
-      addControl = stock <= 0
-        ? `<button class="cat-add" type="button" disabled>Out of Stock</button>`
-        : `<button class="cat-add" type="button" data-add-id="${escAttr(id)}">Add to Cart</button>`;
+      const avail = (window.CVCart && window.CVCart.availability)
+        ? window.CVCart.availability({ stock, shippable, excludeOnline, onlineOverride })
+        : { buyable: true };
+      control = avail.buyable
+        ? `<button class="cat-add" type="button" data-add-id="${escAttr(id)}">Add to Cart</button>`
+        : `<p class="cat-instore">${escHtml(avail.message)}</p>`;
     }
 
     return `<article class="cat-card reveal" data-id="${escAttr(id)}">
@@ -90,7 +94,7 @@ function renderGrid(items) {
   <h3 class="cat-name">${escHtml(name)}</h3>
   ${priceText}
   ${stockText}
-  ${addControl}
+  ${control}
 </article>`;
   }).join('');
 

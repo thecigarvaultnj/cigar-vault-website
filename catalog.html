@@ -284,6 +284,37 @@
       color: var(--cream-muted);
     }
     .cat-stock.low { color: #e08060; }
+    .cat-add {
+      margin-top: 0.5rem;
+      width: 100%;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0.6rem 0.75rem;
+      background: var(--gold);
+      color: #1a1a1a;
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .cat-add:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .cat-add.added { background: #2a6060; border-color: #2a6060; color: var(--cream); }
+    .cat-instore {
+      margin-top: 0.5rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.4;
+      color: var(--cream-muted);
+      text-align: center;
+      padding: 0.55rem 0.4rem;
+      border: 1px dashed rgba(201, 168, 76, 0.35);
+      border-radius: 2px;
+    }
     .type-badge {
       font-family: 'Lato', sans-serif;
       font-size: 0.58rem;
