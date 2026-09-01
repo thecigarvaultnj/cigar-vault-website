@@ -18,7 +18,16 @@
     TAX: {
       rate: 0.06625,          // 6.625%
       states: ['NJ']          // 2-letter codes of states where tax applies
-    }
+    },
+
+    // Online availability — purchasability is DERIVED at render time, never stored:
+    //   effectiveStock = stock - STOCK_BUFFER
+    //   buyable = shippable && !excludeOnline &&
+    //             effectiveStock >= (onlineOverride ? 1 : ONLINE_STOCK_THRESHOLD)
+    //   onlineOverride drops the threshold to the buffer floor (1) — it never
+    //   skips the buffer, so the last unit can't be oversold between syncs.
+    ONLINE_STOCK_THRESHOLD: 10,  // effective stock required to sell online
+    STOCK_BUFFER: 1              // held back so a counter sale between syncs can't oversell
   };
   /* ============================================================ */
 
@@ -111,6 +120,32 @@
     };
   }
 
+  /* ---------- online availability (derived; never stored) ----------
+     Fields default safely when absent: shippable=true, excludeOnline=false,
+     onlineOverride=false — so a catalog without these fields sells normally. */
+  var CONTACT_PHONE = '(973) 333-7475';
+  function availability(p) {
+    var shippable = (p.shippable !== false);
+    var excludeOnline = (p.excludeOnline === true);
+    var onlineOverride = (p.onlineOverride === true);
+    var stock = (typeof p.stock === 'number') ? p.stock : 0;
+    var inStock = stock > 0;
+    var effectiveStock = stock - CART_CONFIG.STOCK_BUFFER;
+    // Override drops the threshold to the buffer floor (1) but still requires
+    // effectiveStock >= 1 — so it never skips the buffer / oversells the last unit.
+    var buyable = shippable && !excludeOnline &&
+      effectiveStock >= (onlineOverride ? 1 : CART_CONFIG.ONLINE_STOCK_THRESHOLD);
+    var reason = 'ok', message = null;
+    if (!buyable) {
+      // Order matters: hazmat wins over sold-out — a lighter that's out of
+      // stock still can't ever ship, so it should say so, not "Sold out".
+      if (!shippable) { reason = 'not-shippable'; message = 'In store only — cannot be shipped'; }
+      else if (!inStock) { reason = 'sold-out'; message = 'Sold out'; }
+      else { reason = excludeOnline ? 'excluded' : 'low-stock'; message = 'In store only — call ' + CONTACT_PHONE; }
+    }
+    return { buyable: buyable, reason: reason, message: message };
+  }
+
   /* ---------- catalog, indexed by id ---------- */
   var _catalog = null;
   function loadCatalog() {
@@ -122,7 +157,8 @@
         rows.forEach(function (r) {
           var id = r[5];                    // [name, brand, price, stock, type, id, image]
           if (!id) { missing++; return; }
-          map[id] = { id: id, name: r[0], brand: r[1], price: r[2], stock: r[3], type: r[4], image: r[6] || null };
+          map[id] = { id: id, name: r[0], brand: r[1], price: r[2], stock: r[3], type: r[4], image: r[6] || null,
+            shippable: r[7], excludeOnline: r[8], onlineOverride: r[9] };
         });
         if (missing) console.warn('[cart] ' + missing + ' catalog row(s) missing an id and were skipped. See the slug convention in CLAUDE.md.');
         return map;
@@ -398,5 +434,5 @@
   window.addEventListener('storage', function (e) { if (e.key === STORAGE_KEY) updateIndicator(); });
 
   // minimal API for catalog.js
-  window.CVCart = { add: addToCart, remove: removeFromCart, setQty: setQty, count: cartCount, config: CART_CONFIG };
+  window.CVCart = { add: addToCart, remove: removeFromCart, setQty: setQty, count: cartCount, availability: availability, config: CART_CONFIG };
 }());

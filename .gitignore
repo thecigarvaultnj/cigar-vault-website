@@ -28,6 +28,16 @@
 !/data/**
 !/netlify/
 !/netlify/**
+!/scripts/
+!/scripts/**
+!/online-exclude.csv
+!/online-override.csv
+
+# Generated sync report stays out of git (data/** is whitelisted above)
+/data/sync-unmatched.txt
+
+# Raw Thrive exports (any other *.csv in root) are ignored by the /* rule above,
+# so weekly dumps never get committed. Only the two manual lists are whitelisted.
 
 # Local Netlify folder
 .netlify
