@@ -17,6 +17,7 @@ const state = {
 const TOP_BRANDS = 15;
 
 let allProducts = [];
+let brandLogos = {};   // { "Brand Name": "slug.png" } for brands with a processed logo
 
 /* ---- Availability + monogram helpers ---- */
 function productBuyable(r) {
@@ -102,10 +103,16 @@ function renderGrid(items) {
       badge = `<span class="type-badge">${label}</span>`;
     }
 
-    // 4:3 image area, monogram fallback until real photos land (layout won't shift).
-    const thumb = image
-      ? `<span class="cat-thumb"><img src="${escAttr(image)}" alt="${escAttr(name)}" loading="lazy"></span>`
-      : `<span class="cat-thumb cat-thumb--mono" aria-hidden="true">${escHtml(monogram(brand, name))}</span>`;
+    // 4:3 image area, three-level fallback: real photo -> plated brand logo -> monogram.
+    // Photo fills edge to edge; the cream plate appears ONLY behind a logo (never a photo).
+    let thumb;
+    if (image) {
+      thumb = `<span class="cat-thumb"><img src="${escAttr(image)}" alt="${escAttr(name)}" loading="lazy"></span>`;
+    } else if (brandLogos[brand]) {
+      thumb = `<span class="cat-thumb cat-thumb--logo" aria-hidden="true"><span class="cat-plate"><img src="assets/brands/processed/${escAttr(brandLogos[brand])}" alt="" loading="lazy"></span></span>`;
+    } else {
+      thumb = `<span class="cat-thumb cat-thumb--mono" aria-hidden="true">${escHtml(monogram(brand, name))}</span>`;
+    }
 
     // Null price -> no buy control. Otherwise purchasability is DERIVED at render time.
     const priceText = (price == null) ? '' : `<p class="cat-price">$${price.toFixed(2)}</p>`;
@@ -236,9 +243,15 @@ async function init() {
   grid.innerHTML = '<p class="loading-msg">Loading catalog\u2026</p>';
 
   try {
-    const res = await fetch('data/catalog.json');
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    allProducts = await res.json();
+    const [catRes, logoRes] = await Promise.all([
+      fetch('data/catalog.json'),
+      fetch('data/brand-logos.json').catch(() => null)   // optional — falls back to monogram if absent
+    ]);
+    if (!catRes.ok) throw new Error(`HTTP ${catRes.status}`);
+    allProducts = await catRes.json();
+    if (logoRes && logoRes.ok) {
+      try { brandLogos = await logoRes.json(); } catch (_) { brandLogos = {}; }
+    }
 
     // Load-time guard: every row needs a stable id (index 5) for the cart.
     const missingId = allProducts.filter(r => !r[5]).length;

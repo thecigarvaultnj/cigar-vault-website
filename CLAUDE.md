@@ -15,6 +15,15 @@ If asked to deploy, the full sequence is:
 3. git push
 4. netlify deploy --prod
 
+**Asset paths must be lowercase — Netlify's hosting is case-sensitive.**
+Windows (the dev machine) is case-INsensitive, so a folder like `assets/Brands`
+resolves fine locally against a `assets/brands/...` URL, then 404s in production
+on Netlify's Linux servers. This kind of bug is invisible in local testing.
+Keep every directory and filename under `assets/` (and the URLs that reference
+them) lowercase, and match the case exactly between the file on disk and the
+`src`/`href` in HTML/JS/CSS. After a deploy that adds assets, sanity-check a few
+asset URLs on the draft (e.g. `curl -o /dev/null -w "%{http_code}"`).
+
 ## Project context
 
 - Live site: https://thecigarvaultnj.com
@@ -97,3 +106,13 @@ When hand-adding a product, assign an `id` by this convention, set `image`
 to `null` (or a URL), and set the three availability fields to their
 defaults. The cart (`js/cart.js`) and catalog (`js/catalog.js`) both log a
 console warning if any row is missing an id.
+
+**Known data issue — near-duplicate product rows (dedup pass pending).**
+Some products exist twice under slightly different rows (e.g. Foundation
+Cigars' "Wise Man Corojo Toro", "Olmec Claro Toro", "Tabernacle" came in
+under both a `Foundation` and a `Foundation Cigars` brand spelling before
+those were consolidated). A dedup pass is owed. Because ids are frozen and
+carts key off them, picking the wrong row to delete orphans the surviving
+id — so the pass must compare each duplicate pair side by side (stock,
+price, units sold) before choosing which row lives. Do NOT silently
+collapse duplicates as part of unrelated work.

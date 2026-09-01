@@ -20,6 +20,15 @@
 !/netlify.toml
 !/assets/
 !/assets/**
+
+# Raw brand-logo source files (originals dropped into assets/brands/ for the
+# Stage-3 pipeline) stay local — like the Thrive exports and brand-logo-map.csv.
+# Only the processed, shipped logos under assets/brands/processed/ are tracked.
+/assets/brands/*.png
+/assets/brands/*.jpg
+/assets/brands/*.jpeg
+/assets/brands/*.gif
+/assets/brands/*.webp
 !/css/
 !/css/**
 !/js/

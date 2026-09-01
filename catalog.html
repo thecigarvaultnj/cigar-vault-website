@@ -270,6 +270,84 @@
       color: var(--gold);
     }
 
+    /* Brand-logo fallback: the logo sits on a quiet cream plate (a small placard)
+       so dark line-art marks read against the charcoal card. Plate is logo-only —
+       real product photos use the cover rule above and fill the thumb edge to edge. */
+    .cat-thumb--logo {
+      background: linear-gradient(150deg, var(--charcoal-light), var(--charcoal-mid));
+    }
+    .cat-plate {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 74%;
+      height: 70%;
+      border-radius: 5px;
+      background: var(--plate);
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+      padding: 11% 13%;
+    }
+    .cat-thumb--logo .cat-plate img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    /* ============================================================
+       PREVIEW MOCKUP (toggled) — cigar-band placeholder tile.
+       Scoped to .cat-thumb--mono, which only renders for products
+       WITHOUT a photo, so a real image always replaces this entirely.
+       ============================================================ */
+    .band-preview .cat-thumb--mono {
+      background:
+        linear-gradient(180deg,
+          transparent 0 33%,
+          rgba(70, 52, 16, 0.85) 33% 34%,   /* top hairline of the band */
+          #efd68f 34%,
+          #d6b563 46%,
+          #b28f3a 54%,                        /* foil sheen line */
+          #e6cd84 66%,
+          rgba(70, 52, 16, 0.85) 66% 67%,     /* bottom hairline of the band */
+          transparent 67% 100%),
+        linear-gradient(150deg, #1d1a15, #14110b);   /* dark tobacco base */
+      color: #26200f;                          /* embossed dark initial on the foil */
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-shadow: 0 1px 0 rgba(255, 240, 200, 0.4);
+    }
+    .band-preview .cat-thumb--mono::after {   /* hairline label frame */
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(201, 168, 76, 0.4);
+      pointer-events: none;
+    }
+
+    /* Preview toggle control (mockup only) */
+    .band-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 200;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.6rem 0.9rem;
+      background: var(--charcoal-light);
+      color: var(--cream);
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+    .band-toggle[aria-pressed="true"] { background: var(--gold); color: #1a1a1a; }
+
     .cat-body {
       display: flex;
       flex-direction: column;
@@ -530,6 +608,9 @@
 
   </div>
 
+  <!-- PREVIEW MOCKUP toggle (remove once the band treatment is decided) -->
+  <button id="band-toggle" class="band-toggle" type="button" aria-pressed="false">Preview: cigar-band tiles</button>
+
   <!-- ===================== FOOTER ===================== -->
   <footer>
     <div class="container">
@@ -592,6 +673,16 @@
       navTog.classList.remove('open');
       navTog.setAttribute('aria-expanded', false);
     }));
+
+    /* PREVIEW MOCKUP: toggle cigar-band placeholder tiles */
+    const bandToggle = document.getElementById('band-toggle');
+    if (bandToggle) {
+      bandToggle.addEventListener('click', () => {
+        const on = document.body.classList.toggle('band-preview');
+        bandToggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+        bandToggle.textContent = on ? 'Cigar-band tiles: ON' : 'Preview: cigar-band tiles';
+      });
+    }
   </script>
   <script src="js/cart.js"></script>
 </body>
