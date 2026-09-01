@@ -82,12 +82,15 @@ function slug(s) {
 // Suggest a brand by longest match against existing brand labels found as a
 // normalized substring of the name. Never assigns — just a suggestion you edit.
 function makeBrandSuggester(catalog, I) {
+  const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const brands = [...new Set(catalog.map(r => r[I.brand]).filter(Boolean))]
     .map(b => ({ brand: b, n: norm(b) })).filter(x => x.n)
-    .sort((a, b) => b.n.length - a.n.length);   // longest match wins
+    .map(x => ({ brand: x.brand, re: new RegExp('\\b' + esc(x.n) + '\\b'), len: x.n.length }))
+    .sort((a, b) => b.len - a.len);   // longest match wins
   return name => {
     const nn = norm(name);
-    for (const { brand, n } of brands) { if (nn.includes(n)) return brand; }
+    // Match on word boundaries so e.g. brand "CLE" doesn't match inside "Highclere".
+    for (const { brand, re } of brands) { if (re.test(nn)) return brand; }
     return '';
   };
 }
@@ -136,12 +139,17 @@ function readExport(file) {
   CONFIG.COLUMNS.forEach(name => { col[name] = header.indexOf(name); });
   const missing = CONFIG.COLUMNS.filter(c => col[c] === -1);
   const rows = [];
+  let footer = 0;
   for (let i = headerIdx + 1; i < lines.length; i++) {
     const line = lines[i];
     if (line == null || line.trim() === '') continue;
     const cells = parseCsvLine(line);
+    const product = (cells[col['Product']] || '').trim();
+    // Drop Thrive's trailing summary rows (a "Total" line and a marketing
+    // tagline) plus any blank-product row — these are not products.
+    if (!product || /^total$/i.test(product) || /^drive your business/i.test(product)) { footer++; continue; }
     rows.push({
-      product: cells[col['Product']] || '',
+      product: product,
       location: cells[col['Location']] || '',
       listPrice: cells[col['List Price']],
       inStock: cells[col['In Stock']],
@@ -149,7 +157,7 @@ function readExport(file) {
       _raw: line,
     });
   }
-  return { header, col, missing, rows };
+  return { header, col, missing, rows, footer };
 }
 
 function readFlagCsv(file) {
@@ -202,7 +210,7 @@ function main() {
   if (exp.missing.length) {
     console.log(`⚠ header missing expected column(s): ${exp.missing.join(', ')}`);
   }
-  console.log(`export rows read: ${exp.rows.length}`);
+  console.log(`export rows read: ${exp.rows.length}${exp.footer ? `  (ignored ${exp.footer} footer/summary row(s))` : ''}`);
 
   /* ---- build name -> index map ---- */
   const byName = {};
