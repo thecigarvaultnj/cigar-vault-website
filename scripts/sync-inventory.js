@@ -112,6 +112,21 @@ function parseStock(v) {
   return { value: n, blank: false, negative: false };
 }
 
+// Write that survives a file being open/locked (e.g. the review CSV open in
+// Excel): falls back to a ".new" copy instead of crashing the whole run.
+function safeWrite(file, content, label) {
+  try { fs.writeFileSync(file, content, 'utf8'); return file; }
+  catch (e) {
+    if (e.code === 'EBUSY' || e.code === 'EPERM' || e.code === 'EACCES') {
+      const alt = file.replace(/(\.[^.]+)$/, '.new$1');
+      fs.writeFileSync(alt, content, 'utf8');
+      console.log(`⚠ ${label} (${file}) is open/locked — wrote ${alt} instead. Close the file and re-run to replace it in place, or use the .new copy.`);
+      return alt;
+    }
+    throw e;
+  }
+}
+
 // Minimal RFC-4180-ish CSV line parser (handles quotes + embedded commas).
 function parseCsvLine(line) {
   const out = []; let cur = ''; let inQ = false;
@@ -317,7 +332,7 @@ function main() {
   reportLines.push('');
   reportLines.push(`## Hazmat newly flagged shippable:false (${hazmatFlagged.length})`);
   reportLines.push(...hazmatFlagged);
-  fs.writeFileSync(reportFile, reportLines.join('\n'), 'utf8');
+  safeWrite(reportFile, reportLines.join('\n'), 'report file');
   console.log(`\nunmatched lists written to: ${reportFile}`);
 
   /* ---- 4) --add-new: stage unmatched export rows into a review file ---- */
@@ -342,8 +357,8 @@ function main() {
       review.map(r => [csvCell(r.product), csvCell(r.brand), r.stock, (r.price == null ? '' : r.price), r.netSold, '', ''].join(',')));
     const skippedCsv = ['product,in_stock,price,net_sold,reason'].concat(
       skipped.map(r => [csvCell(r.product), r.stock, (r.price == null ? '' : r.price), r.netSold, csvCell(r.reason)].join(',')));
-    fs.writeFileSync(CONFIG.REVIEW_FILE, reviewCsv.join('\n'), 'utf8');
-    fs.writeFileSync(CONFIG.SKIPPED_FILE, skippedCsv.join('\n'), 'utf8');
+    safeWrite(CONFIG.REVIEW_FILE, reviewCsv.join('\n'), 'review file');
+    safeWrite(CONFIG.SKIPPED_FILE, skippedCsv.join('\n'), 'skipped file');
 
     const byReason = {};
     skipped.forEach(r => { byReason[r.reason] = (byReason[r.reason] || 0) + 1; });
@@ -364,10 +379,13 @@ function main() {
     const header = parseCsvLine(rows[0]).map(h => h.toLowerCase());
     const ix = name => header.indexOf(name);
     const used = new Set(catalog.map(r => r[I.id]));
-    const KEEP = ['y', 'yes', '1', 'x', 'true'];
+    const KEEP = ['y', 'yes', 'x', 'true', '1'];   // case-insensitive, trimmed
     const newHaz = [];
+    let dataRows = 0;
     for (let i = 1; i < rows.length; i++) {
       const c = parseCsvLine(rows[i]);
+      if (!(c[ix('product')] || '').trim()) continue;
+      dataRows++;
       if (KEEP.indexOf(String(c[ix('keep')] || '').trim().toLowerCase()) === -1) continue;
       const name = c[ix('product')] || '';
       const brand = ix('suggested_brand') >= 0 ? (c[ix('suggested_brand')] || '') : '';
@@ -385,7 +403,10 @@ function main() {
     console.log('\n' + line);
     console.log('IMPORT-NEW');
     console.log(line);
-    console.log(`rows appended (keep=y): ${imported}`);
+    console.log(`review rows read: ${dataRows}`);
+    console.log(`read as KEPT:     ${imported}   (accepted: ${KEEP.join(', ')} — case-insensitive, trimmed)`);
+    if (imported === 0) console.log('⚠ 0 rows kept — nothing would be imported. Check the keep column.');
+    else if (imported === dataRows) console.log('⚠ EVERY row is marked keep — double-check that is intended.');
     if (newHaz.length) { console.log(`hazmat-flagged among imports: ${newHaz.length}`); newHaz.forEach(n => console.log(`    · ${n}`)); }
   }
 
