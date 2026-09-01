@@ -50,16 +50,46 @@ const CONFIG = {
          shippable: 7, excludeOnline: 8, onlineOverride: 9 },
   MANUAL_FIELDS: ['shippable', 'excludeOnline', 'onlineOverride'],
 
+  // --add-new: line items that must never become catalog products.
+  NON_PRODUCT_KEYWORDS: ['gift card', 'store credit', 'deposit', 'adjustment',
+    'write-off', 'writeoff', 'write off', 'damage', 'store use', 'testing'],
+
   DEFAULT_REPORT: 'data/sync-unmatched.txt',
+  REVIEW_FILE: 'new-products-review.csv',      // repo root; gitignored
+  SKIPPED_FILE: 'new-products-skipped.csv',    // repo root; gitignored
 };
 
 /* ---------------- helpers ---------------- */
-function norm(s) { return String(s == null ? '' : s).toLowerCase().replace(/\s+/g, ' ').trim(); }
+// Normalize for matching: fold accents (é→e, ó→o, ñ→n) so an encoding
+// difference on either side can never cause a silent miss, then lowercase +
+// collapse whitespace. NOTE: the Thrive export is decoded as Latin-1 (see
+// readExport); the manual CSVs are decoded as UTF-8 (see readFlagCsv).
+function norm(s) {
+  return String(s == null ? '' : s)
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/\s+/g, ' ').trim();
+}
 const _hazExcept = new Set(CONFIG.HAZMAT_EXCEPTIONS.map(s => norm(s)));
 function isHazmat(name) {
   if (_hazExcept.has(norm(name))) return false;
   const n = String(name || '').toLowerCase();
   return CONFIG.HAZMAT_KEYWORDS.some(k => n.includes(k));
+}
+// Stable id per the CLAUDE.md convention (slug of brand + ' ' + name), frozen once assigned.
+function slug(s) {
+  return String(s).toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+// Suggest a brand by longest match against existing brand labels found as a
+// normalized substring of the name. Never assigns — just a suggestion you edit.
+function makeBrandSuggester(catalog, I) {
+  const brands = [...new Set(catalog.map(r => r[I.brand]).filter(Boolean))]
+    .map(b => ({ brand: b, n: norm(b) })).filter(x => x.n)
+    .sort((a, b) => b.n.length - a.n.length);   // longest match wins
+  return name => {
+    const nn = norm(name);
+    for (const { brand, n } of brands) { if (nn.includes(n)) return brand; }
+    return '';
+  };
 }
 function parsePrice(v) {
   if (v == null) return null;
@@ -115,6 +145,7 @@ function readExport(file) {
       location: cells[col['Location']] || '',
       listPrice: cells[col['List Price']],
       inStock: cells[col['In Stock']],
+      netSold: cells[col['Net Sold']],
       _raw: line,
     });
   }
@@ -146,9 +177,12 @@ function main() {
   const excludeFile = getOpt('--exclude');
   const overrideFile = getOpt('--override');
   const reportFile = getOpt('--report') || CONFIG.DEFAULT_REPORT;
+  const addNew = args.includes('--add-new');
+  const importNewFile = getOpt('--import-new');
 
   if (!exportFile) {
-    console.error('Usage: node scripts/sync-inventory.js <export.csv> [--write] [--exclude f.csv] [--override f.csv]');
+    console.error('Usage: node scripts/sync-inventory.js <export.csv> [--write] [--exclude f.csv]\n' +
+      '         [--override f.csv] [--add-new] [--import-new new-products-review.csv]');
     process.exit(1);
   }
 
@@ -198,7 +232,7 @@ function main() {
 
   exp.rows.forEach(row => {
     const idx = byName[norm(row.product)];
-    if (idx === undefined) { unmatchedExport.push(row.product); return; }
+    if (idx === undefined) { unmatchedExport.push(row); return; }
     matched.add(idx);
     const r = catalog[idx];
 
@@ -262,7 +296,7 @@ function main() {
   reportLines.push(`# ${new Date().toISOString()}   export: ${exportFile}`);
   reportLines.push('');
   reportLines.push(`## Export rows with NO catalog match (${unmatchedExport.length})`);
-  reportLines.push(...unmatchedExport);
+  reportLines.push(...unmatchedExport.map(r => r.product));
   reportLines.push('');
   reportLines.push(`## Catalog products the export never mentioned (${unmatchedCatalog.length})`);
   reportLines.push(...unmatchedCatalog);
@@ -277,6 +311,75 @@ function main() {
   reportLines.push(...hazmatFlagged);
   fs.writeFileSync(reportFile, reportLines.join('\n'), 'utf8');
   console.log(`\nunmatched lists written to: ${reportFile}`);
+
+  /* ---- 4) --add-new: stage unmatched export rows into a review file ---- */
+  function csvCell(v) { v = String(v == null ? '' : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+  function parseNet(v) { const n = parseInt(String(v == null ? '' : v).replace(/[^0-9.\-]/g, ''), 10); return isNaN(n) ? 0 : n; }
+  if (addNew) {
+    const suggestBrand = makeBrandSuggester(catalog, I);
+    const isNonProduct = n => { const s = String(n).toLowerCase(); return CONFIG.NON_PRODUCT_KEYWORDS.some(k => s.includes(k)); };
+    const review = [], skipped = [];
+    unmatchedExport.forEach(row => {
+      const price = parsePrice(row.listPrice);
+      const st = parseStock(row.inStock);
+      const netSold = parseNet(row.netSold);
+      let reason = null;
+      if (isNonProduct(row.product)) reason = 'non-product line item';
+      else if (price === null || price === 0) reason = 'blank or $0 price';
+      else if (st.value <= 0 && netSold === 0) reason = 'discontinued (no stock, no sales)';
+      const rec = { product: row.product, brand: suggestBrand(row.product), stock: st.value, price: price, netSold: netSold };
+      (reason ? skipped : review).push(reason ? Object.assign(rec, { reason }) : rec);
+    });
+    const reviewCsv = ['product,suggested_brand,in_stock,price,net_sold,keep,notes'].concat(
+      review.map(r => [csvCell(r.product), csvCell(r.brand), r.stock, (r.price == null ? '' : r.price), r.netSold, '', ''].join(',')));
+    const skippedCsv = ['product,in_stock,price,net_sold,reason'].concat(
+      skipped.map(r => [csvCell(r.product), r.stock, (r.price == null ? '' : r.price), r.netSold, csvCell(r.reason)].join(',')));
+    fs.writeFileSync(CONFIG.REVIEW_FILE, reviewCsv.join('\n'), 'utf8');
+    fs.writeFileSync(CONFIG.SKIPPED_FILE, skippedCsv.join('\n'), 'utf8');
+
+    const byReason = {};
+    skipped.forEach(r => { byReason[r.reason] = (byReason[r.reason] || 0) + 1; });
+    console.log('\n' + line);
+    console.log('ADD-NEW (staging — no catalog changes)');
+    console.log(line);
+    console.log(`unmatched export rows:      ${unmatchedExport.length}`);
+    console.log(`  → review candidates:      ${review.length}   → ${CONFIG.REVIEW_FILE}`);
+    console.log(`  → pre-filtered (skipped): ${skipped.length}   → ${CONFIG.SKIPPED_FILE}`);
+    Object.keys(byReason).forEach(r => console.log(`        · ${byReason[r]}  ${r}`));
+    console.log(`brand suggested on ${review.filter(r => r.brand).length}/${review.length} candidates (blank where no known brand matched)`);
+  }
+
+  /* ---- 5) --import-new: append approved (keep=y) rows ---- */
+  let imported = 0;
+  if (importNewFile) {
+    const rows = fs.readFileSync(importNewFile, 'utf8').split(/\r\n|\n|\r/).filter(l => l.trim() !== '');
+    const header = parseCsvLine(rows[0]).map(h => h.toLowerCase());
+    const ix = name => header.indexOf(name);
+    const used = new Set(catalog.map(r => r[I.id]));
+    const KEEP = ['y', 'yes', '1', 'x', 'true'];
+    const newHaz = [];
+    for (let i = 1; i < rows.length; i++) {
+      const c = parseCsvLine(rows[i]);
+      if (KEEP.indexOf(String(c[ix('keep')] || '').trim().toLowerCase()) === -1) continue;
+      const name = c[ix('product')] || '';
+      const brand = ix('suggested_brand') >= 0 ? (c[ix('suggested_brand')] || '') : '';
+      const price = parsePrice(c[ix('price')]);
+      const stock = Math.max(0, parseNet(c[ix('in_stock')]));
+      const type = /\b(box|bundle|pack|sampler|tin|tins|tubos?)\b/i.test(name) ? 'Box/Bundle' : 'Single';
+      let base = slug((brand ? brand + ' ' : '') + name) || 'item', id = base, n = 1;
+      while (used.has(id)) { n++; id = base + '-' + n; }
+      used.add(id);
+      const haz = isHazmat(name);
+      if (haz) newHaz.push(name);
+      catalog.push([name, brand, price, stock, type, id, null, !haz, false, false]);
+      imported++;
+    }
+    console.log('\n' + line);
+    console.log('IMPORT-NEW');
+    console.log(line);
+    console.log(`rows appended (keep=y): ${imported}`);
+    if (newHaz.length) { console.log(`hazmat-flagged among imports: ${newHaz.length}`); newHaz.forEach(n => console.log(`    · ${n}`)); }
+  }
 
   /* ---- write catalog (only with --write) ---- */
   console.log('\n' + line);
