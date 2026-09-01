@@ -21,7 +21,7 @@
     },
 
     // Online availability — purchasability is DERIVED at render time, never stored:
-    //   buyable = shippable && !excludeOnline &&
+    //   buyable = shippable && !excludeOnline && stock > 0 &&
     //             (onlineOverride || (stock - STOCK_BUFFER) >= ONLINE_STOCK_THRESHOLD)
     ONLINE_STOCK_THRESHOLD: 10,  // effective stock required to sell online
     STOCK_BUFFER: 1              // held back so a counter sale between syncs can't oversell
@@ -126,12 +126,16 @@
     var excludeOnline = (p.excludeOnline === true);
     var onlineOverride = (p.onlineOverride === true);
     var stock = (typeof p.stock === 'number') ? p.stock : 0;
+    var inStock = stock > 0;
     var effectiveStock = stock - CART_CONFIG.STOCK_BUFFER;
-    var buyable = shippable && !excludeOnline &&
+    var buyable = shippable && !excludeOnline && inStock &&
       (onlineOverride || effectiveStock >= CART_CONFIG.ONLINE_STOCK_THRESHOLD);
     var reason = 'ok', message = null;
     if (!buyable) {
-      if (!shippable) { reason = 'not-shippable'; message = 'In store only — cannot be shipped'; }
+      // Order matters: out-of-stock reads "Sold out" (temporary) before the
+      // shipping/call states.
+      if (!inStock) { reason = 'sold-out'; message = 'Sold out'; }
+      else if (!shippable) { reason = 'not-shippable'; message = 'In store only — cannot be shipped'; }
       else { reason = excludeOnline ? 'excluded' : 'low-stock'; message = 'In store only — call ' + CONTACT_PHONE; }
     }
     return { buyable: buyable, reason: reason, message: message };

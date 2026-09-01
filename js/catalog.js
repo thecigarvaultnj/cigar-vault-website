@@ -83,9 +83,12 @@ function renderGrid(items) {
       const avail = (window.CVCart && window.CVCart.availability)
         ? window.CVCart.availability({ stock, shippable, excludeOnline, onlineOverride })
         : { buyable: true };
-      control = avail.buyable
-        ? `<button class="cat-add" type="button" data-add-id="${escAttr(id)}">Add to Cart</button>`
-        : `<p class="cat-instore">${escHtml(avail.message)}</p>`;
+      if (avail.buyable) {
+        control = `<button class="cat-add" type="button" data-add-id="${escAttr(id)}">Add to Cart</button>`;
+      } else {
+        const cls = avail.reason === 'sold-out' ? 'cat-soldout' : 'cat-instore';
+        control = `<p class="${cls}">${escHtml(avail.message)}</p>`;
+      }
     }
 
     return `<article class="cat-card reveal" data-id="${escAttr(id)}">

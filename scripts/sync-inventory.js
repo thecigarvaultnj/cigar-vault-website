@@ -381,6 +381,7 @@ function main() {
     const used = new Set(catalog.map(r => r[I.id]));
     const KEEP = ['y', 'yes', 'x', 'true', '1'];   // case-insensitive, trimmed
     const newHaz = [];
+    const appended = [];
     let dataRows = 0;
     for (let i = 1; i < rows.length; i++) {
       const c = parseCsvLine(rows[i]);
@@ -398,6 +399,7 @@ function main() {
       const haz = isHazmat(name);
       if (haz) newHaz.push(name);
       catalog.push([name, brand, price, stock, type, id, null, !haz, false, false]);
+      appended.push({ name, brand, price, stock, type, id, shippable: !haz });
       imported++;
     }
     console.log('\n' + line);
@@ -407,7 +409,22 @@ function main() {
     console.log(`read as KEPT:     ${imported}   (accepted: ${KEEP.join(', ')} — case-insensitive, trimmed)`);
     if (imported === 0) console.log('⚠ 0 rows kept — nothing would be imported. Check the keep column.');
     else if (imported === dataRows) console.log('⚠ EVERY row is marked keep — double-check that is intended.');
-    if (newHaz.length) { console.log(`hazmat-flagged among imports: ${newHaz.length}`); newHaz.forEach(n => console.log(`    · ${n}`)); }
+    if (newHaz.length) { console.log(`hazmat-flagged among imports: ${newHaz.length}  (shippable:false)`); newHaz.forEach(n => console.log(`    · ${n}`)); }
+
+    // preview of what would be appended
+    const singles = appended.filter(a => a.type === 'Single').length;
+    const boxes = appended.length - singles;
+    const soldout = appended.filter(a => a.stock <= 0).length;
+    const noBrand = appended.filter(a => !a.brand).length;
+    const noPrice = appended.filter(a => a.price == null).length;
+    console.log(`\nwould append: ${appended.length}  (${singles} Single, ${boxes} Box/Bundle)`);
+    console.log(`  shippable:false (hazmat): ${newHaz.length}`);
+    console.log(`  zero stock (→ "Sold out"): ${soldout}`);
+    console.log(`  blank brand: ${noBrand}   |   null price: ${noPrice}`);
+    console.log('\nsample of appended rows [name | brand | price | stock | type | id | shippable]:');
+    appended.slice(0, 12).forEach(a =>
+      console.log(`  ${a.name} | ${a.brand || '(blank)'} | ${a.price == null ? '—' : '$' + a.price} | ${a.stock} | ${a.type} | ${a.id} | ${a.shippable}`));
+    if (appended.length > 12) console.log(`  …and ${appended.length - 12} more`);
   }
 
   /* ---- write catalog (only with --write) ---- */
