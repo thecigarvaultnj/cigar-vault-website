@@ -132,10 +132,10 @@
       (onlineOverride || effectiveStock >= CART_CONFIG.ONLINE_STOCK_THRESHOLD);
     var reason = 'ok', message = null;
     if (!buyable) {
-      // Order matters: out-of-stock reads "Sold out" (temporary) before the
-      // shipping/call states.
-      if (!inStock) { reason = 'sold-out'; message = 'Sold out'; }
-      else if (!shippable) { reason = 'not-shippable'; message = 'In store only — cannot be shipped'; }
+      // Order matters: hazmat wins over sold-out — a lighter that's out of
+      // stock still can't ever ship, so it should say so, not "Sold out".
+      if (!shippable) { reason = 'not-shippable'; message = 'In store only — cannot be shipped'; }
+      else if (!inStock) { reason = 'sold-out'; message = 'Sold out'; }
       else { reason = excludeOnline ? 'excluded' : 'low-stock'; message = 'In store only — call ' + CONTACT_PHONE; }
     }
     return { buyable: buyable, reason: reason, message: message };
