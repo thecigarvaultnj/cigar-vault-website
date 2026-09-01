@@ -284,6 +284,25 @@
       color: var(--cream-muted);
     }
     .cat-stock.low { color: #e08060; }
+    .cat-add {
+      margin-top: 0.5rem;
+      width: 100%;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0.6rem 0.75rem;
+      background: var(--gold);
+      color: #1a1a1a;
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .cat-add:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .cat-add:disabled { opacity: 0.5; cursor: default; }
+    .cat-add.added { background: #2a6060; border-color: #2a6060; color: var(--cream); }
     .type-badge {
       font-family: 'Lato', sans-serif;
       font-size: 0.58rem;
