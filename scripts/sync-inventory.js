@@ -285,8 +285,8 @@ function main() {
     });
     console.log(`\n${label}: ${hit} set, ${miss.length} unmatched${miss.length ? ' -> ' + miss.slice(0, 5).join('; ') + (miss.length > 5 ? ' …' : '') : ''}`);
   }
-  applyFlag(excludeFile, I.excludeOnline, 'excludeOnline CSV');
-  applyFlag(overrideFile, I.onlineOverride, 'onlineOverride CSV');
+  // NOTE: the exclude/override CSVs are applied AFTER --import-new (below), so a
+  // flag that points at a newly-imported product still takes effect.
 
   /* ---- report ---- */
   console.log('\n' + line);
@@ -426,6 +426,11 @@ function main() {
       console.log(`  ${a.name} | ${a.brand || '(blank)'} | ${a.price == null ? '—' : '$' + a.price} | ${a.stock} | ${a.type} | ${a.id} | ${a.shippable}`));
     if (appended.length > 12) console.log(`  …and ${appended.length - 12} more`);
   }
+
+  /* ---- 6) manual exclude/override — applied AFTER import so new products are covered ---- */
+  catalog.forEach((r, i) => { byName[norm(r[I.name])] = i; });   // refresh index with appended rows
+  applyFlag(excludeFile, I.excludeOnline, 'excludeOnline CSV');
+  applyFlag(overrideFile, I.onlineOverride, 'onlineOverride CSV');
 
   /* ---- write catalog (only with --write) ---- */
   console.log('\n' + line);
