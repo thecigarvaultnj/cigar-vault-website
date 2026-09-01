@@ -6,14 +6,31 @@ const ITEMS_PER_PAGE = 48;
 
 const state = {
   search: '',
-  type: 'all',      // 'all' | 'Single' | 'Box'
-  price: 'all',     // 'all' | 'u5' | '5-10' | '10-15' | '15-25' | '25-50' | '50-100' | '100+'
-  sort: 'name-az',  // 'name-az' | 'name-za' | 'price-asc' | 'price-desc' | 'stock-asc'
-  brand: null,      // null = all brands
+  type: 'all',       // 'all' | 'Single' | 'Box'
+  price: 'all',
+  sort: 'featured',  // default: buyable-first, then stock desc
+  brand: null,       // null = all brands
+  brandsExpanded: false,
   page: 1
 };
 
+const TOP_BRANDS = 15;
+
 let allProducts = [];
+
+/* ---- Availability + monogram helpers ---- */
+function productBuyable(r) {
+  if (window.CVCart && window.CVCart.availability) {
+    return window.CVCart.availability({ stock: r[3], shippable: r[7], excludeOnline: r[8], onlineOverride: r[9] }).buyable;
+  }
+  return r[3] > 0;
+}
+function monogram(brand, name) {
+  const src = String(brand || name || '?').trim();
+  const parts = src.split(/\s+/).filter(Boolean);
+  const ini = parts.length >= 2 ? (parts[0][0] + parts[1][0]) : src.slice(0, 2);
+  return ini.toUpperCase();
+}
 
 /* ---- Price filter helper ---- */
 function priceInRange(price, range) {
@@ -42,6 +59,11 @@ function filterProducts(products, st) {
 
   result.sort((a, b) => {
     switch (st.sort) {
+      case 'featured': {  // buyable first, then stock high→low
+        const ba = productBuyable(a), bb = productBuyable(b);
+        if (ba !== bb) return ba ? -1 : 1;
+        return b[3] - a[3];
+      }
       case 'name-az':    return a[0].localeCompare(b[0]);
       case 'name-za':    return b[0].localeCompare(a[0]);
       case 'brand-az':   return a[1].localeCompare(b[1]) || a[0].localeCompare(b[0]);
@@ -68,15 +90,24 @@ function renderGrid(items) {
   const page  = items.slice(start, start + ITEMS_PER_PAGE);
 
   grid.innerHTML = page.map(([name, brand, price, stock, type, id, image, shippable, excludeOnline, onlineOverride]) => {
-    const low       = stock <= 3;
-    const typeClass = type === 'Single' ? 'single' : 'box';
-    const typeLabel = type === 'Single' ? 'Single' : 'Box / Bundle';
-    const stockText = low
+    // Low-stock warning only (no plain "N in stock" line); nothing at 0 (the control says "Sold out").
+    const stockText = (stock > 0 && stock <= 3)
       ? `<span class="cat-stock low">Only ${stock} left</span>`
-      : `<span class="cat-stock">${stock} in stock</span>`;
+      : '';
 
-    // Null price -> hide the buy control entirely. Otherwise purchasability is
-    // DERIVED at render time; non-buyable items still appear, with an in-store note.
+    // Badge only for multi-packs (Single is the default → no badge).
+    let badge = '';
+    if (type !== 'Single') {
+      const label = /\bpack\b/i.test(name) ? 'Pack' : (/\bbundle\b/i.test(name) ? 'Bundle' : 'Box');
+      badge = `<span class="type-badge">${label}</span>`;
+    }
+
+    // 4:3 image area, monogram fallback until real photos land (layout won't shift).
+    const thumb = image
+      ? `<span class="cat-thumb"><img src="${escAttr(image)}" alt="${escAttr(name)}" loading="lazy"></span>`
+      : `<span class="cat-thumb cat-thumb--mono" aria-hidden="true">${escHtml(monogram(brand, name))}</span>`;
+
+    // Null price -> no buy control. Otherwise purchasability is DERIVED at render time.
     const priceText = (price == null) ? '' : `<p class="cat-price">$${price.toFixed(2)}</p>`;
     let control = '';
     if (price != null) {
@@ -92,12 +123,14 @@ function renderGrid(items) {
     }
 
     return `<article class="cat-card reveal" data-id="${escAttr(id)}">
-  <span class="type-badge ${typeClass}">${typeLabel}</span>
-  <p class="cat-brand">${escHtml(brand)}</p>
-  <h3 class="cat-name">${escHtml(name)}</h3>
-  ${priceText}
-  ${stockText}
-  ${control}
+  <div class="cat-thumb-wrap">${thumb}${badge}</div>
+  <div class="cat-body">
+    <p class="cat-brand">${escHtml(brand)}</p>
+    <h3 class="cat-name">${escHtml(name)}</h3>
+    ${priceText}
+    ${stockText}
+    ${control}
+  </div>
 </article>`;
   }).join('');
 
@@ -119,18 +152,27 @@ function renderBrands(products, filtered) {
     counts[brand] = (counts[brand] || 0) + 1;
   });
 
-  const brands = Object.keys(counts).sort();
-  const list   = document.getElementById('brand-list');
+  // Top brands by product count (tie-break alphabetical).
+  const allBrands = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b));
+  const list = document.getElementById('brand-list');
 
-  list.innerHTML = `<li>
-    <button class="brand-item${state.brand === null ? ' active' : ''}" data-brand="">
-      All Brands <span class="brand-count">${baseFiltered.length}</span>
-    </button>
-  </li>` + brands.map(b => `<li>
-    <button class="brand-item${state.brand === b ? ' active' : ''}" data-brand="${escAttr(b)}">
-      ${escHtml(b)} <span class="brand-count">${counts[b]}</span>
-    </button>
-  </li>`).join('');
+  let shown = state.brandsExpanded ? allBrands : allBrands.slice(0, TOP_BRANDS);
+  // Keep the selected brand visible even if it's outside the top 15.
+  if (!state.brandsExpanded && state.brand && shown.indexOf(state.brand) === -1 && allBrands.indexOf(state.brand) !== -1) {
+    shown = shown.concat([state.brand]);
+  }
+
+  const item = (val, label, count, active) =>
+    `<li><button class="brand-item${active ? ' active' : ''}" data-brand="${escAttr(val)}">${escHtml(label)} <span class="brand-count">${count}</span></button></li>`;
+
+  let html = item('', 'All Brands', baseFiltered.length, state.brand === null);
+  html += shown.map(b => item(b, b, counts[b], state.brand === b)).join('');
+  if (allBrands.length > TOP_BRANDS) {
+    html += `<li><button class="brand-toggle" data-brand-toggle="1">${
+      state.brandsExpanded ? 'Show fewer' : `Show all brands (${allBrands.length})`
+    }</button></li>`;
+  }
+  list.innerHTML = html;
 }
 
 /* ---- Render pagination ---- */
@@ -258,6 +300,8 @@ function wireEvents() {
   const brandList = document.getElementById('brand-list');
   if (brandList) {
     brandList.addEventListener('click', e => {
+      const toggle = e.target.closest('.brand-toggle');
+      if (toggle) { state.brandsExpanded = !state.brandsExpanded; render(); return; }
       const btn = e.target.closest('.brand-item');
       if (!btn) return;
       state.brand = btn.dataset.brand || null;
