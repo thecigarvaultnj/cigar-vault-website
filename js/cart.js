@@ -21,8 +21,11 @@
     },
 
     // Online availability — purchasability is DERIVED at render time, never stored:
-    //   buyable = shippable && !excludeOnline && stock > 0 &&
-    //             (onlineOverride || (stock - STOCK_BUFFER) >= ONLINE_STOCK_THRESHOLD)
+    //   effectiveStock = stock - STOCK_BUFFER
+    //   buyable = shippable && !excludeOnline &&
+    //             effectiveStock >= (onlineOverride ? 1 : ONLINE_STOCK_THRESHOLD)
+    //   onlineOverride drops the threshold to the buffer floor (1) — it never
+    //   skips the buffer, so the last unit can't be oversold between syncs.
     ONLINE_STOCK_THRESHOLD: 10,  // effective stock required to sell online
     STOCK_BUFFER: 1              // held back so a counter sale between syncs can't oversell
   };
@@ -128,8 +131,10 @@
     var stock = (typeof p.stock === 'number') ? p.stock : 0;
     var inStock = stock > 0;
     var effectiveStock = stock - CART_CONFIG.STOCK_BUFFER;
-    var buyable = shippable && !excludeOnline && inStock &&
-      (onlineOverride || effectiveStock >= CART_CONFIG.ONLINE_STOCK_THRESHOLD);
+    // Override drops the threshold to the buffer floor (1) but still requires
+    // effectiveStock >= 1 — so it never skips the buffer / oversells the last unit.
+    var buyable = shippable && !excludeOnline &&
+      effectiveStock >= (onlineOverride ? 1 : CART_CONFIG.ONLINE_STOCK_THRESHOLD);
     var reason = 'ok', message = null;
     if (!buyable) {
       // Order matters: hazmat wins over sold-out — a lighter that's out of
