@@ -66,10 +66,17 @@
   }
 
   /* ---------- shared renderers (used by cart.html AND checkout.html) ---------- */
+  // Three-level thumbnail fallback: real photo -> plated brand logo -> monogram.
+  // Photo fills edge to edge; the cream plate appears ONLY behind a logo.
   function thumbHTML(p) {
     if (p.image) {
       return '<span class="cv-thumb"><img src="' + escHtml(p.image) + '" alt="' +
         escHtml(p.name) + '" loading="lazy"></span>';
+    }
+    var logo = _brandLogos[p.brand];
+    if (logo) {
+      return '<span class="cv-thumb cv-thumb--logo" aria-hidden="true"><span class="cv-plate">' +
+        '<img src="/assets/brands/processed/' + escHtml(logo) + '" alt="" loading="lazy"></span></span>';
     }
     return '<span class="cv-thumb cv-thumb--mono" aria-hidden="true">' +
       escHtml(monogram(p.brand, p.name)) + '</span>';
@@ -148,21 +155,26 @@
 
   /* ---------- catalog, indexed by id ---------- */
   var _catalog = null;
+  var _brandLogos = {};   // { "Brand Name": "slug.png" } — optional; falls back to monogram if absent
+  var LOGOS_URL = '/data/brand-logos.json';
   function loadCatalog() {
     if (_catalog) return _catalog;
-    _catalog = fetch(CATALOG_URL)
-      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-      .then(function (rows) {
-        var map = {}, missing = 0;
-        rows.forEach(function (r) {
-          var id = r[5];                    // [name, brand, price, stock, type, id, image]
-          if (!id) { missing++; return; }
-          map[id] = { id: id, name: r[0], brand: r[1], price: r[2], stock: r[3], type: r[4], image: r[6] || null,
-            shippable: r[7], excludeOnline: r[8], onlineOverride: r[9] };
-        });
-        if (missing) console.warn('[cart] ' + missing + ' catalog row(s) missing an id and were skipped. See the slug convention in CLAUDE.md.');
-        return map;
+    _catalog = Promise.all([
+      fetch(CATALOG_URL).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }),
+      fetch(LOGOS_URL).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
+    ]).then(function (res) {
+      var rows = res[0];
+      _brandLogos = res[1] || {};
+      var map = {}, missing = 0;
+      rows.forEach(function (r) {
+        var id = r[5];                    // [name, brand, price, stock, type, id, image]
+        if (!id) { missing++; return; }
+        map[id] = { id: id, name: r[0], brand: r[1], price: r[2], stock: r[3], type: r[4], image: r[6] || null,
+          shippable: r[7], excludeOnline: r[8], onlineOverride: r[9] };
       });
+      if (missing) console.warn('[cart] ' + missing + ' catalog row(s) missing an id and were skipped. See the slug convention in CLAUDE.md.');
+      return map;
+    });
     return _catalog;
   }
 

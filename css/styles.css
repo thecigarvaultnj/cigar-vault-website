@@ -14,6 +14,7 @@
   --teal-dark:       #0F2020;
   --cream:           #FAF6EE;
   --cream-muted:     #C8BDA8;
+  --plate:           #EEE7D6;   /* quiet cream behind brand logos (drawn for white) */
   --charcoal:        #1C1A17;
   --charcoal-mid:    #242220;
   --charcoal-light:  #2E2C28;
@@ -1563,6 +1564,20 @@ footer {
   color: var(--gold);
   background: linear-gradient(150deg, var(--teal-mid), var(--charcoal-light));
 }
+/* Brand-logo fallback (same treatment as the catalog): logo on a quiet cream
+   plate so dark marks read. Plate is logo-only — photos use the cover rule above. */
+.cv-thumb--logo { background: linear-gradient(150deg, var(--teal-mid), var(--charcoal-light)); }
+.cv-plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84%;
+  height: 84%;
+  border-radius: 3px;
+  background: var(--plate);
+  padding: 8%;
+}
+.cv-thumb--logo .cv-plate img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; }
 .cv-line-main { flex: 1 1 auto; min-width: 0; }
 .cv-line-brand {
   font-family: 'Lato', sans-serif;
