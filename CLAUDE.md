@@ -24,6 +24,29 @@ them) lowercase, and match the case exactly between the file on disk and the
 `src`/`href` in HTML/JS/CSS. After a deploy that adds assets, sanity-check a few
 asset URLs on the draft (e.g. `curl -o /dev/null -w "%{http_code}"`).
 
+**The Netlify CLI deploy uploads everything under the publish root (`.`)
+regardless of `.gitignore`** — gitignored files still ship. So anything that
+must NOT be public has to live OUTSIDE the repo root, not just be gitignored.
+
+## Brand logos & product photos
+
+- The site serves **processed logos** from `assets/brands/processed/` (brand
+  logos + per-line logos, PNG) and **product photos** from `assets/products/`
+  (JPEG, 1000px). The logo manifest is `data/brand-logos.json`, shape
+  `{ brands, lines }`. Render fallback (js/catalog.js + js/cart.js
+  `resolveThumb`): **photo → line logo → brand logo → monogram**. A line entry
+  with `plate:false` renders edge-to-edge (contain, no cream plate); emblems
+  keep the plate. Line rules are ordered most-specific-first and match on the
+  product name.
+- Product photos are named after the product's **frozen id** and mapped to the
+  `image` field by `scripts/sync-photos.js` (dry-run by default; `--write`).
+  Drop `assets/products/<id>.jpg` in and re-run — no manual mapping.
+- **RAW source art** (rep-supplied originals, held files, PDFs) lives OUTSIDE
+  the publish root in the sibling folder `../cigar-vault-brand-art/` so it is
+  never deployed (see the Netlify note above). Drop new rep assets THERE, not in
+  `assets/brands/`. Processing (resize/bg-removal/trim, via `sharp`) reads from
+  that folder and writes the processed outputs into the repo.
+
 ## Project context
 
 - Live site: https://thecigarvaultnj.com

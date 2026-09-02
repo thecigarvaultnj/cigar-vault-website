@@ -33,6 +33,29 @@ function monogram(brand, name) {
   return ini.toUpperCase();
 }
 
+/* Thumbnail fallback: real photo -> line logo -> brand logo -> monogram.
+   'photo' renders edge to edge (contain, no plate) and covers both real
+   product photos and plate:false line art. 'logo' sits on the cream plate.
+   Line rules are ordered most-specific first; all match terms must appear
+   in the product name. This generalizes to any brand with distinct lines. */
+function resolveThumb(brand, name, image) {
+  if (image) return { kind: 'photo', src: image };
+  const lines = brandLogos.lines && brandLogos.lines[brand];
+  if (lines) {
+    const nl = String(name).toLowerCase();
+    for (const rule of lines) {
+      const terms = Array.isArray(rule.match) ? rule.match : [rule.match];
+      if (terms.every(t => nl.includes(String(t).toLowerCase()))) {
+        const src = 'assets/brands/processed/' + rule.logo;
+        return { kind: rule.plate === false ? 'photo' : 'logo', src };
+      }
+    }
+  }
+  const bl = brandLogos.brands && brandLogos.brands[brand];
+  if (bl) return { kind: 'logo', src: 'assets/brands/processed/' + bl };
+  return { kind: 'mono' };
+}
+
 /* ---- Price filter helper ---- */
 function priceInRange(price, range) {
   if (range === 'all') return true;
@@ -103,13 +126,14 @@ function renderGrid(items) {
       badge = `<span class="type-badge">${label}</span>`;
     }
 
-    // 4:3 image area, three-level fallback: real photo -> plated brand logo -> monogram.
-    // Photo fills edge to edge; the cream plate appears ONLY behind a logo (never a photo).
+    // Fallback: real photo -> line logo -> brand logo -> monogram (see resolveThumb).
+    // 'photo' fills the thumb (contain, no plate); the cream plate is logo-only.
+    const t = resolveThumb(brand, name, image);
     let thumb;
-    if (image) {
-      thumb = `<span class="cat-thumb"><img src="${escAttr(image)}" alt="${escAttr(name)}" loading="lazy"></span>`;
-    } else if (brandLogos[brand]) {
-      thumb = `<span class="cat-thumb cat-thumb--logo" aria-hidden="true"><span class="cat-plate"><img src="assets/brands/processed/${escAttr(brandLogos[brand])}" alt="" loading="lazy"></span></span>`;
+    if (t.kind === 'photo') {
+      thumb = `<span class="cat-thumb"><img src="${escAttr(t.src)}" alt="${escAttr(image ? name : '')}" loading="lazy"></span>`;
+    } else if (t.kind === 'logo') {
+      thumb = `<span class="cat-thumb cat-thumb--logo" aria-hidden="true"><span class="cat-plate"><img src="${escAttr(t.src)}" alt="" loading="lazy"></span></span>`;
     } else {
       thumb = `<span class="cat-thumb cat-thumb--mono" aria-hidden="true">${escHtml(monogram(brand, name))}</span>`;
     }

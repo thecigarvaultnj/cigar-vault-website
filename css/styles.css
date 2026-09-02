@@ -1555,7 +1555,7 @@ footer {
   background: var(--charcoal-light);
   border: 1px solid var(--border);
 }
-.cv-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.cv-thumb img { width: 100%; height: 100%; object-fit: contain; }
 .cv-thumb--mono {
   font-family: 'Cinzel', 'Playfair Display', serif;
   font-size: 1.1rem;

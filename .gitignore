@@ -29,6 +29,7 @@
 /assets/brands/*.jpeg
 /assets/brands/*.gif
 /assets/brands/*.webp
+/assets/brands/*.pdf
 !/css/
 !/css/**
 !/js/
