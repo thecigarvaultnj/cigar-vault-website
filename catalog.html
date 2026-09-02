@@ -251,7 +251,7 @@
     }
 
     /* 4:3 image area — monogram fallback until real photos land (no layout shift) */
-    .cat-thumb-wrap { position: relative; width: 100%; aspect-ratio: 4 / 3; }
+    .cat-thumb-wrap { position: relative; width: 100%; aspect-ratio: 1 / 1; }
     .cat-thumb {
       position: absolute;
       inset: 0;
@@ -260,7 +260,7 @@
       justify-content: center;
       overflow: hidden;
     }
-    .cat-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cat-thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
     .cat-thumb--mono {
       background: linear-gradient(150deg, var(--charcoal-light), var(--charcoal-mid));
       font-family: 'Cinzel', 'Playfair Display', serif;

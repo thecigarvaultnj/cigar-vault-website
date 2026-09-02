@@ -66,17 +66,36 @@
   }
 
   /* ---------- shared renderers (used by cart.html AND checkout.html) ---------- */
-  // Three-level thumbnail fallback: real photo -> plated brand logo -> monogram.
-  // Photo fills edge to edge; the cream plate appears ONLY behind a logo.
-  function thumbHTML(p) {
-    if (p.image) {
-      return '<span class="cv-thumb"><img src="' + escHtml(p.image) + '" alt="' +
-        escHtml(p.name) + '" loading="lazy"></span>';
+  // Fallback: real photo -> line logo -> brand logo -> monogram.
+  // 'photo' fills the thumb (contain, no plate) — real photos and plate:false
+  // line art; 'logo' sits on the cream plate. Line rules are ordered
+  // most-specific first; all match terms must appear in the product name.
+  function resolveThumb(brand, name, image) {
+    if (image) return { kind: 'photo', src: image, alt: name };
+    var lines = _brandLogos.lines && _brandLogos.lines[brand];
+    if (lines) {
+      var nl = String(name).toLowerCase();
+      for (var i = 0; i < lines.length; i++) {
+        var rule = lines[i], terms = Array.isArray(rule.match) ? rule.match : [rule.match];
+        var hit = terms.every(function (t) { return nl.indexOf(String(t).toLowerCase()) !== -1; });
+        if (hit) {
+          var src = '/assets/brands/processed/' + rule.logo;
+          return rule.plate === false ? { kind: 'photo', src: src, alt: '' } : { kind: 'logo', src: src };
+        }
+      }
     }
-    var logo = _brandLogos[p.brand];
-    if (logo) {
+    var bl = _brandLogos.brands && _brandLogos.brands[brand];
+    if (bl) return { kind: 'logo', src: '/assets/brands/processed/' + bl };
+    return { kind: 'mono' };
+  }
+  function thumbHTML(p) {
+    var t = resolveThumb(p.brand, p.name, p.image);
+    if (t.kind === 'photo') {
+      return '<span class="cv-thumb"><img src="' + escHtml(t.src) + '" alt="' + escHtml(t.alt || '') + '" loading="lazy"></span>';
+    }
+    if (t.kind === 'logo') {
       return '<span class="cv-thumb cv-thumb--logo" aria-hidden="true"><span class="cv-plate">' +
-        '<img src="/assets/brands/processed/' + escHtml(logo) + '" alt="" loading="lazy"></span></span>';
+        '<img src="' + escHtml(t.src) + '" alt="" loading="lazy"></span></span>';
     }
     return '<span class="cv-thumb cv-thumb--mono" aria-hidden="true">' +
       escHtml(monogram(p.brand, p.name)) + '</span>';
